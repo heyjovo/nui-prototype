@@ -24,6 +24,10 @@
   --panel-slide-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
   --panel-fade-duration: 150ms;
   --panel-fade-easing: ease-out;
+
+  /* Drag/resize transition (faster, more linear) */
+  --panel-drag-duration: 80ms;
+  --panel-drag-easing: linear;
 }
 
 .w-layout-blockcontainer {
@@ -1269,6 +1273,14 @@ img {
   min-width: var(--content-width, 480px);
 }
 
+.script-wrapper.is-dragging {
+  transition: width var(--panel-drag-duration) var(--panel-drag-easing);
+}
+
+.script-wrapper.is-dragging > * {
+  transition: none;
+}
+
 .heading {
   padding-left: 104px;
   padding-right: 40px;
@@ -1400,6 +1412,15 @@ img {
   opacity: 0;
   pointer-events: none;
   transition-delay: 0ms;
+}
+
+.sidebar-pane.is-dragging {
+  transition: width var(--panel-drag-duration) var(--panel-drag-easing),
+              padding var(--panel-drag-duration) var(--panel-drag-easing);
+}
+
+.sidebar-pane.is-dragging > * {
+  transition: none;
 }
 
 .sidebar-header {

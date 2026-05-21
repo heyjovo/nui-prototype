@@ -10,7 +10,8 @@
     if (scriptWrapper) {
       createResizeHandle(scriptWrapper, 'horizontal', {
         edge: 'right',
-        min: 475,
+        min: 0,
+        snapMin: 475,
         max: 800,
         property: 'width'
       });
@@ -19,7 +20,8 @@
     if (sidebarPane) {
       createResizeHandle(sidebarPane, 'horizontal', {
         edge: 'left',
-        min: 280,
+        min: 0,
+        snapMin: 280,
         max: 500,
         property: 'width',
         invert: true
@@ -45,16 +47,25 @@
 
     let startPos = 0;
     let startSize = 0;
+    let wasPanelCollapsed = false;
 
     function onPointerDown(e) {
       e.preventDefault();
       startPos = direction === 'horizontal' ? e.clientX : e.clientY;
       startSize = direction === 'horizontal' ? panel.offsetWidth : panel.offsetHeight;
+      wasPanelCollapsed = panel.classList.contains('is-collapsed');
+      panel.classList.add('is-dragging');
       document.body.style.cursor = direction === 'horizontal' ? 'col-resize' : 'row-resize';
       document.body.style.userSelect = 'none';
       document.addEventListener('pointermove', onPointerMove);
       document.addEventListener('pointerup', onPointerUp);
       handle.classList.add('is-active');
+
+      if (wasPanelCollapsed) {
+        panel.classList.remove('is-collapsed');
+        panel.style[opts.property] = '0px';
+        startSize = 0;
+      }
     }
 
     function onPointerMove(e) {
@@ -70,6 +81,17 @@
       document.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('pointerup', onPointerUp);
       handle.classList.remove('is-active');
+      panel.classList.remove('is-dragging');
+
+      const finalSize = direction === 'horizontal' ? panel.offsetWidth : panel.offsetHeight;
+      const collapseThreshold = opts.snapMin ? opts.snapMin * 0.5 : opts.min * 0.5;
+
+      if (finalSize <= collapseThreshold) {
+        panel.style[opts.property] = '';
+        panel.classList.add('is-collapsed');
+      } else if (opts.snapMin && finalSize < opts.snapMin) {
+        panel.style[opts.property] = `${opts.snapMin}px`;
+      }
     }
 
     handle.addEventListener('pointerdown', onPointerDown);
