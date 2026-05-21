@@ -2455,7 +2455,7 @@ img {
 }
 
 .resize-handle--horizontal[data-edge="left"] {
-  left: 0;
+  left: -10px;
 }
 
 .resize-handle--vertical {
@@ -2474,17 +2474,17 @@ img {
   top: 8px;
   left: 3px;
   width: 2px;
-  background-color: var(--default-border-hard);
+  background-color: var(--default-border-medium-2);
   bottom: 8px;
 }
 .resize-handle--vertical::after {
   content: '';
   position: absolute;
   top: 3px;
-  left: 8px;
-  right: 8px;
+  left: 16px;
+  right: 16px;
   height: 2px;
-  background-color: var(--default-border-hard);
+  background-color: var(--default-border-medium-2);
 }
 .resize-handle:hover,
 .resize-handle.is-active{
