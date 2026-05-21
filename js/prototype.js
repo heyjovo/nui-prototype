@@ -71,39 +71,39 @@
     const sidebarPane = document.querySelector('.sidebar-pane');
     const canvasToolbar = document.querySelector('.canvas-toolbar');
 
-    function toggle(el, cls = 'is-hidden') {
-      if (el) el.classList.toggle(cls);
+    function togglePanel(el) {
+      if (el) el.classList.toggle('is-collapsed');
     }
 
     document.getElementById('toggle-script-closed')?.addEventListener('click', e => {
       e.preventDefault();
-      toggle(scriptWrapper);
+      togglePanel(scriptWrapper);
     });
 
     document.getElementById('toggle-script-open')?.addEventListener('click', e => {
       e.preventDefault();
-      toggle(scriptWrapper);
+      togglePanel(scriptWrapper);
     });
 
     document.getElementById('toggle-sidebar')?.addEventListener('click', e => {
       e.preventDefault();
-      toggle(sidebarPane);
+      togglePanel(sidebarPane);
     });
 
     document.getElementById('toggle-sidebar-closed')?.addEventListener('click', e => {
       e.preventDefault();
-      toggle(sidebarPane);
+      togglePanel(sidebarPane);
     });
 
     document.getElementById('toggle-properties')?.addEventListener('click', e => {
       e.preventDefault();
-      toggle(sidebarPane);
+      togglePanel(sidebarPane);
     });
 
     document.getElementById('toggle-toolbar-closed')?.addEventListener('click', e => {
       e.preventDefault();
       const timelineTools = document.querySelector('.timeline-tools');
-      toggle(timelineTools);
+      if (timelineTools) timelineTools.classList.toggle('is-hidden');
     });
   }
 

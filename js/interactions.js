@@ -125,6 +125,7 @@
       startY = e.clientY;
       startHeight = wrapper.offsetHeight;
       wasClosed = !isTimelineOpen();
+      wrapper.classList.add('is-dragging');
       document.body.style.cursor = 'row-resize';
       document.body.style.userSelect = 'none';
       document.addEventListener('pointermove', onPointerMove);
@@ -150,6 +151,7 @@
       document.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('pointerup', onPointerUp);
       handle.classList.remove('is-active');
+      wrapper.classList.remove('is-dragging');
 
       const finalHeight = wrapper.offsetHeight;
 
