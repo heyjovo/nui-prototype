@@ -17,6 +17,17 @@
         });
       });
     });
+
+    document.querySelectorAll('.script-tabs').forEach(tabGroup => {
+      const tabs = tabGroup.querySelectorAll('.script-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', e => {
+          e.preventDefault();
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+    });
   }
 
   // --- Slider/Carousel ---

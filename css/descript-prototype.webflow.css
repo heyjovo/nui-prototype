@@ -41,9 +41,40 @@
   left: calc(100% + 8px);
   opacity: 1;
 }
-.script-tabs:not(:has(.script-tab:not(.active):hover)) .script-tab.active .script-tab-label, 
-.script-tab:not(.active):hover .script-tab-label {
-  display: block;
+.script-tab.active .script-tab-label {
+  max-width: 80px;
+  opacity: 1;
+  padding: 4px;
+  transition-delay: 0ms;
+}
+
+.script-tab:not(.active) {
+  position: relative;
+}
+
+.script-tab:not(.active)::after {
+  content: attr(data-label);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: var(--grey-900);
+  color: var(--grey-5);
+  font-size: 12px;
+  line-height: 16px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition-property: all;
+  transition-duration: .3s;
+  transition-timing-function: cubic-bezier(.23, 1, .32, 1);
+}
+
+.script-tab:not(.active):hover::after {
+  opacity: 1;
 }
 .w-slider-dot {
   min-width: 16px;
@@ -1349,8 +1380,14 @@ img {
 }
 
 .script-tab-label {
-  padding: 4px;
-  display: none;
+  max-width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 150ms var(--panel-slide-easing),
+              opacity 100ms var(--panel-fade-easing),
+              padding 150ms var(--panel-slide-easing);
 }
 
 .script-top-bar-right {
