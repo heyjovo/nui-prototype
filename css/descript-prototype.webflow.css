@@ -273,6 +273,11 @@ img {
   mask-image: url('../images/mat-bottom_panel_open.svg');
 }
 
+.icon.bottom-panel-close {
+  -webkit-mask-image: url('../images/mat-bottom_panel_close.svg');
+  mask-image: url('../images/mat-bottom_panel_close.svg');
+}
+
 .icon.x-s {
   width: 14px;
   height: 14px;

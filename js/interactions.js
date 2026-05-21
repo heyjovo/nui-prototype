@@ -27,13 +27,7 @@
     }
 
     if (playbackTimelineWrapper) {
-      createResizeHandle(playbackTimelineWrapper, 'vertical', {
-        edge: 'top',
-        min: 40,
-        max: 500,
-        property: 'height',
-        invert: true
-      });
+      initTimelineResize(playbackTimelineWrapper);
     }
   }
 
@@ -76,6 +70,125 @@
     }
 
     handle.addEventListener('pointerdown', onPointerDown);
+  }
+
+  // --- Timeline Resize with Snapping ---
+  const TIMELINE_DEFAULT_HEIGHT = 260;
+  const TIMELINE_CLOSED_HEIGHT = 40;
+  const TIMELINE_SNAP_OPEN_THRESHOLD = 32;
+  const TIMELINE_SNAP_CLOSE_DISTANCE = 80;
+  const TIMELINE_MAX_HEIGHT = 500;
+
+  function isTimelineOpen() {
+    const tw = document.querySelector('.timeline-wrapper');
+    return tw && !tw.classList.contains('is-hidden');
+  }
+
+  function setTimelineOpen(wrapper, open) {
+    const timelineWrapper = wrapper.querySelector('.timeline-wrapper') ||
+      document.querySelector('.timeline-wrapper');
+    const toggleBtn = document.getElementById('toggle-timeline');
+
+    if (open) {
+      if (timelineWrapper) timelineWrapper.classList.remove('is-hidden');
+      wrapper.style.height = `${TIMELINE_DEFAULT_HEIGHT}px`;
+      if (toggleBtn) {
+        const icon = toggleBtn.querySelector('.icon');
+        const label = toggleBtn.querySelector('div:not(.icon)');
+        if (icon) { icon.classList.remove('bottom-panel-open'); icon.classList.add('bottom-panel-close'); }
+        if (label) label.textContent = 'Hide timeline';
+      }
+    } else {
+      if (timelineWrapper) timelineWrapper.classList.add('is-hidden');
+      wrapper.style.height = 'auto';
+      if (toggleBtn) {
+        const icon = toggleBtn.querySelector('.icon');
+        const label = toggleBtn.querySelector('div:not(.icon)');
+        if (icon) { icon.classList.remove('bottom-panel-close'); icon.classList.add('bottom-panel-open'); }
+        if (label) label.textContent = 'Show timeline';
+      }
+    }
+  }
+
+  function initTimelineResize(wrapper) {
+    const handle = document.createElement('div');
+    handle.className = 'resize-handle resize-handle--vertical';
+    handle.dataset.edge = 'top';
+    wrapper.prepend(handle);
+
+    let startY = 0;
+    let startHeight = 0;
+    let wasClosed = false;
+
+    function onPointerDown(e) {
+      e.preventDefault();
+      startY = e.clientY;
+      startHeight = wrapper.offsetHeight;
+      wasClosed = !isTimelineOpen();
+      document.body.style.cursor = 'row-resize';
+      document.body.style.userSelect = 'none';
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+      handle.classList.add('is-active');
+    }
+
+    function onPointerMove(e) {
+      const delta = startY - e.clientY;
+      if (wasClosed) {
+        const pullDistance = delta;
+        const newHeight = Math.min(TIMELINE_MAX_HEIGHT, Math.max(TIMELINE_CLOSED_HEIGHT, startHeight + pullDistance));
+        wrapper.style.height = `${newHeight}px`;
+      } else {
+        const newHeight = Math.min(TIMELINE_MAX_HEIGHT, Math.max(TIMELINE_CLOSED_HEIGHT, startHeight + delta));
+        wrapper.style.height = `${newHeight}px`;
+      }
+    }
+
+    function onPointerUp(e) {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
+      handle.classList.remove('is-active');
+
+      const finalHeight = wrapper.offsetHeight;
+
+      if (wasClosed) {
+        const pullDistance = finalHeight - TIMELINE_CLOSED_HEIGHT;
+        if (pullDistance >= TIMELINE_SNAP_OPEN_THRESHOLD && pullDistance < 120) {
+          setTimelineOpen(wrapper, true);
+        } else if (pullDistance >= 120) {
+          // Dragged past default — keep at dragged height, just show timeline
+          const timelineWrapper = wrapper.querySelector('.timeline-wrapper') ||
+            document.querySelector('.timeline-wrapper');
+          const toggleBtn = document.getElementById('toggle-timeline');
+          if (timelineWrapper) timelineWrapper.classList.remove('is-hidden');
+          if (toggleBtn) {
+            const icon = toggleBtn.querySelector('.icon');
+            const label = toggleBtn.querySelector('div:not(.icon)');
+            if (icon) { icon.classList.remove('bottom-panel-open'); icon.classList.add('bottom-panel-close'); }
+            if (label) label.textContent = 'Hide timeline';
+          }
+        } else {
+          setTimelineOpen(wrapper, false);
+        }
+      } else {
+        if (finalHeight < 80) {
+          setTimelineOpen(wrapper, false);
+        }
+      }
+    }
+
+    handle.addEventListener('pointerdown', onPointerDown);
+
+    // Wire up the toggle button to use shared state
+    const toggleBtn = document.getElementById('toggle-timeline');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', e => {
+        e.preventDefault();
+        setTimelineOpen(wrapper, !isTimelineOpen());
+      });
+    }
   }
 
   // --- Timeline Playhead Scrubbing ---

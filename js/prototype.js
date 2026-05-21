@@ -69,7 +69,6 @@
   function initToggles() {
     const scriptWrapper = document.querySelector('.script-wrapper');
     const sidebarPane = document.querySelector('.sidebar-pane');
-    const timelineWrapper = document.querySelector('.timeline-wrapper');
     const canvasToolbar = document.querySelector('.canvas-toolbar');
 
     function toggle(el, cls = 'is-hidden') {
@@ -99,20 +98,6 @@
     document.getElementById('toggle-properties')?.addEventListener('click', e => {
       e.preventDefault();
       toggle(sidebarPane);
-    });
-
-    document.getElementById('toggle-timeline')?.addEventListener('click', e => {
-      e.preventDefault();
-      const playbackTimelineWrapper = document.querySelector('.playback-timeline-wrapper');
-      toggle(timelineWrapper);
-      if (playbackTimelineWrapper) {
-        if (timelineWrapper && timelineWrapper.classList.contains('is-hidden')) {
-          playbackTimelineWrapper.dataset.prevHeight = playbackTimelineWrapper.style.height || '';
-          playbackTimelineWrapper.style.height = 'auto';
-        } else {
-          playbackTimelineWrapper.style.height = playbackTimelineWrapper.dataset.prevHeight || '';
-        }
-      }
     });
 
     document.getElementById('toggle-toolbar-closed')?.addEventListener('click', e => {
