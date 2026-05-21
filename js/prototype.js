@@ -74,10 +74,13 @@
     function togglePanel(el) {
       if (!el) return;
       if (!el.classList.contains('is-collapsed')) {
+        const currentWidth = el.offsetWidth;
         el.dataset.prevWidth = el.style.width || '';
         el.style.width = '';
+        el.style.setProperty('--content-width', `${currentWidth}px`);
       } else {
         if (el.dataset.prevWidth) el.style.width = el.dataset.prevWidth;
+        el.style.removeProperty('--content-width');
       }
       el.classList.toggle('is-collapsed');
     }

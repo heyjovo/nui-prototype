@@ -37,7 +37,10 @@
     handle.dataset.edge = opts.edge;
 
     if (opts.edge === 'right') panel.appendChild(handle);
-    else if (opts.edge === 'left') panel.prepend(handle);
+    else if (opts.edge === 'left') {
+      panel.parentElement.insertBefore(handle, panel);
+      handle.classList.add('resize-handle--sibling');
+    }
     else if (opts.edge === 'top') panel.prepend(handle);
 
     let startPos = 0;

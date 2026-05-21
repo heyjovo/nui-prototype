@@ -843,9 +843,10 @@ img {
 .editor-main {
   flex: 1 1 0%;
   min-height: 0;
+  min-width: 0;
   align-self: stretch;
   display: flex;
-  overflow: hidden;
+  overflow: clip;
 }
 
 .editor-panes {
@@ -1265,6 +1266,7 @@ img {
   opacity: 0;
   pointer-events: none;
   transition-delay: 0ms;
+  min-width: var(--content-width, 480px);
 }
 
 .heading {
@@ -2565,6 +2567,13 @@ img {
   height: 2px;
   background-color: var(--default-border-medium-2);
 }
+.resize-handle--sibling {
+  position: relative;
+  width: 0px;
+  align-self: stretch;
+  cursor: col-resize;
+}
+
 .resize-handle:hover,
 .resize-handle.is-active{
   opacity: 1;
