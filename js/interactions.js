@@ -100,7 +100,7 @@
       }
     } else {
       if (timelineWrapper) timelineWrapper.classList.add('is-hidden');
-      wrapper.style.height = 'auto';
+      wrapper.style.height = `${TIMELINE_CLOSED_HEIGHT}px`;
       if (toggleBtn) {
         const icon = toggleBtn.querySelector('.icon');
         const label = toggleBtn.querySelector('div:not(.icon)');

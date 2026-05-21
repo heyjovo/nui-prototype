@@ -72,7 +72,14 @@
     const canvasToolbar = document.querySelector('.canvas-toolbar');
 
     function togglePanel(el) {
-      if (el) el.classList.toggle('is-collapsed');
+      if (!el) return;
+      if (!el.classList.contains('is-collapsed')) {
+        el.dataset.prevWidth = el.style.width || '';
+        el.style.width = '';
+      } else {
+        if (el.dataset.prevWidth) el.style.width = el.dataset.prevWidth;
+      }
+      el.classList.toggle('is-collapsed');
     }
 
     document.getElementById('toggle-script-closed')?.addEventListener('click', e => {
