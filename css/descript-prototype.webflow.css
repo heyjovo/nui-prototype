@@ -1800,7 +1800,7 @@ img {
   align-items: center;
   padding: 4px 0;
   border-top: 1px solid var(--border-soft);
-  background-color: var(--surface-recessed-light);
+  background-color: var(--surface-default);
 }
 
 .timeline-zoom {
