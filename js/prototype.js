@@ -96,6 +96,9 @@
       const scriptOpen = scriptWrapper && !scriptWrapper.classList.contains('is-collapsed');
       const sidebarOpen = sidebarPane && !sidebarPane.classList.contains('is-collapsed');
 
+      document.body.classList.toggle('script-open', scriptOpen);
+      document.body.classList.toggle('script-closed', !scriptOpen);
+
       if (toggleScriptOpen) toggleScriptOpen.classList.toggle('is-hidden-smooth', scriptOpen);
       if (dividerScript) dividerScript.classList.toggle('is-hidden-smooth', scriptOpen);
       if (toggleSidebar) toggleSidebar.classList.toggle('is-hidden-smooth', sidebarOpen);
@@ -155,11 +158,55 @@
     document.addEventListener('panelstatechange', syncConditionalButtons);
   }
 
+  // --- Scene List Scroll ---
+  function initSceneListScroll() {
+    const viewport = document.querySelector('.scene-list-viewport');
+    if (!viewport) return;
+
+    const upArrow = document.querySelector('.scene-list-arrow.up');
+    const downArrow = document.querySelector('.scene-list-arrow.down');
+    const thumbnails = viewport.querySelectorAll('.canvas-scene-thumbnail');
+    if (!thumbnails.length) return;
+
+    function getStepSize() {
+      const first = thumbnails[0];
+      const gap = parseFloat(getComputedStyle(viewport).gap) || 4;
+      return first.offsetHeight + gap;
+    }
+
+    function updateArrows() {
+      const atTop = viewport.scrollTop <= 0;
+      const atBottom = viewport.scrollTop + viewport.clientHeight >= viewport.scrollHeight - 1;
+
+      if (upArrow) upArrow.classList.toggle('is-hidden', atTop);
+      if (downArrow) downArrow.classList.toggle('is-hidden', atBottom);
+    }
+
+    if (upArrow) {
+      upArrow.addEventListener('click', e => {
+        e.preventDefault();
+        viewport.scrollBy({ top: -getStepSize(), behavior: 'smooth' });
+      });
+    }
+
+    if (downArrow) {
+      downArrow.addEventListener('click', e => {
+        e.preventDefault();
+        viewport.scrollBy({ top: getStepSize(), behavior: 'smooth' });
+      });
+    }
+
+    viewport.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
+
   // --- Init ---
   function init() {
     initTabs();
     initSliders();
     initToggles();
+    initSceneListScroll();
   }
 
   if (document.readyState === 'loading') {

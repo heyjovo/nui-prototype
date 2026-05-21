@@ -164,49 +164,45 @@
                 </div>
               </div>
               <h1 class="heading">Composition name</h1>
+              <div class="script-toolbar">
+                <div class="script-toolbar-items">
+                  <a href="#" class="slim-select w-inline-block">
+                    <div class="icon search"></div>
+                    <div class="select-label">
+                      <div class="button-label">Find</div>
+                      <div class="icon chevron"></div>
+                    </div>
+                  </a>
+                  <div class="divider-simple-v"></div>
+                  <div class="script-toolbar-group">
+                    <a href="#" class="toolbar-item-dropdown">
+                      <div class="icon strikethrough"></div>
+                      <div class="icon chevron"></div>
+                    </a>
+                    <a href="#" class="icon-button inset w-inline-block">
+                      <div class="icon bold"></div>
+                    </a>
+                    <a href="#" class="icon-button inset w-inline-block">
+                      <div class="icon italic"></div>
+                    </a>
+                  </div>
+                  <div class="divider-simple-v"></div>
+                  <a href="#" class="icon-button inset w-inline-block">
+                    <div class="icon color-swatch"></div>
+                  </a>
+                  <a href="#" class="icon-button inset w-inline-block">
+                    <div class="icon add-comment"></div>
+                  </a>
+                  <a href="#" class="icon-button inset w-inline-block">
+                    <div class="icon content-copy"></div>
+                  </a>
+                  <div class="divider-simple-v"></div>
+                  <a href="#" class="icon-button inset w-inline-block">
+                    <div class="icon more-horizontal"></div>
+                  </a>
+                </div>
+              </div>
               <div class="script-content w-embed">
-                <style>
-  .script-content h3 {
-    font-size: 16px;
-    font-weight: 500;
-    position: relative;
-    margin-bottom: 8px;
-  }
-    .script-content p {
-      margin-bottom: 16px;
-    }
-  .script-chapter {
-    border-radius: 2px;
-    display: block;
-    position: absolute;
-    height: 44px;
-    width: 64px;
-    top: 0;
-    right: calc(100% + 16px);
-    overflow: hidden;
-    border: 1px solid var(--default-border-extra-soft);
-    box-shadow: var(--surface-default) 0px 0px 0px 2px inset;
-  }
-  .script-chapter.current {
-    border-color: var(--pink-750);
-  }
-  .script-chapter img {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .small-scene {
-    width: 32px;
-    height: 24px; 
-    border-radius: 2px; 
-    display: inline-block;
-    position: relative;
-    top: -2px; 
-    }
-</style>
                 <h3>
                   <div class="script-chapter current"><img src="images/video-thumb-0003.jpg"></div>Introduction
                 </h3>
@@ -233,47 +229,55 @@
             <div class="canvas">
               <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="canvas-scene-editor w-tabs">
                 <div class="canvas-scene-list w-tab-menu">
-                  <a data-w-tab="Tab 1" class="canvas-scene-thumbnail w-inline-block w-tab-link w--current">
-                    <div class="canvas-scene-thumbnail-label">Scene 1</div><img src="images/video-thumb-0003.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0003-p-500.jpg 500w, images/video-thumb-0003-p-800.jpg 800w, images/video-thumb-0003-p-1080.jpg 1080w, images/video-thumb-0003-p-1600.jpg 1600w, images/video-thumb-0003.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                  <a href="#" class="scene-list-arrow up w-inline-block is-hidden">
+                    <div class="icon arrow-drop-up"></div>
                   </a>
-                  <a data-w-tab="Tab 2" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Scene 2</div><img src="images/video-thumb-0487.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0487-p-500.jpg 500w, images/video-thumb-0487-p-800.jpg 800w, images/video-thumb-0487-p-1080.jpg 1080w, images/video-thumb-0487-p-1600.jpg 1600w, images/video-thumb-0487.jpg 2000w" alt="" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 3" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Scene 3</div><img src="images/video-thumb-0038.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0038-p-500.jpg 500w, images/video-thumb-0038-p-800.jpg 800w, images/video-thumb-0038-p-1080.jpg 1080w, images/video-thumb-0038-p-1600.jpg 1600w, images/video-thumb-0038.jpg 2000w" alt="" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 4" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 4</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0111-p-500.jpg 500w, images/video-thumb-0111-p-800.jpg 800w, images/video-thumb-0111-p-1080.jpg 1080w, images/video-thumb-0111-p-1600.jpg 1600w, images/video-thumb-0111.jpg 2000w" alt="" src="images/video-thumb-0111.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 5" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 5</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0181-p-500.jpg 500w, images/video-thumb-0181-p-800.jpg 800w, images/video-thumb-0181-p-1080.jpg 1080w, images/video-thumb-0181.jpg 2000w" alt="" src="images/video-thumb-0181.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 6" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 6</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0253-p-500.jpg 500w, images/video-thumb-0253-p-800.jpg 800w, images/video-thumb-0253-p-1080.jpg 1080w, images/video-thumb-0253-p-1600.jpg 1600w, images/video-thumb-0253.jpg 2000w" alt="" src="images/video-thumb-0253.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 7" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 7</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0286-p-500.jpg 500w, images/video-thumb-0286-p-800.jpg 800w, images/video-thumb-0286-p-1080.jpg 1080w, images/video-thumb-0286-p-1600.jpg 1600w, images/video-thumb-0286.jpg 2000w" alt="" src="images/video-thumb-0286.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 8" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 8</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0321-p-500.jpg 500w, images/video-thumb-0321-p-800.jpg 800w, images/video-thumb-0321-p-1080.jpg 1080w, images/video-thumb-0321-p-1600.jpg 1600w, images/video-thumb-0321.jpg 2000w" alt="" src="images/video-thumb-0321.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 9" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 9</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0311-p-500.jpg 500w, images/video-thumb-0311-p-800.jpg 800w, images/video-thumb-0311-p-1080.jpg 1080w, images/video-thumb-0311-p-1600.jpg 1600w, images/video-thumb-0311.jpg 2000w" alt="" src="images/video-thumb-0311.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 10" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 10</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0430-p-500.jpg 500w, images/video-thumb-0430-p-800.jpg 800w, images/video-thumb-0430-p-1080.jpg 1080w, images/video-thumb-0430-p-1600.jpg 1600w, images/video-thumb-0430.jpg 2000w" alt="" src="images/video-thumb-0430.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 11" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 11</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0337-p-500.jpg 500w, images/video-thumb-0337-p-800.jpg 800w, images/video-thumb-0337-p-1080.jpg 1080w, images/video-thumb-0337-p-1600.jpg 1600w, images/video-thumb-0337.jpg 2000w" alt="" src="images/video-thumb-0337.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 12" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 12</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0463-p-500.jpg 500w, images/video-thumb-0463-p-800.jpg 800w, images/video-thumb-0463-p-1080.jpg 1080w, images/video-thumb-0463-p-1600.jpg 1600w, images/video-thumb-0463.jpg 2000w" alt="" src="images/video-thumb-0463.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 13" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 13</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0503-p-500.jpg 500w, images/video-thumb-0503-p-800.jpg 800w, images/video-thumb-0503-p-1080.jpg 1080w, images/video-thumb-0503-p-1600.jpg 1600w, images/video-thumb-0503.jpg 2000w" alt="" src="images/video-thumb-0503.jpg" loading="lazy" class="canvas-thumbnail-image">
-                  </a>
-                  <a data-w-tab="Tab 14" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                    <div class="canvas-scene-thumbnail-label">Tab 14</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0534-p-500.jpg 500w, images/video-thumb-0534-p-800.jpg 800w, images/video-thumb-0534-p-1080.jpg 1080w, images/video-thumb-0534-p-1600.jpg 1600w, images/video-thumb-0534.jpg 2000w" alt="" src="images/video-thumb-0534.jpg" loading="lazy" class="canvas-thumbnail-image">
+                  <div class="scene-list-viewport">
+                    <a data-w-tab="Tab 1" class="canvas-scene-thumbnail w-inline-block w-tab-link w--current">
+                      <div class="canvas-scene-thumbnail-label">Scene 1</div><img src="images/video-thumb-0003.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0003-p-500.jpg 500w, images/video-thumb-0003-p-800.jpg 800w, images/video-thumb-0003-p-1080.jpg 1080w, images/video-thumb-0003-p-1600.jpg 1600w, images/video-thumb-0003.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 2" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Scene 2</div><img src="images/video-thumb-0487.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0487-p-500.jpg 500w, images/video-thumb-0487-p-800.jpg 800w, images/video-thumb-0487-p-1080.jpg 1080w, images/video-thumb-0487-p-1600.jpg 1600w, images/video-thumb-0487.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 3" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Scene 3</div><img src="images/video-thumb-0038.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0038-p-500.jpg 500w, images/video-thumb-0038-p-800.jpg 800w, images/video-thumb-0038-p-1080.jpg 1080w, images/video-thumb-0038-p-1600.jpg 1600w, images/video-thumb-0038.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 4" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 4</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0111-p-500.jpg 500w, images/video-thumb-0111-p-800.jpg 800w, images/video-thumb-0111-p-1080.jpg 1080w, images/video-thumb-0111-p-1600.jpg 1600w, images/video-thumb-0111.jpg 2000w" alt="" src="images/video-thumb-0111.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 5" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 5</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0181-p-500.jpg 500w, images/video-thumb-0181-p-800.jpg 800w, images/video-thumb-0181-p-1080.jpg 1080w, images/video-thumb-0181.jpg 2000w" alt="" src="images/video-thumb-0181.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 6" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 6</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0253-p-500.jpg 500w, images/video-thumb-0253-p-800.jpg 800w, images/video-thumb-0253-p-1080.jpg 1080w, images/video-thumb-0253-p-1600.jpg 1600w, images/video-thumb-0253.jpg 2000w" alt="" src="images/video-thumb-0253.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 7" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 7</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0286-p-500.jpg 500w, images/video-thumb-0286-p-800.jpg 800w, images/video-thumb-0286-p-1080.jpg 1080w, images/video-thumb-0286-p-1600.jpg 1600w, images/video-thumb-0286.jpg 2000w" alt="" src="images/video-thumb-0286.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 8" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 8</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0321-p-500.jpg 500w, images/video-thumb-0321-p-800.jpg 800w, images/video-thumb-0321-p-1080.jpg 1080w, images/video-thumb-0321-p-1600.jpg 1600w, images/video-thumb-0321.jpg 2000w" alt="" src="images/video-thumb-0321.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 9" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 9</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0311-p-500.jpg 500w, images/video-thumb-0311-p-800.jpg 800w, images/video-thumb-0311-p-1080.jpg 1080w, images/video-thumb-0311-p-1600.jpg 1600w, images/video-thumb-0311.jpg 2000w" alt="" src="images/video-thumb-0311.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 10" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 10</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0430-p-500.jpg 500w, images/video-thumb-0430-p-800.jpg 800w, images/video-thumb-0430-p-1080.jpg 1080w, images/video-thumb-0430-p-1600.jpg 1600w, images/video-thumb-0430.jpg 2000w" alt="" src="images/video-thumb-0430.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 11" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 11</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0337-p-500.jpg 500w, images/video-thumb-0337-p-800.jpg 800w, images/video-thumb-0337-p-1080.jpg 1080w, images/video-thumb-0337-p-1600.jpg 1600w, images/video-thumb-0337.jpg 2000w" alt="" src="images/video-thumb-0337.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 12" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 12</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0463-p-500.jpg 500w, images/video-thumb-0463-p-800.jpg 800w, images/video-thumb-0463-p-1080.jpg 1080w, images/video-thumb-0463-p-1600.jpg 1600w, images/video-thumb-0463.jpg 2000w" alt="" src="images/video-thumb-0463.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 13" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 13</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0503-p-500.jpg 500w, images/video-thumb-0503-p-800.jpg 800w, images/video-thumb-0503-p-1080.jpg 1080w, images/video-thumb-0503-p-1600.jpg 1600w, images/video-thumb-0503.jpg 2000w" alt="" src="images/video-thumb-0503.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                    <a data-w-tab="Tab 14" class="canvas-scene-thumbnail w-inline-block w-tab-link">
+                      <div class="canvas-scene-thumbnail-label">Tab 14</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0534-p-500.jpg 500w, images/video-thumb-0534-p-800.jpg 800w, images/video-thumb-0534-p-1080.jpg 1080w, images/video-thumb-0534-p-1600.jpg 1600w, images/video-thumb-0534.jpg 2000w" alt="" src="images/video-thumb-0534.jpg" loading="lazy" class="canvas-thumbnail-image">
+                    </a>
+                  </div>
+                  <a href="#" class="scene-list-arrow down w-inline-block">
+                    <div class="icon arrow-drop-down"></div>
                   </a>
                 </div>
                 <div class="scene-editor-content w-tab-content">
