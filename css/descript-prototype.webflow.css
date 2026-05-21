@@ -1141,10 +1141,14 @@ img {
   justify-content: center;
   align-self: stretch;
   align-items: center;
-  padding: 56px 104px 80px 48px;
+  padding: clamp(64px, 7.5cqh, 144px) clamp(24px, 7.5cqw, 200px) clamp(64px, 7.5cqh, 144px) clamp(64px, 7.5cqw, 200px);
   display: flex;
+  transition: padding 120ms var(--panel-slide-easing);
 }
-
+.script-open .scene-editor-content {
+  padding-left:clamp(24px, 7.5%, 64px);
+  padding-right:clamp(24px, 7.5%, 64px);
+}
 .canvas-scene-list {
   flex-flow: column;
   flex: none;
@@ -1157,6 +1161,11 @@ img {
   padding-right: 12px;
   display: flex;
   gap: 2px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
 }
 .scene-list-viewport {
   overflow: hidden;
@@ -1567,11 +1576,14 @@ img {
   font-size: 24px;
   font-weight: 400;
   line-height: 32px;
+  margin-top: 56px;
 }
 
 .script-toolbar {
-  padding-left: 72px;
+  padding-left: 100px;
   padding-right: 40px;
+  margin-top: 8px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   position: sticky;
