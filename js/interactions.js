@@ -10,8 +10,8 @@
     if (scriptWrapper) {
       createResizeHandle(scriptWrapper, 'horizontal', {
         edge: 'right',
-        min: 200,
-        max: 600,
+        min: 475,
+        max: 800,
         property: 'width'
       });
     }
@@ -19,7 +19,7 @@
     if (sidebarPane) {
       createResizeHandle(sidebarPane, 'horizontal', {
         edge: 'left',
-        min: 200,
+        min: 280,
         max: 500,
         property: 'width',
         invert: true

@@ -1200,8 +1200,8 @@ img {
 
 .script-wrapper {
   background-color: var(--surface-old-default);
-  min-width: 200px;
-  max-width: 60%;
+  min-width: 475px;
+  max-width: 800px;
   width: 480px;
   box-shadow: 1px 0 0 0 var(--border-soft), inset 0 -1.5px 0 0 var(--border-soft);
   border-top-left-radius: 12px;
@@ -2466,7 +2466,7 @@ img {
 }
 
 .resize-handle--vertical[data-edge="top"] {
-  top: 0;
+  top: -10px;
 }
 .resize-handle--horizontal::after {
   content: '';
@@ -2481,8 +2481,8 @@ img {
   content: '';
   position: absolute;
   top: 3px;
-  left: 16px;
-  right: 16px;
+  left: 24px;
+  right: 24px;
   height: 2px;
   background-color: var(--default-border-medium-2);
 }
