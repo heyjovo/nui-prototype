@@ -71,6 +71,28 @@
     const sidebarPane = document.querySelector('.sidebar-pane');
     const canvasToolbar = document.querySelector('.canvas-toolbar');
 
+    const toggleScriptOpen = document.getElementById('toggle-script-open');
+    const toggleSidebar = document.getElementById('toggle-sidebar');
+    const dividerScript = document.getElementById('divider-script');
+    const canvasButtonsLeft = document.querySelector('.canvas-buttons-left');
+    const canvasButtonsRight = document.querySelector('.canvas-buttons-right');
+
+    [toggleScriptOpen, toggleSidebar, dividerScript].forEach(el => {
+      if (el) el.classList.add('is-panel-toggle');
+    });
+
+    function syncConditionalButtons() {
+      const scriptOpen = scriptWrapper && !scriptWrapper.classList.contains('is-collapsed');
+      const sidebarOpen = sidebarPane && !sidebarPane.classList.contains('is-collapsed');
+
+      if (toggleScriptOpen) toggleScriptOpen.classList.toggle('is-hidden-smooth', scriptOpen);
+      if (dividerScript) dividerScript.classList.toggle('is-hidden-smooth', scriptOpen);
+      if (toggleSidebar) toggleSidebar.classList.toggle('is-hidden-smooth', sidebarOpen);
+
+      if (canvasButtonsLeft) canvasButtonsLeft.classList.toggle('has-hidden-toggle', scriptOpen);
+      if (canvasButtonsRight) canvasButtonsRight.classList.toggle('has-hidden-toggle', sidebarOpen);
+    }
+
     function togglePanel(el) {
       if (!el) return;
       if (!el.classList.contains('is-collapsed')) {
@@ -83,6 +105,7 @@
         el.style.removeProperty('--content-width');
       }
       el.classList.toggle('is-collapsed');
+      syncConditionalButtons();
     }
 
     document.getElementById('toggle-script-closed')?.addEventListener('click', e => {
@@ -115,6 +138,10 @@
       const timelineTools = document.querySelector('.timeline-tools');
       if (timelineTools) timelineTools.classList.toggle('is-hidden');
     });
+
+    syncConditionalButtons();
+
+    document.addEventListener('panelstatechange', syncConditionalButtons);
   }
 
   // --- Init ---

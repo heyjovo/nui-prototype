@@ -15,24 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
-  <style>
-  .nav-menu-tab-item:hover .nav-menu-tab-label {
-    left: calc(100% + 8px);
-    opacity: 1;
-  }
-  .script-tabs:not(:has(.script-tab:not(.active):hover)) .script-tab.active .script-tab-label, 
-  .script-tab:not(.active):hover .script-tab-label {
-    display: block;
-  }
-  .w-slider-dot {
-    width: 32px;
-    height: 2px;
-    background-color: var(--default-border-medium-2);
-  }
-  .w-slider-dot.w-active {
-    background-color: var(--pink-750);
-  }
-</style>
 </head>
 <body>
   <div class="main-sidebar-nav">
@@ -392,7 +374,7 @@
                   <div class="button-label">Script</div>
                   <div class="icon expand-diagonal"></div>
                 </a>
-                <div class="divider-simple-v"></div>
+                <div id="divider-script" class="divider-simple-v"></div>
                 <a href="#" class="icon-button inset w-inline-block">
                   <div class="icon layers"></div>
                 </a>
@@ -462,12 +444,12 @@
               </a>
               <div class="dotted-line"></div>
               <a id="toggle-timeline" href="#" class="button w-inline-block">
-                <div class="icon bottom-panel-close"></div>
-                <div>Hide timeline</div>
+                <div class="icon bottom-panel-open"></div>
+                <div>Show timeline</div>
               </a>
             </div>
           </div>
-          <div class="timeline-wrapper">
+          <div class="timeline-wrapper is-hidden">
             <div class="time-strip">
               <time-strip-segment label="00:00"></time-strip-segment>
               <time-strip-segment label="00:10"></time-strip-segment>
@@ -708,7 +690,7 @@
           </div>
         </div>
       </div>
-      <div class="sidebar-pane">
+      <div class="sidebar-pane is-collapsed">
         <div class="sidebar-content">
           <div class="sidebar-header">
             <h3 class="heading-2">Inspector</h3>

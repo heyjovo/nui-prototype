@@ -92,6 +92,8 @@
       } else if (opts.snapMin && finalSize < opts.snapMin) {
         panel.style[opts.property] = `${opts.snapMin}px`;
       }
+
+      panel.dispatchEvent(new Event('panelstatechange', { bubbles: true }));
     }
 
     handle.addEventListener('pointerdown', onPointerDown);

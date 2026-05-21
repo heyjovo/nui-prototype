@@ -850,7 +850,7 @@ img {
   min-width: 0;
   align-self: stretch;
   display: flex;
-  overflow: clip;
+  overflow: hidden;
 }
 
 .editor-panes {
@@ -878,7 +878,7 @@ img {
 .playback-timeline-wrapper {
   flex-flow: column;
   flex: 0 0 auto;
-  height: 260px;
+  height: 40px;
   display: flex;
   position: relative;
   transition: height var(--panel-slide-duration) var(--panel-slide-easing);
@@ -1091,6 +1091,14 @@ img {
   display: flex;
   position: absolute;
   inset: 12px auto auto 12px;
+  transition: padding 120ms var(--panel-slide-easing),
+              gap 120ms var(--panel-slide-easing);
+}
+
+.canvas-buttons-left.has-hidden-toggle {
+  padding-left: 0;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
 }
 
 .script-button {
@@ -1136,6 +1144,13 @@ img {
   display: flex;
   position: absolute;
   inset: 12px 12px auto auto;
+  transition: padding 120ms var(--panel-slide-easing);
+}
+
+.canvas-buttons-right.has-hidden-toggle {
+  padding-right: 0;
+  grid-column-gap: 0;
+  grid-row-gap: 0;
 }
 
 .canvas-toolbar {
@@ -2535,6 +2550,26 @@ img {
 /* --- Utility: Toggle visibility --- */
 .is-hidden:not(.timeline-wrapper) {
   display: none !important;
+}
+
+.is-panel-toggle {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 120ms var(--panel-slide-easing),
+              opacity 80ms var(--panel-fade-easing),
+              padding 120ms var(--panel-slide-easing),
+              margin 120ms var(--panel-slide-easing);
+}
+
+.is-panel-toggle.is-hidden-smooth {
+  width: 0 !important;
+  min-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* --- Resize Handles --- */
