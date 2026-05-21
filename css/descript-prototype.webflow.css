@@ -1235,7 +1235,10 @@ img {
   display: flex;
   overflow: hidden;
 }
-
+#toggle-toolbar-collapsed {
+  width: 24px;
+  margin-left: -8px;
+}
 .canvas-toolbar-group {
   grid-column-gap: 2px;
   grid-row-gap: 2px;
@@ -1257,7 +1260,7 @@ img {
 }
 
 .canvas-toolbar-group.collapsible.is-collapsed .toolbar-chevron .icon {
-  transform: rotate(180deg);
+  transform: rotate(270deg);
 }
 
 .canvas-toolbar-group.collapsible .canvas-tools {
