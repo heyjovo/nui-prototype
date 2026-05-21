@@ -1202,7 +1202,6 @@ img {
   flex-flow: row;
   justify-content: flex-start;
   align-items: center;
-  transition: width .2s;
   display: flex;
 }
 
@@ -1268,15 +1267,15 @@ img {
   max-width: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-width 400ms cubic-bezier(0.25, 1, 0.5, 1),
-              opacity 350ms cubic-bezier(0.25, 1, 0.5, 1);
+  transition: max-width 250ms ease-in,
+              opacity 200ms linear 100ms;
 }
 
 .canvas-toolbar .w-tab-pane.w--tab-active {
-  max-width: 500px;
+  max-width: 400px;
   opacity: 1;
-  transition: max-width 250ms cubic-bezier(0.25, 1, 0.5, 1),
-              opacity 120ms cubic-bezier(0.25, 1, 0.5, 1) 300ms;
+  transition: max-width 250ms ease-in,
+              opacity 200ms linear 250ms;
 }
 
 .tabs-content {
