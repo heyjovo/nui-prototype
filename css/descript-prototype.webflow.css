@@ -1252,6 +1252,53 @@ img {
   padding-bottom: 4px;
 }
 
+.toolbar-chevron .icon {
+  transition: transform 200ms ease-out;
+}
+
+.canvas-toolbar-group.collapsible.is-collapsed .toolbar-chevron .icon {
+  transform: rotate(180deg);
+}
+
+.canvas-toolbar-group.collapsible .canvas-tools {
+  transition: gap 200ms ease-out;
+}
+
+.canvas-toolbar-group.collapsible.is-collapsed .canvas-tools {
+  gap: 0;
+}
+
+.canvas-toolbar-group.collapsible .canvas-tools .icon-button.tool:not(.active) {
+  max-width: 28px;
+  overflow: hidden;
+  transition: max-width 200ms ease-out, opacity 150ms ease-out;
+}
+
+.canvas-toolbar-group.collapsible.is-collapsed .canvas-tools .icon-button.tool:not(.active) {
+  max-width: 0;
+  opacity: 0;
+}
+
+.canvas-toolbar-group.collapsible.is-collapsed.timeline-visible .timeline-tools {
+  max-width: 0;
+  opacity: 0;
+}
+
+.timeline-tools {
+  display: flex;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  gap: 0;
+  transition: max-width 250ms ease-out, opacity 150ms ease-out, gap 250ms ease-out;
+}
+
+.timeline-visible .timeline-tools {
+  max-width: 200px;
+  opacity: 1;
+  gap: 2px;
+}
+
 .canvas-toolbar-tab-content {
   align-self: stretch;
   height: 100%;
@@ -1297,12 +1344,19 @@ img {
   position: relative;
 }
 
-.canvas-tools, .timeline-tools {
+.canvas-tools {
   grid-column-gap: 2px;
   grid-row-gap: 2px;
   justify-content: flex-start;
   align-items: center;
   display: flex;
+}
+
+.timeline-tools {
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .script-wrapper {

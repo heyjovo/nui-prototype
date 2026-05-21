@@ -115,10 +115,12 @@
     const timelineWrapper = wrapper.querySelector('.timeline-wrapper') ||
       document.querySelector('.timeline-wrapper');
     const toggleBtn = document.getElementById('toggle-timeline');
+    const toolbarGroup = document.querySelector('.canvas-toolbar-group.collapsible');
 
     if (open) {
       if (timelineWrapper) timelineWrapper.classList.remove('is-hidden');
       wrapper.style.height = `${TIMELINE_DEFAULT_HEIGHT}px`;
+      if (toolbarGroup) toolbarGroup.classList.add('timeline-visible');
       if (toggleBtn) {
         const icon = toggleBtn.querySelector('.icon');
         const label = toggleBtn.querySelector('div:not(.icon)');
@@ -128,6 +130,7 @@
     } else {
       if (timelineWrapper) timelineWrapper.classList.add('is-hidden');
       wrapper.style.height = `${TIMELINE_CLOSED_HEIGHT}px`;
+      if (toolbarGroup) toolbarGroup.classList.remove('timeline-visible');
       if (toggleBtn) {
         const icon = toggleBtn.querySelector('.icon');
         const label = toggleBtn.querySelector('div:not(.icon)');

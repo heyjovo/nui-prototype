@@ -144,10 +144,10 @@
       togglePanel(sidebarPane);
     });
 
-    document.getElementById('toggle-toolbar-closed')?.addEventListener('click', e => {
+    document.getElementById('toggle-toolbar-collapsed')?.addEventListener('click', e => {
       e.preventDefault();
-      const timelineTools = document.querySelector('.timeline-tools');
-      if (timelineTools) timelineTools.classList.toggle('is-hidden');
+      const toolbarGroup = e.currentTarget.closest('.canvas-toolbar-group.collapsible');
+      if (toolbarGroup) toolbarGroup.classList.toggle('is-collapsed');
     });
 
     syncConditionalButtons();
