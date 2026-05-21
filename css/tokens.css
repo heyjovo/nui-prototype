@@ -1,0 +1,53 @@
+:root {
+  /* =============================================
+     DESCRIPT DESIGN TOKENS (Existing)
+     Values mapped from ☯ Styles Figma library.
+     Collection: Color
+     ============================================= */
+
+  /* --- Primitives: Grey --- */
+  --grey-5: #fdfcfc;
+  --grey-900: #333;
+  --grey-950: #110a0d;
+
+  /* --- Primitives: Pink --- */
+  --pink-200: #e5b6d5;
+  --pink-750: #651a39;
+  --pink-900: #390a1a;
+
+  /* --- Primitives: Blurple --- */
+  --blurple-300: #a3a3ee;
+  --blurple-400: #8787e0;
+  --blurple-450: #7a79d6;
+  --blurple-900: #0c0b5f;
+  --blurple-950: #030331;
+
+  /* --- Primitives: Green --- */
+  --green-400: #53a57b;
+  --green-600: #2c6d56;
+  --green-800: #164035;
+
+  /* --- Primitives: Red --- */
+  --red-450: #f73b3b;
+  --red-800: #660607;
+
+  /* --- Primitives: Cyan --- */
+  --cyan-0: #effcfb;
+  --cyan-600: #006c97;
+  --cyan-800: #003d58;
+
+  /* --- Semantic: Surface (existing Figma values) --- */
+  --surface-default--existing: #fdfcfc;
+  --surface-recessed--existing: #f4f1f0;
+
+  /* --- Semantic: Default / BG --- */
+  --default-bg-hover: #583f4a1a;
+
+  /* --- Semantic: Default / FG --- */
+  --default-fg-secondary--existing: #16050c99;
+
+  /* --- Semantic: Default / Border --- */
+  --default-border-soft: #583f4a1a;
+  --default-border-medium: #3f2a3229;
+  --default-border-hard: #110a0d73;
+}

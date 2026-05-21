@@ -1,0 +1,44 @@
+:root {
+  /* =============================================
+     NUI PROTOTYPE - NEW/MODIFIED TOKENS
+     Proposed additions or changes to the Descript
+     token set being explored in this prototype.
+     ============================================= */
+
+  /* --- Surface (new values) --- */
+  --surface-default: #f7f4f3;
+  --surface-recessed-2: #ebe6e5;
+  --surface-recessed-3: #f2eded;
+  --surface-translucent: #fcfcfc33;
+  --surface-muted: #dcd5d5;
+
+  /* --- Default / BG (new) --- */
+  --default-bg-soft: #583f4a12;
+  --default-bg-soft-2: #583f4a14;
+  --default-bg-extra-soft: #583f4a08;
+
+  /* --- Default / FG (new) --- */
+  --default-fg-secondary: #16050c99;
+  --default-fg-tertiary: #715661;
+
+  /* --- Default / Border (new) --- */
+  --default-border-extra-soft: #583f4a0d;
+  --default-border-medium-2: #3f2a324d;
+
+  /* --- Accent (new) --- */
+  --accent-bg-soft: #ab5c8626;
+  --accent-border-active: #b96a96;
+  --accent-bg-toolbar: #b5528780;
+
+  /* --- Blurple / semantic (new) --- */
+  --blurple-fg-inverse: #f9f9ff;
+  --blurple-border-soft: #0c0b5f80;
+
+  /* --- Danger (new) --- */
+  --danger-fg-icon: #e62324;
+
+  /* --- Overlay (new) --- */
+  --overlay-extra-light: #0000000d;
+  --overlay-light: #0000001a;
+  --overlay-medium: #00000026;
+}
