@@ -28,6 +28,8 @@
   /* Drag/resize transition (faster, more linear) */
   --panel-drag-duration: 80ms;
   --panel-drag-easing: linear;
+
+  --script-padding: clamp(56px, 15%, 144px);
 }
 
 .w-layout-blockcontainer {
@@ -110,11 +112,10 @@
   border-radius: 2px;
   display: block;
   position: absolute;
-  height: 44px;
-  width: 64px;
-  top: 0;
-  right: calc(100% + 16px);
+  width: calc(var(--script-padding) - 4px);
+  right: calc(100% + (var(--script-padding) / 5));
   overflow: hidden;
+  aspect-ratio: 3 / 2;
   border: 1px solid var(--default-border-extra-soft);
   box-shadow: var(--surface-default) 0px 0px 0px 2px inset;
   transition: right 250ms ease 100ms;
@@ -1009,7 +1010,6 @@ img {
 .playback-timeline-wrapper.is-dragging {
   transition: none;
 }
-
 .canvas-stage {
   border-style: solid;
   border-width: 1px 1px 0;
@@ -1571,8 +1571,8 @@ img {
 }
 
 .heading {
-  padding-left: 104px;
-  padding-right: 40px;
+  padding-left: var(--script-padding);
+  padding-right: var(--script-padding);  
   font-size: 24px;
   font-weight: 400;
   line-height: 32px;
@@ -1580,8 +1580,8 @@ img {
 }
 
 .script-toolbar {
-  padding-left: 100px;
-  padding-right: 40px;
+  padding-left: calc(var(--script-padding) - 4px);  
+  padding-right: var(--script-padding);  
   margin-top: 8px;
   margin-bottom: 4px;
   display: flex;
@@ -2145,15 +2145,17 @@ img {
 .script-content {
   flex: auto;
   width: 100%;
-  padding-left: 104px;
-  padding-right: 80px;
+  padding-left: var(--script-padding);
+  padding-right: var(--script-padding);
   font-size: 16px;
   line-height: 32px;
 }
 
 .script-content p {
+  color: color-mix(in srgb, var(--grey-900) 85%, var(--surface-default));
   font-size: 16px;
   line-height: 32px;
+  font-weight: 400;
 }
 
 .time-strip {
