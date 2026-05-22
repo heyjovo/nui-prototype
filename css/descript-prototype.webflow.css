@@ -677,7 +677,7 @@ img {
 }
 
 .nav-menu-tab-label {
-  z-index: 100;
+  z-index: 250;
   background-color: var(--grey-900);
   opacity: 0;
   color: var(--grey-5);
@@ -1360,6 +1360,11 @@ img {
   transform: translate(-50%);
   display: flex;
   align-items: center;
+  transition: height 250ms var(--panel-slide-easing),
+              width 250ms var(--panel-slide-easing),
+              padding 150ms var(--panel-slide-easing),
+              border 150ms var(--panel-slide-easing),
+              box-shadow 150ms var(--panel-slide-easing);
 }
 
 .canvas-toolbar-content {
@@ -2993,4 +2998,266 @@ img {
 
 .scrubber-track {
   cursor: pointer;
+}
+
+/* =============================================
+   EXPANDED TOOLBAR (Underlord Tab 2)
+   ============================================= */
+
+/* New icon definitions */
+.icon.paperclip {
+  -webkit-mask-image: url('../images/paperclip.svg');
+  mask-image: url('../images/paperclip.svg');
+}
+
+.icon.at-symbol {
+  -webkit-mask-image: url('../images/at-symbol.svg');
+  mask-image: url('../images/at-symbol.svg');
+}
+
+.icon.ai-model {
+  -webkit-mask-image: url('../images/ai-model.svg');
+  mask-image: url('../images/ai-model.svg');
+}
+
+.icon.chevron-down-s {
+  -webkit-mask-image: url('../images/chevron-down-s.svg');
+  mask-image: url('../images/chevron-down-s.svg');
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Expanded view: hidden by default --- */
+.toolbar-expanded-view {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  opacity: 0;
+  min-width: 0;
+}
+
+/* --- Expanded state on .canvas-toolbar --- */
+.canvas-toolbar.is-expanded {
+  height: 156px;
+  width: 480px;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  border: 1px solid var(--default-border-hard);
+  box-shadow: 0 0.5px 0 1px rgba(88, 63, 74, 0.1);
+}
+
+/* Hide collapsed toolbar content when expanded */
+.canvas-toolbar.is-expanded .canvas-toolbar-content {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 80ms ease-out;
+}
+
+/* Show expanded view when toolbar is expanded */
+.canvas-toolbar.is-expanded .toolbar-expanded-view {
+  display: flex;
+  opacity: 1;
+  animation: expandFadeIn 180ms var(--panel-fade-easing) 80ms both;
+}
+
+@keyframes expandFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* During collapse: hide expanded view, show collapsed content */
+.canvas-toolbar.is-collapsing .toolbar-expanded-view {
+  display: none;
+}
+
+.canvas-toolbar.is-collapsing .canvas-toolbar-content {
+  opacity: 1;
+  pointer-events: auto;
+  position: static;
+  height: auto;
+  overflow: visible;
+}
+
+.canvas-toolbar.is-collapsing {
+  overflow: hidden;
+}
+
+/* --- Expanded header row --- */
+.toolbar-expanded-header {
+  background-color: var(--grey-950);
+  border: 1px solid var(--default-border-hard);
+  border-radius: 4px;
+  box-shadow: 0 0.5px 0 1px rgba(88, 63, 74, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+.toolbar-expanded-header-left {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.toolbar-expanded-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--pink-200);
+}
+
+.toolbar-expanded-label {
+  color: var(--grey-5);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.001em;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+
+.toolbar-expanded-header-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  color: var(--grey-5);
+}
+
+/* --- Expanded body / content area --- */
+.toolbar-expanded-body {
+  padding: 0 6px 0;
+  flex-shrink: 0;
+}
+
+.toolbar-expanded-input {
+  background-color: rgba(244, 241, 240, 0.22);
+  border: 1px solid rgba(88, 63, 74, 0.05);
+  border-bottom: none;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  height: 115px;
+  min-width: 32px;
+  overflow: hidden;
+}
+
+.toolbar-input-content {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  padding: 8px;
+  min-height: 0;
+  gap: 0;
+}
+
+.toolbar-input-cursor {
+  width: 1.5px;
+  height: 16px;
+  background-color: var(--pink-200);
+  flex-shrink: 0;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.toolbar-input-placeholder {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.001em;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+/* --- Input action footer --- */
+.toolbar-input-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2px;
+}
+
+.toolbar-input-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.toolbar-attachment-btn {
+  background-color: var(--surface-default);
+  border-radius: 2px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--grey-950);
+}
+
+.toolbar-attachment-btn:hover {
+  background-color: var(--surface-recessed-2);
+}
+
+.toolbar-model-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  height: 32px;
+  border-radius: 2px;
+  color: var(--surface-default);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.toolbar-model-select:hover {
+  background-color: var(--default-border-hard);
+}
+
+.toolbar-model-select .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.toolbar-model-label {
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  letter-spacing: 0.001em;
+  white-space: nowrap;
+}
+
+/* Expanded send button — accent style, 32px */
+.icon-button.toolbar-send-expanded {
+  width: 32px;
+  height: 32px;
+  background-color: var(--pink-200);
+  color: var(--pink-900);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.icon-button.toolbar-send-expanded:hover {
+  background-color: var(--pink-450);
 }

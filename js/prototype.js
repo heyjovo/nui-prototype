@@ -6,6 +6,7 @@
     document.querySelectorAll('.w-tabs').forEach(tabGroup => {
       const links = tabGroup.querySelectorAll('.w-tab-link');
       const panes = tabGroup.querySelectorAll('.w-tab-pane');
+      const isCanvasToolbar = tabGroup.closest('.canvas-toolbar') !== null;
 
       links.forEach((link, i) => {
         link.addEventListener('click', e => {
@@ -14,6 +15,14 @@
           panes.forEach(p => p.classList.remove('w--tab-active'));
           link.classList.add('w--current');
           if (panes[i]) panes[i].classList.add('w--tab-active');
+
+          if (isCanvasToolbar && link.getAttribute('data-w-tab') !== 'Tab 2') {
+            const toolbar = tabGroup.closest('.canvas-toolbar');
+            if (toolbar && toolbar.classList.contains('is-expanded')) {
+              toolbar.classList.remove('is-expanded');
+              toolbar.style.width = '';
+            }
+          }
         });
       });
     });
@@ -151,6 +160,38 @@
       e.preventDefault();
       const toolbarGroup = e.currentTarget.closest('.canvas-toolbar-group.collapsible');
       if (toolbarGroup) toolbarGroup.classList.toggle('is-collapsed');
+    });
+
+    // --- Toolbar Expand/Collapse (Underlord Tab 2) ---
+    function expandToolbar() {
+      if (!canvasToolbar) return;
+      const currentWidth = canvasToolbar.offsetWidth;
+      canvasToolbar.style.width = currentWidth + 'px';
+      canvasToolbar.offsetHeight; // force reflow
+      canvasToolbar.classList.add('is-expanded');
+    }
+
+    function collapseToolbar() {
+      if (!canvasToolbar) return;
+      canvasToolbar.classList.add('is-collapsing');
+      canvasToolbar.classList.remove('is-expanded');
+      const onDone = (e) => {
+        if (e.propertyName !== 'height') return;
+        canvasToolbar.style.width = '';
+        canvasToolbar.classList.remove('is-collapsing');
+        canvasToolbar.removeEventListener('transitionend', onDone);
+      };
+      canvasToolbar.addEventListener('transitionend', onDone);
+    }
+
+    document.getElementById('toolbar-expand')?.addEventListener('click', e => {
+      e.preventDefault();
+      expandToolbar();
+    });
+
+    document.getElementById('toolbar-collapse')?.addEventListener('click', e => {
+      e.preventDefault();
+      collapseToolbar();
     });
 
     syncConditionalButtons();
