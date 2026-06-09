@@ -502,26 +502,17 @@
   flex-shrink: 0;
 }
 
-/* Sequential content fade: pane handles width, content-wrapper handles opacity
-   Sequence: old content fades (60ms) → widths swap (200ms) → new content fades in (120ms)
-   overflow:hidden is kept on panes so width clipping works correctly; the floating
-   tooltip (#tooltip-floating) is position:fixed in <body> so it doesn't need visible overflow */
+/* Sequential tab fade: outgoing content disappears fast (70ms), then width reshapes
+   (200ms), then incoming content fades in (120ms, delayed until width is done).
+   Uses pane opacity directly — no content-wrapper trick — so layout stays correct. */
 .canvas-toolbar .w-tab-pane {
-  opacity: 1 !important;   /* pane stays visible; content-wrapper handles the fade */
-  transition: max-width 200ms ease-in-out !important;
+  /* outgoing: fade out in 70ms (before width starts visibly moving), then width shrinks */
+  transition: max-width 200ms ease-in-out, opacity 70ms linear !important;
 }
 .canvas-toolbar .w-tab-pane.w--tab-active {
   max-width: 600px !important;
-  transition: max-width 200ms ease-in-out !important;
-}
-/* Content wrapper fades out fast, fades in after width settles */
-.canvas-toolbar .tab-content-wrapper {
-  opacity: 0;
-  transition: opacity 60ms linear;
-}
-.canvas-toolbar .w-tab-pane.w--tab-active .tab-content-wrapper {
-  opacity: 1;
-  transition: opacity 120ms linear 180ms;
+  /* incoming: width grows first (200ms), then fade in (120ms) */
+  transition: max-width 200ms ease-in-out, opacity 120ms linear 180ms !important;
 }
 
 /* Fake input in Tab 2: fill available space instead of fixed 400px */
