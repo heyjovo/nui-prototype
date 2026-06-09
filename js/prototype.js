@@ -294,6 +294,14 @@
       expandToolbar();
     });
 
+    // Clicking the collapsed fake-input also expands the toolbar
+    document.getElementById('toolbar-fake-input')?.addEventListener('click', e => {
+      if (!canvasToolbar.classList.contains('is-expanded')) {
+        e.preventDefault();
+        expandToolbar();
+      }
+    });
+
     document.getElementById('toolbar-collapse')?.addEventListener('click', e => {
       e.preventDefault();
       collapseToolbar();

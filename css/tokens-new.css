@@ -408,3 +408,199 @@
 .left-sidebar-pane .resize-handle--horizontal[data-edge="right"] {
   right: -10px;
 }
+
+/* ─────────────────────────────────────────────
+   CANVAS TOOLBAR — ICONS, STATES, TOOLTIPS
+   ───────────────────────────────────────────── */
+
+/* New icon masks */
+.icon.layout {
+  -webkit-mask-image: url('../images/icon-layout.svg');
+  mask-image: url('../images/icon-layout.svg');
+}
+.icon.automation {
+  -webkit-mask-image: url('../images/icon-automation.svg');
+  mask-image: url('../images/icon-automation.svg');
+}
+.icon.comment-bank {
+  -webkit-mask-image: url('../images/icon-mat-comment_bank.svg');
+  mask-image: url('../images/icon-mat-comment_bank.svg');
+}
+
+/* Labeled toolbar item (icon + text together, e.g. Layout) */
+.toolbar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  color: var(--default-fg-inverse, white);
+  font-size: 11px;
+  font-weight: 475;
+  line-height: 16px;
+  white-space: nowrap;
+  border-radius: 3px;
+  flex-shrink: 0;
+  text-decoration: none;
+  position: relative;
+}
+.toolbar-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.toolbar-item .icon {
+  background-color: white;
+}
+
+/* Tooltip system for canvas toolbar (appears above buttons) */
+.canvas-toolbar .icon-button,
+.canvas-toolbar .toolbar-item {
+  position: relative;
+}
+.toolbar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--grey-900, #26171d);
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 475;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 500;
+  transition: opacity 120ms ease;
+}
+.canvas-toolbar .icon-button:hover .toolbar-tooltip,
+.canvas-toolbar .toolbar-item:hover .toolbar-tooltip {
+  opacity: 1;
+}
+
+/* Tab 2 (Underlord): show "Edit" label + chevron when active */
+.canvas-toolbar-tab .tab-mode-label,
+.canvas-toolbar-tab .tab-mode-chevron {
+  display: none;
+}
+[data-w-tab="Tab 2"].canvas-toolbar-tab.w--current {
+  width: auto;
+  padding: 0 4px 0 5px;
+  gap: 0;
+}
+[data-w-tab="Tab 2"].canvas-toolbar-tab.w--current .tab-mode-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  letter-spacing: 0.001em;
+  color: var(--pink-900, #651a39);
+  white-space: nowrap;
+  margin: 0 3px;
+}
+[data-w-tab="Tab 2"].canvas-toolbar-tab.w--current .tab-mode-chevron {
+  display: block;
+  background-color: var(--pink-900, #651a39);
+  width: 12px;
+  height: 12px;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  flex-shrink: 0;
+}
+
+/* Increase max-width for Tab 2 pane (Underlord bar is wider) */
+.canvas-toolbar .w-tab-pane.w--tab-active {
+  max-width: 600px;
+}
+
+/* Fake input in Tab 2: fill available space instead of fixed 400px */
+.canvas-toolbar .fake-input {
+  width: auto;
+  flex: 1;
+  min-width: 240px;
+}
+.canvas-toolbar .fake-placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Expanded header: visual tab chips on the left */
+.toolbar-expanded-header-left {
+  padding-left: 4px;
+}
+.toolbar-expanded-tabs {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background-color: var(--accent-bg-toolbar, rgba(181,82,135,0.5));
+  border-radius: 3px;
+  padding: 1px;
+  flex-shrink: 0;
+}
+.toolbar-expanded-tab-inactive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+.toolbar-expanded-tab-inactive .icon {
+  background-color: var(--pink-100, #f2d9ec);
+}
+.toolbar-expanded-agent-chip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background-color: var(--pink-200, #e5b6d5);
+  border: 1px solid var(--default-border-medium, rgba(63,42,50,0.16));
+  border-radius: 2px;
+  padding: 0 4px 0 5px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.toolbar-expanded-agent-chip .icon {
+  background-color: var(--pink-900, #651a39);
+  flex-shrink: 0;
+}
+.toolbar-expanded-agent-chip .tab-mode-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  color: var(--pink-900, #651a39);
+  white-space: nowrap;
+  margin: 0 3px;
+}
+.toolbar-expanded-agent-chip .tab-mode-chevron {
+  display: block;
+  background-color: var(--pink-900, #651a39);
+  width: 12px;
+  height: 12px;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+}
+
+/* Contenteditable input in expanded toolbar */
+.toolbar-input-editable {
+  flex: 1;
+  padding: 8px;
+  outline: none;
+  font-size: 12px;
+  font-weight: 475;
+  font-family: inherit;
+  line-height: 16px;
+  letter-spacing: 0.001em;
+  color: white;
+  word-break: break-word;
+  overflow-y: auto;
+  caret-color: var(--pink-200, #e5b6d5);
+}
+.toolbar-input-editable:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}

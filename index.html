@@ -337,48 +337,83 @@
                     </a>
                     <a data-w-tab="Tab 2" class="canvas-toolbar-tab w-inline-block w-tab-link">
                       <div class="icon robot"></div>
+                      <span class="tab-mode-label">Edit</span>
+                      <div class="icon chevron-down-s tab-mode-chevron"></div>
                     </a>
                   </div>
                   <div class="tabs-content w-tab-content">
                     <div data-w-tab="Tab 1" class="canvas-toolbar-tab-content w-tab-pane w--tab-active">
                       <div class="tab-content-wrapper">
                         <div class="canvas-toolbar-group">
-                          <a href="#" class="icon-button inset w-inline-block">
-                            <div class="icon magic-media"></div>
+                          <a href="#" class="toolbar-item w-inline-block">
+                            <div class="icon layout"></div>
+                            <span>Layout</span>
+                            <div class="toolbar-tooltip">Layout</div>
                           </a>
                           <a href="#" class="icon-button inset w-inline-block">
+                            <div class="icon color-swatch"></div>
+                            <div class="toolbar-tooltip">Background color</div>
+                          </a>
+                          <a href="#" class="icon-button inset w-inline-block">
+                            <div class="icon transition"></div>
+                            <div class="toolbar-tooltip">Transitions</div>
+                          </a>
+                        </div>
+                        <div class="divider-simple-v inverse"></div>
+                        <div class="canvas-toolbar-group">
+                          <a href="#" class="icon-button inset w-inline-block">
+                            <div class="icon magic-media"></div>
+                            <div class="toolbar-tooltip">Generate media</div>
+                          </a>
+                        </div>
+                        <div class="canvas-toolbar-group">
+                          <a href="#" class="icon-button inset w-inline-block">
                             <div class="icon screenshot"></div>
+                            <div class="toolbar-tooltip">Save frame</div>
                           </a>
                           <a id="toolbar-upload-btn" href="#" class="icon-button inset w-inline-block">
                             <div class="icon upload"></div>
+                            <div class="toolbar-tooltip">Upload</div>
                           </a>
                           <a href="#" class="icon-button inset w-inline-block">
                             <div class="icon magic-search"></div>
+                            <div class="toolbar-tooltip">Quick actions</div>
                           </a>
                         </div>
                         <div class="divider-simple-v inverse"></div>
                         <div class="canvas-toolbar-group">
                           <a id="toggle-properties" href="#" class="icon-button inset w-inline-block">
                             <div class="icon gear"></div>
+                            <div class="toolbar-tooltip">Inspector</div>
                           </a>
                         </div>
-
                       </div>
                     </div>
                     <div data-w-tab="Tab 2" class="canvas-toolbar-tab-content w-tab-pane">
                       <div class="tab-content-wrapper">
-                        <div class="fake-input">
-                          <div class="fake-placeholder">Ask Underlord</div>
+                        <div id="toolbar-fake-input" class="fake-input">
+                          <div class="fake-placeholder">What do you want to change?</div>
                           <a id="toolbar-send-collapsed" href="#" class="icon-button dense w-inline-block">
                             <div class="icon send-fill"></div>
                           </a>
                         </div>
+                        <a href="#" class="icon-button inset w-inline-block">
+                          <div class="icon automation"></div>
+                          <div class="toolbar-tooltip">Skill templates</div>
+                        </a>
+                        <a href="#" class="icon-button inset w-inline-block">
+                          <div class="icon comment-bank"></div>
+                          <div class="toolbar-tooltip">Chat history</div>
+                        </a>
+                        <div class="divider-simple-v inverse"></div>
                         <div class="canvas-toolbar-group dense">
                           <a id="toolbar-expand" href="#" class="icon-button dense w-inline-block">
                             <div class="icon expand"></div>
+                            <div class="toolbar-tooltip">Expand</div>
                           </a>
                           <a href="#" class="icon-button dense w-inline-block">
-                            <div class="icon move-to-sidebar"></div>
+                            <div class="icon right-panel-close"></div>
+                            <div class="toolbar-tooltip">Open in sidebar</div>
                           </a>
                         </div>
                       </div>
@@ -388,26 +423,46 @@
                 <div class="toolbar-expanded-view">
                   <div class="toolbar-expanded-header">
                     <div class="toolbar-expanded-header-left">
-                      <div class="toolbar-expanded-icon">
-                        <div class="icon robot"></div>
+                      <div class="toolbar-expanded-tabs">
+                        <div class="toolbar-expanded-tab-inactive">
+                          <div class="icon direct-editing"></div>
+                        </div>
+                        <div class="toolbar-expanded-agent-chip">
+                          <div class="icon robot"></div>
+                          <span class="tab-mode-label">Edit</span>
+                          <div class="icon chevron-down-s tab-mode-chevron"></div>
+                        </div>
                       </div>
-                      <div class="toolbar-expanded-label">Ask Underlord</div>
                     </div>
                     <div class="toolbar-expanded-header-right">
-                      <a id="toolbar-collapse" href="#" class="icon-button dense w-inline-block">
-                        <div class="icon expand"></div>
+                      <a href="#" class="icon-button dense w-inline-block">
+                        <div class="icon automation"></div>
+                        <div class="toolbar-tooltip">Skill templates</div>
                       </a>
                       <a href="#" class="icon-button dense w-inline-block">
-                        <div class="icon move-to-sidebar collapse-rotate"></div>
+                        <div class="icon comment-bank"></div>
+                        <div class="toolbar-tooltip">Chat history</div>
+                      </a>
+                      <div class="divider-simple-v inverse"></div>
+                      <a id="toolbar-collapse" href="#" class="icon-button dense w-inline-block">
+                        <div class="icon expand"></div>
+                        <div class="toolbar-tooltip">Collapse</div>
+                      </a>
+                      <a href="#" class="icon-button dense w-inline-block">
+                        <div class="icon right-panel-close"></div>
+                        <div class="toolbar-tooltip">Open in sidebar</div>
                       </a>
                     </div>
                   </div>
                   <div class="toolbar-expanded-body">
                     <div class="toolbar-expanded-input">
-                      <div class="toolbar-input-content">
-                        <div class="toolbar-input-cursor"></div>
-                        <div class="toolbar-input-placeholder">How can Underlord help? </div>
-                      </div>
+                      <div class="toolbar-input-editable"
+                           contenteditable="true"
+                           data-placeholder="How can Underlord help?"
+                           role="textbox"
+                           aria-multiline="true"
+                           aria-label="Ask Underlord"
+                           spellcheck="false"></div>
                       <div class="toolbar-input-footer">
                         <div class="toolbar-input-actions">
                           <a href="#" class="toolbar-attachment-btn w-inline-block">
