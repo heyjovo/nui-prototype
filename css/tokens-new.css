@@ -503,18 +503,16 @@
 }
 
 /* Sequential content fade: pane handles width, content-wrapper handles opacity
-   Sequence: old content fades (60ms) → widths swap (200ms) → new content fades in (120ms) */
+   Sequence: old content fades (60ms) → widths swap (200ms) → new content fades in (120ms)
+   overflow:hidden is kept on panes so width clipping works correctly; the floating
+   tooltip (#tooltip-floating) is position:fixed in <body> so it doesn't need visible overflow */
 .canvas-toolbar .w-tab-pane {
-  overflow: visible !important;  /* allow tooltip to escape upward */
-  opacity: 1 !important;         /* pane stays visible; content-wrapper handles fade */
+  opacity: 1 !important;   /* pane stays visible; content-wrapper handles the fade */
   transition: max-width 200ms ease-in-out !important;
 }
 .canvas-toolbar .w-tab-pane.w--tab-active {
   max-width: 600px !important;
   transition: max-width 200ms ease-in-out !important;
-}
-.canvas-toolbar .tabs-content.w-tab-content {
-  overflow: visible !important;  /* let tooltip escape this container too */
 }
 /* Content wrapper fades out fast, fades in after width settles */
 .canvas-toolbar .tab-content-wrapper {
