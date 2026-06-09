@@ -357,6 +357,7 @@
       const isCurrent = pane.dataset.activePanel === key;
 
       if (isOpen && isCurrent) {
+        pane.style.width = '';
         pane.classList.add('is-collapsed');
         pane.dataset.activePanel = '';
         document.querySelectorAll('[data-left-panel]').forEach(el => el.classList.remove('left-panel-active'));
@@ -385,6 +386,7 @@
     document.querySelectorAll('.left-sidebar-close-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
+        pane.style.width = '';
         pane.classList.add('is-collapsed');
         pane.dataset.activePanel = '';
         document.querySelectorAll('[data-left-panel]').forEach(el => el.classList.remove('left-panel-active'));
