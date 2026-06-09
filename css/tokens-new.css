@@ -449,12 +449,15 @@
   flex-shrink: 0;
 }
 
-/* Active tool: always visible, highlighted background, primary color */
+/* Active tool: always visible, primary color */
 .cursor-tool.is-active {
   max-width: 28px;
   opacity: 1;
-  background-color: rgba(88, 63, 74, 0.1);
   color: var(--fg-primary, #26171d);
+}
+/* Background highlight only when expanded */
+.cursor-menu.is-expanded .cursor-tool.is-active {
+  background-color: rgba(88, 63, 74, 0.1);
 }
 
 /* Expanded: all canvas tools appear */
