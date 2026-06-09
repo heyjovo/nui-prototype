@@ -1,6 +1,9 @@
 (() => {
   'use strict';
 
+  // Shared state populated by initToggles, consumed by initTabs and initTooltips
+  const _toolbar = {};
+
   // --- Tab System ---
   function initTabs() {
     document.querySelectorAll('.w-tabs').forEach(tabGroup => {
@@ -8,21 +11,29 @@
       const panes = tabGroup.querySelectorAll('.w-tab-pane');
       const isCanvasToolbar = tabGroup.closest('.canvas-toolbar') !== null;
 
+      function doSwitch(link, i) {
+        links.forEach(l => l.classList.remove('w--current'));
+        panes.forEach(p => p.classList.remove('w--tab-active'));
+        link.classList.add('w--current');
+        if (panes[i]) panes[i].classList.add('w--tab-active');
+      }
+
       links.forEach((link, i) => {
         link.addEventListener('click', e => {
           e.preventDefault();
-          links.forEach(l => l.classList.remove('w--current'));
-          panes.forEach(p => p.classList.remove('w--tab-active'));
-          link.classList.add('w--current');
-          if (panes[i]) panes[i].classList.add('w--tab-active');
 
-          if (isCanvasToolbar && link.getAttribute('data-w-tab') !== 'Tab 2') {
-            const toolbar = tabGroup.closest('.canvas-toolbar');
-            if (toolbar && toolbar.classList.contains('is-expanded')) {
-              toolbar.classList.remove('is-expanded');
-              toolbar.style.width = '';
+          // From expanded toolbar: animate collapse, then optionally switch tabs
+          if (isCanvasToolbar && _toolbar.el?.classList.contains('is-expanded')) {
+            _toolbar.collapse?.();
+            if (link.getAttribute('data-w-tab') !== 'Tab 2') {
+              // Switch to Tab 1 after collapse animation finishes (~300ms)
+              setTimeout(() => doSwitch(link, i), 320);
             }
+            // If clicking Tab 2 chip while expanded, just collapse (already on Tab 2)
+            return;
           }
+
+          doSwitch(link, i);
         });
       });
     });
@@ -289,6 +300,10 @@
       canvasToolbar.addEventListener('transitionend', onDone);
     }
 
+    // Expose collapse + element so initTabs can orchestrate collapse-then-switch
+    _toolbar.el = canvasToolbar;
+    _toolbar.collapse = collapseToolbar;
+
     document.getElementById('toolbar-expand')?.addEventListener('click', e => {
       e.preventDefault();
       expandToolbar();
@@ -305,6 +320,15 @@
     document.getElementById('toolbar-collapse')?.addEventListener('click', e => {
       e.preventDefault();
       collapseToolbar();
+    });
+
+    // "Open in sidebar" buttons — toggle Underlord chat panel
+    document.querySelectorAll('.toolbar-open-sidebar-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        if (canvasToolbar.classList.contains('is-expanded')) collapseToolbar();
+        toggleSidebarPanel('underlord');
+      });
     });
 
     syncConditionalButtons();
@@ -402,6 +426,36 @@
     });
   }
 
+  // --- Floating Tooltips (position:fixed, escapes overflow:hidden ancestors) ---
+  function initTooltips() {
+    const tip = document.createElement('div');
+    tip.id = 'tooltip-floating';
+    document.body.appendChild(tip);
+
+    let current = null;
+
+    document.addEventListener('mouseover', e => {
+      const host = e.target.closest('[data-tooltip]');
+      if (!host || host === current) return;
+      current = host;
+
+      tip.textContent = host.dataset.tooltip;
+      const r = host.getBoundingClientRect();
+      tip.style.left = Math.round(r.left + r.width / 2) + 'px';
+      tip.style.top  = Math.round(r.top - 6) + 'px';
+      tip.classList.add('is-visible');
+    });
+
+    document.addEventListener('mouseout', e => {
+      const host = e.target.closest('[data-tooltip]');
+      if (!host) return;
+      if (!host.contains(e.relatedTarget)) {
+        current = null;
+        tip.classList.remove('is-visible');
+      }
+    });
+  }
+
   // --- Init ---
   function init() {
     initTabs();
@@ -409,6 +463,7 @@
     initToggles();
     initSceneListScroll();
     initLeftSidebar();
+    initTooltips();
   }
 
   if (document.readyState === 'loading') {

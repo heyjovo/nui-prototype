@@ -451,16 +451,9 @@
   background-color: white;
 }
 
-/* Tooltip system for canvas toolbar (appears above buttons) */
-.canvas-toolbar .icon-button,
-.canvas-toolbar .toolbar-item {
-  position: relative;
-}
-.toolbar-tooltip {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
+/* Floating tooltip — portal to body, escapes all overflow:hidden ancestors */
+#tooltip-floating {
+  position: fixed;
   background-color: var(--grey-900, #26171d);
   color: #fff;
   font-size: 11px;
@@ -469,13 +462,13 @@
   padding: 3px 7px;
   border-radius: 2px;
   white-space: nowrap;
-  opacity: 0;
   pointer-events: none;
-  z-index: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-50%, -100%);
   transition: opacity 120ms ease;
 }
-.canvas-toolbar .icon-button:hover .toolbar-tooltip,
-.canvas-toolbar .toolbar-item:hover .toolbar-tooltip {
+#tooltip-floating.is-visible {
   opacity: 1;
 }
 
@@ -509,9 +502,28 @@
   flex-shrink: 0;
 }
 
-/* Increase max-width for Tab 2 pane (Underlord bar is wider) */
+/* Sequential content fade: pane handles width, content-wrapper handles opacity
+   Sequence: old content fades (60ms) → widths swap (200ms) → new content fades in (120ms) */
+.canvas-toolbar .w-tab-pane {
+  overflow: visible !important;  /* allow tooltip to escape upward */
+  opacity: 1 !important;         /* pane stays visible; content-wrapper handles fade */
+  transition: max-width 200ms ease-in-out !important;
+}
 .canvas-toolbar .w-tab-pane.w--tab-active {
-  max-width: 600px;
+  max-width: 600px !important;
+  transition: max-width 200ms ease-in-out !important;
+}
+.canvas-toolbar .tabs-content.w-tab-content {
+  overflow: visible !important;  /* let tooltip escape this container too */
+}
+/* Content wrapper fades out fast, fades in after width settles */
+.canvas-toolbar .tab-content-wrapper {
+  opacity: 0;
+  transition: opacity 60ms linear;
+}
+.canvas-toolbar .w-tab-pane.w--tab-active .tab-content-wrapper {
+  opacity: 1;
+  transition: opacity 120ms linear 180ms;
 }
 
 /* Fake input in Tab 2: fill available space instead of fixed 400px */
