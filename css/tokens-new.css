@@ -259,3 +259,152 @@
 .nav-menu-bottom .icon-button {
   position: relative;
 }
+
+/* ── Script panel fixes ── */
+
+/* Fix scrolling: script-content scrolls within script-wrapper */
+.script-content {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Toolbar in top bar: strip the under-heading padding */
+.script-top-toolbar {
+  padding-left: 4px;
+  padding-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* script-top-bar-right items need position:relative for header tooltips */
+.script-top-bar-right .icon-button {
+  position: relative;
+}
+
+/* New icon classes */
+.icon.arrows-stretch {
+  -webkit-mask-image: url('../images/arrows_stretch.svg');
+  mask-image: url('../images/arrows_stretch.svg');
+}
+.icon.hide-canvas {
+  -webkit-mask-image: url('../images/icon-hide-canvas.svg');
+  mask-image: url('../images/icon-hide-canvas.svg');
+}
+
+/* Active toggle state — pink chip */
+.icon-button.is-active {
+  background-color: var(--chip-bg-active, rgba(185,106,150,0.2));
+  color: var(--chip-fg-active, #651a39);
+}
+.icon-button.is-active:hover {
+  background-color: var(--chip-bg-active, rgba(185,106,150,0.2));
+}
+
+/* Stacked layout: canvas on top, script below */
+.canvas-stage.is-stacked {
+  flex-direction: column;
+}
+.canvas-stage.is-stacked .script-wrapper {
+  order: 2;         /* script below canvas */
+  width: 100% !important;
+  min-width: 0;
+  max-width: none;
+  height: 45%;
+  flex: 0 0 45%;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 1px 0 0 var(--border-soft);
+}
+.canvas-stage.is-stacked .canvas {
+  order: 1;         /* canvas on top */
+  flex: 1;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Collapse in stacked mode: collapse height, not width */
+.canvas-stage.is-stacked .script-wrapper.is-collapsed {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 0 !important;
+  flex: 0 0 0 !important;
+  overflow: hidden;
+}
+
+/* Disable transitions during orientation switch */
+.canvas-stage.no-transition .script-wrapper,
+.canvas-stage.no-transition .canvas {
+  transition: none !important;
+}
+
+/* Canvas hidden: script fills all available space regardless of stacked state */
+.canvas-stage.is-canvas-hidden .canvas {
+  display: none;
+}
+.canvas-stage.is-canvas-hidden .script-wrapper {
+  width: 100% !important;
+  max-width: none;
+  height: 100% !important;
+  flex: 1 !important;
+  border-radius: 12px;
+}
+
+/* Script scroll area: h1 + content scroll together, top bar stays fixed */
+.script-scroll-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+/* Reset overflow on script-content — parent scroll area handles it now */
+.script-content {
+  overflow-y: visible;
+  min-height: unset;
+}
+
+/* Push right buttons to far corner */
+.script-top-bar-right {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.icon.mat-page-menu-ios {
+  -webkit-mask-image: url('../images/mat--page_menu_ios.svg');
+  mask-image: url('../images/mat--page_menu_ios.svg');
+}
+
+/* ── Left sidebar panel ── */
+.left-sidebar-pane {
+  flex: none;
+  align-self: stretch;
+  width: 280px;
+  padding: 0 0 8px 12px;
+  display: flex;
+  overflow: visible;
+  position: relative;
+  transition: width var(--panel-slide-duration, 250ms) var(--panel-slide-easing, ease),
+              padding var(--panel-slide-duration, 250ms) var(--panel-slide-easing, ease);
+}
+.left-sidebar-pane.is-collapsed {
+  width: 0;
+  padding: 0;
+}
+.left-sidebar-pane.is-collapsed > * {
+  opacity: 0;
+  pointer-events: none;
+}
+.left-sidebar-pane.is-dragging {
+  transition: width var(--panel-drag-duration, 80ms) var(--panel-drag-easing, ease),
+              padding var(--panel-drag-duration, 80ms) var(--panel-drag-easing, ease);
+}
+
+/* Active nav item — pink chip, same as toolbar toggles */
+.nav-menu-tab-item.left-panel-active {
+  background-color: rgba(185,106,150,0.2) !important;
+  color: #651a39 !important;
+}
+
+/* Left sidebar: clip content in the child so the resize handle can extend outside */
+.left-sidebar-pane .sidebar-content { overflow: hidden; }
+
+/* Shift left-sidebar resize handle 8px to the right of the panel edge */
+.left-sidebar-pane .resize-handle--horizontal[data-edge="right"] {
+  right: -10px;
+}

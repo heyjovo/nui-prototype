@@ -26,23 +26,23 @@
     </div>
     <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="nav-menu-tabs w-tabs">
       <div class="nav-menu-tab-items w-tab-menu">
-        <a data-w-tab="Tab 1" class="nav-menu-tab-item w-inline-block w-tab-link w--current">
+        <a data-w-tab="Tab 1" data-left-panel="project" class="nav-menu-tab-item w-inline-block w-tab-link w--current">
           <div class="nav-menu-tab-label">Project</div>
           <div class="icon mat-subscriptions"></div>
         </a>
-        <a data-w-tab="Tab 2" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 2" data-left-panel="media" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Media</div>
           <div class="icon mat-newsstand"></div>
         </a>
-        <a data-w-tab="Tab 3" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 3" data-left-panel="stock" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Stock</div>
           <div class="icon new-stock"></div>
         </a>
-        <a data-w-tab="Tab 4" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 4" data-left-panel="elements" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Elements</div>
           <div class="icon insert-element"></div>
         </a>
-        <a data-w-tab="Tab 5" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 5" data-left-panel="brand-kit" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Brand kit</div>
           <div class="icon format-paint"></div>
         </a>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="nav-menu-bottom">
-      <a href="#" class="nav-menu-tab-item w-inline-block">
+      <a href="#" data-left-panel="activity" class="nav-menu-tab-item w-inline-block">
         <div class="nav-menu-tab-label">Activity</div>
         <div class="icon lightning"></div>
       </a>
@@ -118,52 +118,72 @@
       </div>
     </div>
     <div class="editor-main">
+    <div class="left-sidebar-pane is-collapsed" data-active-panel="">
+      <div class="sidebar-content">
+
+        <div class="sidebar-panel" data-panel="project">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Project</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-panel" data-panel="media" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Media</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-panel" data-panel="stock" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Stock</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-panel" data-panel="elements" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Elements</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-panel" data-panel="brand-kit" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Brand kit</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-panel" data-panel="activity" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Activity</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
       <div class="editor-panes">
         <div class="script-canvas-wrapper">
           <div class="canvas-stage">
             <div class="script-wrapper is-collapsed">
               <div class="script-top-bar">
-                <div class="script-tabs">
-                  <a href="#" class="script-tab active w-inline-block" data-label="Edit">
-                    <div class="icon scissors"></div>
-                    <div class="select-label">
-                      <div class="script-tab-label">Edit</div>
-                    </div>
-                  </a>
-                  <a href="#" class="script-tab w-inline-block" data-label="Correct">
-                    <div class="icon pencil-underline"></div>
-                    <div class="select-label">
-                      <div class="script-tab-label">Correct</div>
-                    </div>
-                  </a>
-                  <a href="#" class="script-tab w-inline-block" data-label="AI speech">
-                    <div class="icon text-to-speech"></div>
-                    <div class="select-label">
-                      <div class="script-tab-label">AI speech</div>
-                    </div>
-                  </a>
-                  <a href="#" class="script-tab w-inline-block" data-label="Captions">
-                    <div class="icon text-box"></div>
-                    <div class="select-label">
-                      <div class="script-tab-label">Captions</div>
-                    </div>
-                  </a>
-                </div>
-                <div class="script-top-bar-right">
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon page-menu"></div>
-                  </a>
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon more-vertical"></div>
-                  </a>
-                  <a id="toggle-script-closed" href="#" class="icon-button inset w-inline-block">
-                    <div class="icon collapse-diagonal"></div>
-                  </a>
-                </div>
-              </div>
-              <h1 class="heading">AI for Product Marketing</h1>
-              <div class="script-toolbar">
-                <div class="script-toolbar-items">
+                <div class="script-toolbar-items script-top-toolbar">
                   <a href="#" class="slim-select w-inline-block">
                     <div class="icon search"></div>
                     <div class="select-label">
@@ -199,7 +219,23 @@
                     <div class="icon more-horizontal"></div>
                   </a>
                 </div>
+                <div class="script-top-bar-right">
+                  <a id="toggle-script-stacked" href="#" class="icon-button inset w-inline-block">
+                    <div class="icon mat-page-menu-ios"></div>
+                    <div class="header-tooltip">Stack under video</div>
+                  </a>
+                  <a id="toggle-canvas-hidden" href="#" class="icon-button inset w-inline-block">
+                    <div class="icon hide-canvas"></div>
+                    <div class="header-tooltip">Hide Canvas</div>
+                  </a>
+                  <a id="toggle-script-closed" href="#" class="icon-button inset w-inline-block">
+                    <div class="icon collapse-diagonal"></div>
+                    <div class="header-tooltip">Collapse</div>
+                  </a>
+                </div>
               </div>
+              <div class="script-scroll-area">
+              <h1 class="heading">AI for Product Marketing</h1>
               <div class="script-content w-embed">
                 <h3>
                   <div class="script-chapter current"><img src="images/scene-01.jpg"></div>Introduction
@@ -243,6 +279,7 @@
                 <p>Okay, let me bring it together. Um, AI isn't replacing product marketers. <img src="images/scene-08.jpg" class="small-scene"> What it's doing is eliminating the slow, grind-y parts of the job so you can spend more time on things that actually require judgment. Building relationships with customers, making strategic bets, crafting a point of view that's genuinely differentiated.</p>
                 <p>The marketers I see struggling are spending forty hours on things that could take fifteen. <img src="images/scene-08.jpg" class="small-scene"> The ones thriving have learned to collaborate with these tools. So if you're not already experimenting, start small. Pick one workflow. Try it. You might be surprised.</p>
                 <p>Alright, that's it from me. Thanks for watching, and, uh, I'll see you in the next one.</p>
+              </div>
               </div>
             </div>
             <div class="canvas">

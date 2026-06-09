@@ -131,9 +131,48 @@
       syncConditionalButtons();
     }
 
+    // --- Script layout toggles (stack / hide canvas) ---
+    const canvasStage = document.querySelector('.canvas-stage');
+    const toggleStack = document.getElementById('toggle-script-stacked');
+    const toggleHideCanvas = document.getElementById('toggle-canvas-hidden');
+
+    function withNoTransition(fn) {
+      if (!canvasStage) return fn();
+      canvasStage.classList.add('no-transition');
+      fn();
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        canvasStage.classList.remove('no-transition');
+      }));
+    }
+
+    if (toggleStack) {
+      toggleStack.addEventListener('click', e => {
+        e.preventDefault();
+        withNoTransition(() => {
+          const active = canvasStage.classList.toggle('is-stacked');
+          toggleStack.classList.toggle('is-active', active);
+        });
+      });
+    }
+
+    if (toggleHideCanvas) {
+      toggleHideCanvas.addEventListener('click', e => {
+        e.preventDefault();
+        const hiding = !canvasStage.classList.contains('is-canvas-hidden');
+        // Stack + Hide coexist; just toggle canvas visibility
+        canvasStage.classList.toggle('is-canvas-hidden', hiding);
+        toggleHideCanvas.classList.toggle('is-active', hiding);
+      });
+    }
+
     document.getElementById('toggle-script-closed')?.addEventListener('click', e => {
       e.preventDefault();
-      togglePanel(scriptWrapper);
+      // If canvas is hidden, restore it before collapsing
+      if (canvasStage && canvasStage.classList.contains('is-canvas-hidden')) {
+        canvasStage.classList.remove('is-canvas-hidden');
+        if (toggleHideCanvas) toggleHideCanvas.classList.remove('is-active');
+      }
+      withNoTransition(() => togglePanel(scriptWrapper));
     });
 
     document.getElementById('toggle-script-open')?.addEventListener('click', e => {
@@ -202,14 +241,24 @@
       });
     });
 
+    function toggleSidebarPanel(panelKey) {
+      const isOpen = sidebarPane && !sidebarPane.classList.contains('is-collapsed');
+      const isCurrentPanel = sidebarPane?.dataset.activePanel === panelKey;
+      if (isOpen && isCurrentPanel) {
+        togglePanel(sidebarPane);
+      } else {
+        openSidebarPanel(panelKey);
+      }
+    }
+
     document.getElementById('toggle-properties')?.addEventListener('click', e => {
       e.preventDefault();
-      openSidebarPanel('inspector');
+      toggleSidebarPanel('inspector');
     });
 
     document.getElementById('open-export-panel')?.addEventListener('click', e => {
       e.preventDefault();
-      openSidebarPanel('export');
+      toggleSidebarPanel('export');
     });
 
     document.getElementById('toggle-toolbar-collapsed')?.addEventListener('click', e => {
@@ -298,12 +347,58 @@
     updateArrows();
   }
 
+  // --- Left Sidebar Panels ---
+  function initLeftSidebar() {
+    const pane = document.querySelector('.left-sidebar-pane');
+    if (!pane) return;
+
+    function openLeftPanel(key) {
+      const isOpen = !pane.classList.contains('is-collapsed');
+      const isCurrent = pane.dataset.activePanel === key;
+
+      if (isOpen && isCurrent) {
+        pane.classList.add('is-collapsed');
+        pane.dataset.activePanel = '';
+        document.querySelectorAll('[data-left-panel]').forEach(el => el.classList.remove('left-panel-active'));
+        return;
+      }
+
+      pane.dataset.activePanel = key;
+      pane.querySelectorAll('.sidebar-panel').forEach(p => {
+        p.style.display = p.dataset.panel === key ? '' : 'none';
+      });
+      pane.classList.remove('is-collapsed');
+
+      document.querySelectorAll('[data-left-panel]').forEach(el => {
+        el.classList.toggle('left-panel-active', el.dataset.leftPanel === key);
+      });
+    }
+
+    document.querySelectorAll('[data-left-panel]').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openLeftPanel(item.dataset.leftPanel);
+      });
+    });
+
+    document.querySelectorAll('.left-sidebar-close-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        pane.classList.add('is-collapsed');
+        pane.dataset.activePanel = '';
+        document.querySelectorAll('[data-left-panel]').forEach(el => el.classList.remove('left-panel-active'));
+      });
+    });
+  }
+
   // --- Init ---
   function init() {
     initTabs();
     initSliders();
     initToggles();
     initSceneListScroll();
+    initLeftSidebar();
   }
 
   if (document.readyState === 'loading') {

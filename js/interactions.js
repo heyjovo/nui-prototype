@@ -28,6 +28,17 @@
       });
     }
 
+    const leftSidebarPane = document.querySelector('.left-sidebar-pane');
+    if (leftSidebarPane) {
+      createResizeHandle(leftSidebarPane, 'horizontal', {
+        edge: 'right',
+        min: 0,
+        snapMin: 200,
+        max: 500,
+        property: 'width'
+      });
+    }
+
     if (playbackTimelineWrapper) {
       initTimelineResize(playbackTimelineWrapper);
     }
