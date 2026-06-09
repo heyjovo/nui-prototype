@@ -309,17 +309,22 @@
       expandToolbar();
     });
 
-    // Clicking the collapsed fake-input also expands the toolbar
-    document.getElementById('toolbar-fake-input')?.addEventListener('click', e => {
-      if (!canvasToolbar.classList.contains('is-expanded')) {
-        e.preventDefault();
-        expandToolbar();
-      }
-    });
-
     document.getElementById('toolbar-collapse')?.addEventListener('click', e => {
       e.preventDefault();
       collapseToolbar();
+    });
+
+    // Clicking the inactive direct-editing chip in the expanded header collapses
+    // and switches back to Tab 1
+    document.querySelector('.toolbar-expanded-tab-inactive')?.addEventListener('click', e => {
+      e.preventDefault();
+      collapseToolbar();
+      setTimeout(() => {
+        document.querySelectorAll('.canvas-toolbar-tab').forEach((t, idx) =>
+          t.classList.toggle('w--current', idx === 0));
+        document.querySelectorAll('.canvas-toolbar .w-tab-pane').forEach((p, idx) =>
+          p.classList.toggle('w--tab-active', idx === 0));
+      }, 320);
     });
 
     // "Open in sidebar" buttons — toggle Underlord chat panel

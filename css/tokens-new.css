@@ -516,11 +516,26 @@
   width: auto;
   flex: 1;
   min-width: 240px;
+  cursor: text;
 }
-.canvas-toolbar .fake-placeholder {
+
+/* Inline editable input inside the collapsed Underlord bar */
+.toolbar-input-inline {
+  flex: 1;
+  outline: none;
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  color: white;
+  caret-color: var(--pink-200, #e5b6d5);
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 0;
+}
+.toolbar-input-inline:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
 }
 
 /* Expanded header: visual tab chips on the left */
