@@ -502,17 +502,13 @@
   flex-shrink: 0;
 }
 
-/* Sequential tab fade: outgoing content disappears fast (70ms), then width reshapes
-   (200ms), then incoming content fades in (120ms, delayed until width is done).
-   Uses pane opacity directly — no content-wrapper trick — so layout stays correct. */
+/* Toolbar tab switch: width snaps instantly, content fades in/out only */
 .canvas-toolbar .w-tab-pane {
-  /* outgoing: fade out in 70ms (before width starts visibly moving), then width shrinks */
-  transition: max-width 200ms ease-in-out, opacity 70ms linear !important;
+  transition: opacity 80ms linear !important;
 }
 .canvas-toolbar .w-tab-pane.w--tab-active {
   max-width: 600px !important;
-  /* incoming: width grows first (200ms), then fade in (120ms) */
-  transition: max-width 200ms ease-in-out, opacity 120ms linear 180ms !important;
+  transition: opacity 120ms linear 60ms !important;
 }
 
 /* Fake input in Tab 2: fill available space instead of fixed 400px */
