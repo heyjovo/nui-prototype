@@ -410,6 +410,98 @@
 }
 
 /* ─────────────────────────────────────────────
+   CURSOR MENU
+   ───────────────────────────────────────────── */
+
+.icon.chevron-right-s {
+  -webkit-mask-image: url('../images/chevron-right-S.svg');
+  mask-image: url('../images/chevron-right-S.svg');
+}
+
+.cursor-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background-color: rgba(88, 63, 74, 0.08);
+  border: 1px solid rgba(88, 63, 74, 0.05);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* Each tool button: 28px square with 6px padding around the 16px icon */
+.cursor-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--fg-secondary, rgba(22, 5, 12, 0.6));
+  /* Hidden in collapsed state */
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 150ms ease, opacity 100ms linear;
+}
+.cursor-tool .icon {
+  flex-shrink: 0;
+}
+
+/* Active tool: always visible, highlighted background, primary color */
+.cursor-tool.is-active {
+  max-width: 28px;
+  opacity: 1;
+  background-color: rgba(88, 63, 74, 0.1);
+  color: var(--fg-primary, #26171d);
+}
+
+/* Expanded: all canvas tools appear */
+.cursor-menu.is-expanded .cursor-tool {
+  max-width: 28px;
+  opacity: 1;
+  transition: max-width 150ms ease, opacity 100ms linear 50ms;
+}
+
+/* Timeline tools: hidden unless expanded AND timeline is open */
+.cursor-tool--timeline {
+  max-width: 0 !important;
+  opacity: 0 !important;
+}
+.cursor-menu.is-expanded.has-timeline .cursor-tool--timeline {
+  max-width: 28px !important;
+  opacity: 1 !important;
+}
+
+/* Toggle button (chevron) */
+.cursor-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 28px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--fg-secondary, rgba(22, 5, 12, 0.6));
+}
+.cursor-menu-toggle .icon {
+  background-color: currentColor;
+}
+.cursor-menu-chevron-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 150ms ease;
+}
+.cursor-menu.is-expanded .cursor-menu-chevron-wrap {
+  transform: rotate(180deg);
+}
+
+/* ─────────────────────────────────────────────
    CANVAS TOOLBAR — ICONS, STATES, TOOLTIPS
    ───────────────────────────────────────────── */
 

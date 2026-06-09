@@ -488,13 +488,30 @@
                 </a>
               </div>
               <div class="canvas-buttons-bottom-left">
-                <div class="toolbar-section inset">
-                  <a href="#" class="slim-select inset w-inline-block">
+                <div id="cursor-menu" class="cursor-menu">
+                  <a href="#" class="cursor-tool is-active" data-tooltip="Select">
                     <div class="icon pointer"></div>
-                    <div class="select-label">
-                      <div class="icon chevron right"></div>
-                    </div>
                   </a>
+                  <a href="#" class="cursor-tool" data-tooltip="Hand">
+                    <div class="icon hand"></div>
+                  </a>
+                  <a href="#" class="cursor-tool" data-tooltip="Comment">
+                    <div class="icon add-comment"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--timeline" data-tooltip="Blade">
+                    <div class="icon blade"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--timeline" data-tooltip="Range">
+                    <div class="icon range"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--timeline" data-tooltip="Slip">
+                    <div class="icon slip"></div>
+                  </a>
+                  <button class="cursor-menu-toggle" aria-label="Toggle cursor tools">
+                    <div class="cursor-menu-chevron-wrap">
+                      <div class="icon chevron-right-s"></div>
+                    </div>
+                  </button>
                 </div>
               </div>
               <div class="canvas-buttons-right">

@@ -431,6 +431,49 @@
     });
   }
 
+  // --- Cursor Menu ---
+  function initCursorMenu() {
+    const menu = document.getElementById('cursor-menu');
+    if (!menu) return;
+
+    const toggle = menu.querySelector('.cursor-menu-toggle');
+    const timelineWrapper = document.querySelector('.timeline-wrapper');
+
+    function isTimelineOpen() {
+      return timelineWrapper && !timelineWrapper.classList.contains('is-hidden');
+    }
+
+    function open() {
+      menu.classList.toggle('has-timeline', isTimelineOpen());
+      menu.classList.add('is-expanded');
+    }
+
+    function close() {
+      menu.classList.remove('is-expanded');
+    }
+
+    toggle?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      menu.classList.contains('is-expanded') ? close() : open();
+    });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (menu.classList.contains('is-expanded') && !menu.contains(e.target)) {
+        close();
+      }
+    });
+
+    // Sync timeline tools if timeline is toggled while menu is open
+    document.getElementById('toggle-timeline')?.addEventListener('click', () => {
+      if (menu.classList.contains('is-expanded')) {
+        // Timeline state flips after this click; check on next tick
+        setTimeout(() => menu.classList.toggle('has-timeline', isTimelineOpen()), 0);
+      }
+    });
+  }
+
   // --- Floating Tooltips (position:fixed, escapes overflow:hidden ancestors) ---
   function initTooltips() {
     const tip = document.createElement('div');
@@ -468,6 +511,7 @@
     initToggles();
     initSceneListScroll();
     initLeftSidebar();
+    initCursorMenu();
     initTooltips();
   }
 
