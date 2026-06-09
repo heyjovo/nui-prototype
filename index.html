@@ -28,31 +28,27 @@
       <div class="nav-menu-tab-items w-tab-menu">
         <a data-w-tab="Tab 1" class="nav-menu-tab-item w-inline-block w-tab-link w--current">
           <div class="nav-menu-tab-label">Project</div>
-          <div class="icon project"></div>
+          <div class="icon mat-subscriptions"></div>
         </a>
         <a data-w-tab="Tab 2" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">Styles</div>
-          <div class="icon styles"></div>
+          <div class="nav-menu-tab-label">Media</div>
+          <div class="icon mat-newsstand"></div>
         </a>
         <a data-w-tab="Tab 3" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">Elements</div>
-          <div class="icon elements"></div>
+          <div class="nav-menu-tab-label">Stock</div>
+          <div class="icon new-stock"></div>
         </a>
         <a data-w-tab="Tab 4" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">Brand</div>
-          <div class="icon brand"></div>
+          <div class="nav-menu-tab-label">Elements</div>
+          <div class="icon insert-element"></div>
         </a>
         <a data-w-tab="Tab 5" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">Media</div>
-          <div class="icon media"></div>
+          <div class="nav-menu-tab-label">Brand kit</div>
+          <div class="icon format-paint"></div>
         </a>
         <a data-w-tab="Tab 6" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">AI Tools</div>
-          <div class="icon magic"></div>
-        </a>
-        <a data-w-tab="Tab 7" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Record</div>
-          <div class="icon record"></div>
+          <div class="icon record-circle"></div>
         </a>
       </div>
       <div class="w-tab-content">
@@ -62,16 +58,20 @@
         <div data-w-tab="Tab 4" class="w-tab-pane"></div>
         <div data-w-tab="Tab 5" class="w-tab-pane"></div>
         <div data-w-tab="Tab 6" class="w-tab-pane"></div>
-        <div data-w-tab="Tab 7" class="w-tab-pane"></div>
       </div>
     </div>
     <div class="nav-menu-bottom">
-      <div class="account-settings-wrapper"><img src="images/account-settings-avatar.png" loading="lazy" alt="" height="Auto" class="account-settings-avatar"></div>
-      <a href="#" class="icon-button w-inline-block">
-        <div class="icon help"></div>
+      <a href="#" class="nav-menu-tab-item w-inline-block">
+        <div class="nav-menu-tab-label">Activity</div>
+        <div class="icon lightning"></div>
       </a>
+      <div class="account-settings-wrapper">
+        <img src="images/account-settings-avatar.png" loading="lazy" alt="" height="Auto" class="account-settings-avatar">
+        <div class="nav-menu-tab-label">Account</div>
+      </div>
       <a href="#" class="icon-button w-inline-block">
-        <div class="icon left-panel-open"></div>
+        <div class="icon help-circle-stroke"></div>
+        <div class="nav-menu-tab-label">Help</div>
       </a>
     </div>
   </div>
@@ -82,14 +82,17 @@
           <div class="drive-icon">
             <div class="icon group"></div>
           </div>
-          <div class="button-label">Project name</div>
+          <div class="button-label">AI for Product Marketing</div>
+          <div class="header-tooltip">Project Menu</div>
         </a>
         <div class="dotted-line"></div>
         <a href="#" class="project-button w-inline-block">
-          <div class="button-label">Composition name</div>
+          <div class="button-label">AI for Product Marketing</div>
+          <div class="header-tooltip">Composition Menu</div>
         </a>
         <a href="#" class="icon-button inset w-inline-block">
           <div class="icon video-file"></div>
+          <div class="header-tooltip">Change to audio only</div>
         </a>
         <a href="#" class="slim-select w-inline-block">
           <div class="icon aspect-ratio"></div>
@@ -97,34 +100,28 @@
             <div class="button-label">16:9</div>
             <div class="icon chevron"></div>
           </div>
+          <div class="header-tooltip">Aspect ratio</div>
         </a>
         <div class="dotted-line"></div>
         <a href="#" class="icon-button inset w-inline-block">
           <div class="icon action-key"></div>
+          <div class="header-tooltip">App menu</div>
         </a>
       </div>
       <div class="project-header-right"><img src="images/Avatar-Group.svg" loading="lazy" alt="" class="avatar-group">
-        <a href="#" class="button primary w-inline-block">
+        <a id="open-export-panel" href="#" class="button inverse w-inline-block">
           <div class="text-block">Export</div>
         </a>
-        <div class="icon-button-group">
-          <a href="#" class="icon-button w-inline-block">
-            <div class="icon mat-tooltip"></div>
-          </a>
-          <a href="#" class="icon-button w-inline-block">
-            <div class="icon lightning"></div>
-          </a>
-          <a href="#" class="icon-button w-inline-block">
-            <div class="icon mat-cloud"></div>
-          </a>
-        </div>
+        <a href="#" class="icon-button w-inline-block">
+          <div class="icon mat-cloud"></div>
+        </a>
       </div>
     </div>
     <div class="editor-main">
       <div class="editor-panes">
         <div class="script-canvas-wrapper">
           <div class="canvas-stage">
-            <div class="script-wrapper">
+            <div class="script-wrapper is-collapsed">
               <div class="script-top-bar">
                 <div class="script-tabs">
                   <a href="#" class="script-tab active w-inline-block" data-label="Edit">
@@ -164,7 +161,7 @@
                   </a>
                 </div>
               </div>
-              <h1 class="heading">Composition name</h1>
+              <h1 class="heading">AI for Product Marketing</h1>
               <div class="script-toolbar">
                 <div class="script-toolbar-items">
                   <a href="#" class="slim-select w-inline-block">
@@ -205,26 +202,47 @@
               </div>
               <div class="script-content w-embed">
                 <h3>
-                  <div class="script-chapter current"><img src="images/video-thumb-0003.jpg"></div>Introduction
+                  <div class="script-chapter current"><img src="images/scene-01.jpg"></div>Introduction
                 </h3>
-                <p>How do we keep creative control in the age of AI <img src="images/video-thumb-0003.jpg" class="small-scene"> while still using it to augment our skills, spend less time on the boring stuff and make work we're proud of?</p>
-                <p>Here are <img src="images/video-thumb-0003.jpg" class="small-scene"> three elements of creative control to keep in mind when using AI.</p>
+                <p>Um, hey everyone. Welcome. Uh, thanks for joining me today. My name is Jordan, and I'm a product marketer at a fast-moving tech company. <img src="images/scene-01.jpg" class="small-scene"> And today I want to talk about something that has genuinely changed the way I work over the past year. Using AI to become a more effective tech product marketer.</p>
+                <p>I use it every single day now, <img src="images/scene-01.jpg" class="small-scene"> and I honestly don't know how I'd keep up without it. Let's get into it.</p>
                 <h3>
-                  <div class="script-chapter"><img src="images/video-thumb-0003.jpg"></div>Overview
+                  <div class="script-chapter"><img src="images/scene-02.jpg"></div>1. Competitive Research
                 </h3>
-                <p>The most important thing you can bring to your creative projects is an idea. AI is really bad at coming up with new ideas. It's where your human creativity will have the most impact. <img src="images/video-thumb-0003.jpg" class="small-scene"> So don't just jump into the chat box,think about what you wanna make and why.</p>
-                <p>If your vision is a little fuzzy, you use AI as a sounding board for ideas, not a source for them. <img src="images/video-thumb-0003.jpg" class="small-scene"> Research shows that when you start with an idea from AI, your creative thinking doesn't expand much further than that. <img src="images/video-thumb-0003.jpg" class="small-scene"> The more decisions you stay in the driver's seat for, the more ownership you'll feel over the final product.</p>
+                <p>The first area where AI has made a massive difference is competitive research. As a product marketer, you're expected to know your competitive landscape cold. <img src="images/scene-02.jpg" class="small-scene"> And, uh, that used to take hours every week. Reading blog posts, scanning press releases, digging through G2 reviews.</p>
+                <p>Now I paste in a competitor's website copy or their latest press release, ask AI to summarize their positioning, flag their weaknesses, and identify target personas. <img src="images/scene-02.jpg" class="small-scene"> What used to take three or four hours I can now do in under an hour.</p>
                 <h3>
-                  <div class="script-chapter"><img src="images/video-thumb-0003.jpg"></div>Slop
+                  <div class="script-chapter"><img src="images/scene-03.jpg"></div>2. Customer &amp; Persona Research
                 </h3>
-                <p>Slop is just what happens when you let <img src="images/video-thumb-0003.jpg" class="small-scene"> AI take the wheel.</p>
-                <p>Writing a good prompt is one way to provide direction, but it doesn't stop there. <img src="images/video-thumb-0003.jpg" class="small-scene"> Providing the context for your vision and prompts will get you even better outputs.</p>
-                <p>Help your AI assistant see the big picture, but have it start small.</p>
-                <p>
-                </p><p>If you're working with an agent, whether you're building in Lovable, workshopping a script with Claude, or using Descript’s own Underlord, try having it make a plan before executing anything or experiment with having the agent do smaller tasks with more direction.It's easier for you to review and iterate on, and it makes it less likely the agent will go rogue.</p>
-                <p>Breaking up your use of AI with review, iteration and good old fashioned manual work can help you stay engaged with the process. You can only look at an agent telling you its thinking for so long before your mind starts to wander away from your creation. Staying involved builds that sense of creative ownership. 
-                  That doesn't mean doing everything yourself.</p>
-                <p>It means being selective about what you offload to AI.AI can be a collaborator, production assistant or raw material. It can't be  creative for you. That's where you as a human creator shine.</p>
+                <p>The second area is customer and persona research. Um, one of the hardest things in product marketing is deeply understanding your buyer. <img src="images/scene-03.jpg" class="small-scene"> What language do they use? What keeps them up at night? What does success look like in their role?</p>
+                <p>I take transcripts from customer interviews, sales calls, and support tickets, and I feed them to AI to extract recurring themes and pull out exact phrases customers use. <img src="images/scene-03.jpg" class="small-scene"> That last part is huge for copywriting. When your messaging uses your customer's own words, everything lands better.</p>
+                <p>I've also started using AI to stress-test personas. I describe a persona and ask the AI what objections they'd raise, what would make them skeptical, what they'd need before taking a meeting. <img src="images/scene-03.jpg" class="small-scene"> It's like having a sparring partner who's read every B2B buyer study ever written.</p>
+                <h3>
+                  <div class="script-chapter"><img src="images/scene-04.jpg"></div>3. Messaging &amp; Positioning
+                </h3>
+                <p>Okay, third area: messaging and positioning. AI is a fantastic thought partner here, but the key is bringing real context. <img src="images/scene-04.jpg" class="small-scene"> I don't just say write me a tagline. That produces generic garbage. Instead, I give it the product, the persona, the competition, the key differentiators, and ask for five or six positioning angles targeting different emotional drivers.</p>
+                <p>Reacting to a set of options is faster than creating from scratch, <img src="images/scene-04.jpg" class="small-scene"> and I end up with sharper positioning in a fraction of the time. The AI acts like a well-read editor throughout the whole messaging process.</p>
+                <h3>
+                  <div class="script-chapter"><img src="images/scene-05.jpg"></div>4. Launch Planning &amp; GTM
+                </h3>
+                <p>Fourth area: launch planning and go-to-market strategy. I use AI to pressure-test GTM plans. <img src="images/scene-05.jpg" class="small-scene"> Right channels, sequencing, key risks, success metrics. Um, it doesn't replace strategic thinking, but it surfaces blind spots and asks clarifying questions in ways that push me to think more rigorously.</p>
+                <p>Launch calendars, stakeholder briefing docs, creative briefs. <img src="images/scene-05.jpg" class="small-scene"> AI takes a lot of that scaffolding off my plate.</p>
+                <h3>
+                  <div class="script-chapter"><img src="images/scene-06.jpg"></div>5. Content Creation &amp; Enablement
+                </h3>
+                <p>Fifth area: content creation and sales enablement. Blog posts, battlecards, email sequences, LinkedIn content. <img src="images/scene-06.jpg" class="small-scene"> AI helps with all of it. But the best results come when I bring real substance and use AI to shape it, not when I ask it to write from scratch.</p>
+                <p>My workflow is: I do the thinking first. I jot down the key points, the stories, the data. <img src="images/scene-06.jpg" class="small-scene"> Then I use AI to structure it, smooth the prose, and repurpose it for different formats. A long-form post becomes a LinkedIn thread becomes a sales email. That repurposing is where AI saves me the most time.</p>
+                <p>Ah, and sales enablement specifically. Writing battlecards is tedious. <img src="images/scene-06.jpg" class="small-scene"> Feed AI your product strengths, competitor weaknesses, and win-loss patterns, and you've got a solid first draft in minutes.</p>
+                <h3>
+                  <div class="script-chapter"><img src="images/scene-07.jpg"></div>6. Analytics &amp; Performance
+                </h3>
+                <p>Sixth, and final area: analytics and performance. I'm not a data analyst. I can pull numbers, but I don't always know what story they're telling. <img src="images/scene-07.jpg" class="small-scene"> I paste campaign performance data into AI and ask: what patterns do you see here? What explains this drop in conversion? What would you test to improve it? It consistently surfaces hypotheses I wouldn't have found on my own.</p>
+                <h3>
+                  <div class="script-chapter"><img src="images/scene-08.jpg"></div>Wrap-Up
+                </h3>
+                <p>Okay, let me bring it together. Um, AI isn't replacing product marketers. <img src="images/scene-08.jpg" class="small-scene"> What it's doing is eliminating the slow, grind-y parts of the job so you can spend more time on things that actually require judgment. Building relationships with customers, making strategic bets, crafting a point of view that's genuinely differentiated.</p>
+                <p>The marketers I see struggling are spending forty hours on things that could take fifteen. <img src="images/scene-08.jpg" class="small-scene"> The ones thriving have learned to collaborate with these tools. So if you're not already experimenting, start small. Pick one workflow. Try it. You might be surprised.</p>
+                <p>Alright, that's it from me. Thanks for watching, and, uh, I'll see you in the next one.</p>
               </div>
             </div>
             <div class="canvas">
@@ -235,46 +253,28 @@
                   </a>
                   <div class="scene-list-viewport">
                     <a data-w-tab="Tab 1" class="canvas-scene-thumbnail w-inline-block w-tab-link w--current">
-                      <div class="canvas-scene-thumbnail-label">Scene 1</div><img src="images/video-thumb-0003.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0003-p-500.jpg 500w, images/video-thumb-0003-p-800.jpg 800w, images/video-thumb-0003-p-1080.jpg 1080w, images/video-thumb-0003-p-1600.jpg 1600w, images/video-thumb-0003.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">Introduction</div><img src="images/scene-01.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-01-p-500.jpg 500w, images/scene-01-p-800.jpg 800w, images/scene-01-p-1080.jpg 1080w, images/scene-01.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 2" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Scene 2</div><img src="images/video-thumb-0487.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0487-p-500.jpg 500w, images/video-thumb-0487-p-800.jpg 800w, images/video-thumb-0487-p-1080.jpg 1080w, images/video-thumb-0487-p-1600.jpg 1600w, images/video-thumb-0487.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">1. Competitive Research</div><img src="images/scene-02.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-02-p-500.jpg 500w, images/scene-02-p-800.jpg 800w, images/scene-02-p-1080.jpg 1080w, images/scene-02.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 3" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Scene 3</div><img src="images/video-thumb-0038.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0038-p-500.jpg 500w, images/video-thumb-0038-p-800.jpg 800w, images/video-thumb-0038-p-1080.jpg 1080w, images/video-thumb-0038-p-1600.jpg 1600w, images/video-thumb-0038.jpg 2000w" alt="" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">2. Customer Research</div><img src="images/scene-03.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-03-p-500.jpg 500w, images/scene-03-p-800.jpg 800w, images/scene-03-p-1080.jpg 1080w, images/scene-03.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 4" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 4</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0111-p-500.jpg 500w, images/video-thumb-0111-p-800.jpg 800w, images/video-thumb-0111-p-1080.jpg 1080w, images/video-thumb-0111-p-1600.jpg 1600w, images/video-thumb-0111.jpg 2000w" alt="" src="images/video-thumb-0111.jpg" loading="lazy" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">3. Messaging</div><img src="images/scene-04.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-04-p-500.jpg 500w, images/scene-04-p-800.jpg 800w, images/scene-04-p-1080.jpg 1080w, images/scene-04.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 5" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 5</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0181-p-500.jpg 500w, images/video-thumb-0181-p-800.jpg 800w, images/video-thumb-0181-p-1080.jpg 1080w, images/video-thumb-0181.jpg 2000w" alt="" src="images/video-thumb-0181.jpg" loading="lazy" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">4. Launch & GTM</div><img src="images/scene-05.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-05-p-500.jpg 500w, images/scene-05-p-800.jpg 800w, images/scene-05-p-1080.jpg 1080w, images/scene-05.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 6" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 6</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0253-p-500.jpg 500w, images/video-thumb-0253-p-800.jpg 800w, images/video-thumb-0253-p-1080.jpg 1080w, images/video-thumb-0253-p-1600.jpg 1600w, images/video-thumb-0253.jpg 2000w" alt="" src="images/video-thumb-0253.jpg" loading="lazy" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">5. Content</div><img src="images/scene-06.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-06-p-500.jpg 500w, images/scene-06-p-800.jpg 800w, images/scene-06-p-1080.jpg 1080w, images/scene-06.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 7" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 7</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0286-p-500.jpg 500w, images/video-thumb-0286-p-800.jpg 800w, images/video-thumb-0286-p-1080.jpg 1080w, images/video-thumb-0286-p-1600.jpg 1600w, images/video-thumb-0286.jpg 2000w" alt="" src="images/video-thumb-0286.jpg" loading="lazy" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">6. Analytics</div><img src="images/scene-07.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-07-p-500.jpg 500w, images/scene-07-p-800.jpg 800w, images/scene-07-p-1080.jpg 1080w, images/scene-07.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                     <a data-w-tab="Tab 8" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 8</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0321-p-500.jpg 500w, images/video-thumb-0321-p-800.jpg 800w, images/video-thumb-0321-p-1080.jpg 1080w, images/video-thumb-0321-p-1600.jpg 1600w, images/video-thumb-0321.jpg 2000w" alt="" src="images/video-thumb-0321.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 9" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 9</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0311-p-500.jpg 500w, images/video-thumb-0311-p-800.jpg 800w, images/video-thumb-0311-p-1080.jpg 1080w, images/video-thumb-0311-p-1600.jpg 1600w, images/video-thumb-0311.jpg 2000w" alt="" src="images/video-thumb-0311.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 10" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 10</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0430-p-500.jpg 500w, images/video-thumb-0430-p-800.jpg 800w, images/video-thumb-0430-p-1080.jpg 1080w, images/video-thumb-0430-p-1600.jpg 1600w, images/video-thumb-0430.jpg 2000w" alt="" src="images/video-thumb-0430.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 11" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 11</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0337-p-500.jpg 500w, images/video-thumb-0337-p-800.jpg 800w, images/video-thumb-0337-p-1080.jpg 1080w, images/video-thumb-0337-p-1600.jpg 1600w, images/video-thumb-0337.jpg 2000w" alt="" src="images/video-thumb-0337.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 12" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 12</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0463-p-500.jpg 500w, images/video-thumb-0463-p-800.jpg 800w, images/video-thumb-0463-p-1080.jpg 1080w, images/video-thumb-0463-p-1600.jpg 1600w, images/video-thumb-0463.jpg 2000w" alt="" src="images/video-thumb-0463.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 13" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 13</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0503-p-500.jpg 500w, images/video-thumb-0503-p-800.jpg 800w, images/video-thumb-0503-p-1080.jpg 1080w, images/video-thumb-0503-p-1600.jpg 1600w, images/video-thumb-0503.jpg 2000w" alt="" src="images/video-thumb-0503.jpg" loading="lazy" class="canvas-thumbnail-image">
-                    </a>
-                    <a data-w-tab="Tab 14" class="canvas-scene-thumbnail w-inline-block w-tab-link">
-                      <div class="canvas-scene-thumbnail-label">Tab 14</div><img sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 2061px) 97vw, 2000px" srcset="images/video-thumb-0534-p-500.jpg 500w, images/video-thumb-0534-p-800.jpg 800w, images/video-thumb-0534-p-1080.jpg 1080w, images/video-thumb-0534-p-1600.jpg 1600w, images/video-thumb-0534.jpg 2000w" alt="" src="images/video-thumb-0534.jpg" loading="lazy" class="canvas-thumbnail-image">
+                      <div class="canvas-scene-thumbnail-label">Wrap-Up</div><img src="images/scene-08.jpg" loading="lazy" sizes="(max-width: 479px) 87vw, (max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1280px) 97vw, 1280px" srcset="images/scene-08-p-500.jpg 500w, images/scene-08-p-800.jpg 800w, images/scene-08-p-1080.jpg 1080w, images/scene-08.jpg 1280w" alt="" class="canvas-thumbnail-image">
                     </a>
                   </div>
                   <a href="#" class="scene-list-arrow down w-inline-block">
@@ -282,20 +282,14 @@
                   </a>
                 </div>
                 <div class="scene-editor-content w-tab-content">
-                  <div data-w-tab="Tab 1" class="canvas-scene-wrapper w-tab-pane w--tab-active"><img sizes="(max-width: 2000px) 100vw, 2000px" srcset="images/video-thumb-0003-p-500.jpg 500w, images/video-thumb-0003-p-800.jpg 800w, images/video-thumb-0003-p-1080.jpg 1080w, images/video-thumb-0003-p-1600.jpg 1600w, images/video-thumb-0003.jpg 2000w" alt="" src="images/video-thumb-0003.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 2" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0468-p-500.jpg 500w, images/video-thumb-0468-p-800.jpg 800w, images/video-thumb-0468-p-1080.jpg 1080w, images/video-thumb-0468-p-1600.jpg 1600w, images/video-thumb-0468.jpg 2000w" alt="" src="images/video-thumb-0468.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 3" class="canvas-scene-wrapper w-tab-pane"><img src="images/video-thumb-0027.jpg" loading="lazy" sizes="100vw" srcset="images/video-thumb-0027-p-500.jpg 500w, images/video-thumb-0027-p-800.jpg 800w, images/video-thumb-0027-p-1080.jpg 1080w, images/video-thumb-0027-p-1600.jpg 1600w, images/video-thumb-0027.jpg 2000w" alt="" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 4" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0111-p-500.jpg 500w, images/video-thumb-0111-p-800.jpg 800w, images/video-thumb-0111-p-1080.jpg 1080w, images/video-thumb-0111-p-1600.jpg 1600w, images/video-thumb-0111.jpg 2000w" alt="" src="images/video-thumb-0111.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 5" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0181-p-500.jpg 500w, images/video-thumb-0181-p-800.jpg 800w, images/video-thumb-0181-p-1080.jpg 1080w, images/video-thumb-0181.jpg 2000w" alt="" src="images/video-thumb-0181.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 6" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0279-p-500.jpg 500w, images/video-thumb-0279-p-800.jpg 800w, images/video-thumb-0279-p-1080.jpg 1080w, images/video-thumb-0279-p-1600.jpg 1600w, images/video-thumb-0279.jpg 2000w" alt="" src="images/video-thumb-0279.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 7" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0482-p-500.jpg 500w, images/video-thumb-0482-p-800.jpg 800w, images/video-thumb-0482-p-1080.jpg 1080w, images/video-thumb-0482-p-1600.jpg 1600w, images/video-thumb-0482.jpg 2000w" alt="" src="images/video-thumb-0482.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 8" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0319-p-500.jpg 500w, images/video-thumb-0319-p-800.jpg 800w, images/video-thumb-0319-p-1080.jpg 1080w, images/video-thumb-0319-p-1600.jpg 1600w, images/video-thumb-0319.jpg 2000w" alt="" src="images/video-thumb-0319.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 9" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0027-p-500.jpg 500w, images/video-thumb-0027-p-800.jpg 800w, images/video-thumb-0027-p-1080.jpg 1080w, images/video-thumb-0027-p-1600.jpg 1600w, images/video-thumb-0027.jpg 2000w" alt="" src="images/video-thumb-0027.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 10" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0349-p-500.jpg 500w, images/video-thumb-0349-p-800.jpg 800w, images/video-thumb-0349-p-1080.jpg 1080w, images/video-thumb-0349-p-1600.jpg 1600w, images/video-thumb-0349.jpg 2000w" alt="" src="images/video-thumb-0349.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 11" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0027-p-500.jpg 500w, images/video-thumb-0027-p-800.jpg 800w, images/video-thumb-0027-p-1080.jpg 1080w, images/video-thumb-0027-p-1600.jpg 1600w, images/video-thumb-0027.jpg 2000w" alt="" src="images/video-thumb-0027.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 12" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0411-p-500.jpg 500w, images/video-thumb-0411-p-800.jpg 800w, images/video-thumb-0411-p-1080.jpg 1080w, images/video-thumb-0411-p-1600.jpg 1600w, images/video-thumb-0411.jpg 2000w" alt="" src="images/video-thumb-0411.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 13" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0523-p-500.jpg 500w, images/video-thumb-0523-p-800.jpg 800w, images/video-thumb-0523-p-1080.jpg 1080w, images/video-thumb-0523-p-1600.jpg 1600w, images/video-thumb-0523.jpg 2000w" alt="" src="images/video-thumb-0523.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
-                  <div data-w-tab="Tab 14" class="canvas-scene-wrapper w-tab-pane"><img sizes="100vw" srcset="images/video-thumb-0524-p-500.jpg 500w, images/video-thumb-0524-p-800.jpg 800w, images/video-thumb-0524-p-1080.jpg 1080w, images/video-thumb-0524-p-1600.jpg 1600w, images/video-thumb-0524.jpg 2000w" alt="" src="images/video-thumb-0524.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                                    <div data-w-tab="Tab 1" class="canvas-scene-wrapper w-tab-pane w--tab-active"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-01-p-500.jpg 500w, images/scene-01-p-800.jpg 800w, images/scene-01-p-1080.jpg 1080w, images/scene-01.jpg 1280w" alt="" src="images/scene-01.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 2" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-02-p-500.jpg 500w, images/scene-02-p-800.jpg 800w, images/scene-02-p-1080.jpg 1080w, images/scene-02.jpg 1280w" alt="" src="images/scene-02.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 3" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-03-p-500.jpg 500w, images/scene-03-p-800.jpg 800w, images/scene-03-p-1080.jpg 1080w, images/scene-03.jpg 1280w" alt="" src="images/scene-03.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 4" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-04-p-500.jpg 500w, images/scene-04-p-800.jpg 800w, images/scene-04-p-1080.jpg 1080w, images/scene-04.jpg 1280w" alt="" src="images/scene-04.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 5" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-05-p-500.jpg 500w, images/scene-05-p-800.jpg 800w, images/scene-05-p-1080.jpg 1080w, images/scene-05.jpg 1280w" alt="" src="images/scene-05.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 6" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-06-p-500.jpg 500w, images/scene-06-p-800.jpg 800w, images/scene-06-p-1080.jpg 1080w, images/scene-06.jpg 1280w" alt="" src="images/scene-06.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 7" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-07-p-500.jpg 500w, images/scene-07-p-800.jpg 800w, images/scene-07-p-1080.jpg 1080w, images/scene-07.jpg 1280w" alt="" src="images/scene-07.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
+                  <div data-w-tab="Tab 8" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-08-p-500.jpg 500w, images/scene-08-p-800.jpg 800w, images/scene-08-p-1080.jpg 1080w, images/scene-08.jpg 1280w" alt="" src="images/scene-08.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
                 </div>
               </div>
               <div class="canvas-toolbar">
@@ -326,30 +320,12 @@
                           </a>
                         </div>
                         <div class="divider-simple-v inverse"></div>
-                        <div class="canvas-toolbar-group collapsible">
-                          <div class="canvas-tools">
-                            <a href="#" class="icon-button inset tool active w-inline-block">
-                              <div class="icon pointer"></div>
-                            </a>
-                            <a href="#" class="icon-button inset tool w-inline-block">
-                              <div class="icon hand"></div>
-                            </a>
-                          </div>
-                          <div class="timeline-tools">
-                            <a href="#" class="icon-button inset tool w-inline-block">
-                              <div class="icon blade"></div>
-                            </a>
-                            <a href="#" class="icon-button inset tool w-inline-block">
-                              <div class="icon range"></div>
-                            </a>
-                            <a href="#" class="icon-button inset tool w-inline-block">
-                              <div class="icon slip"></div>
-                            </a>
-                          </div>
-                          <a id="toggle-toolbar-collapsed" href="#" class="icon-button inset tool toolbar-chevron w-inline-block">
-                            <div class="icon chevron left"></div>
+                        <div class="canvas-toolbar-group">
+                          <a id="toggle-properties" href="#" class="icon-button inset w-inline-block">
+                            <div class="icon gear"></div>
                           </a>
                         </div>
+
                       </div>
                     </div>
                     <div data-w-tab="Tab 2" class="canvas-toolbar-tab-content w-tab-pane">
@@ -428,20 +404,54 @@
                   <div class="icon layers"></div>
                 </a>
               </div>
+              <div class="canvas-buttons-bottom-left">
+                <div class="toolbar-section inset">
+                  <a href="#" class="slim-select inset w-inline-block">
+                    <div class="icon pointer"></div>
+                    <div class="select-label">
+                      <div class="icon chevron right"></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
               <div class="canvas-buttons-right">
-                <a href="#" class="slim-select w-inline-block">
+                <a id="toggle-sidebar" href="#" class="slim-select inset w-inline-block">
+                  <div class="icon right-panel-open"></div>
                   <div class="select-label">
-                    <div class="button-label">100%</div>
-                    <div class="icon chevron"></div>
+                    <div class="icon chevron-down-s"></div>
                   </div>
                 </a>
-                <div class="divider-simple-v"></div>
-                <a id="toggle-properties" href="#" class="icon-button inset w-inline-block">
-                  <div class="icon gear"></div>
+                <div class="sidebar-panel-dropdown is-hidden" id="sidebar-panel-menu">
+                  <a href="#" class="sidebar-panel-option" data-panel="underlord">
+                    <div class="icon robot"></div>
+                    <span>Underlord chat</span>
+                  </a>
+                  <a href="#" class="sidebar-panel-option" data-panel="inspector">
+                    <div class="icon gear"></div>
+                    <span>Inspector</span>
+                  </a>
+                  <a href="#" class="sidebar-panel-option" data-panel="skill-templates">
+                    <div class="icon magic"></div>
+                    <span>Skill templates</span>
+                  </a>
+                  <a href="#" class="sidebar-panel-option" data-panel="comments">
+                    <div class="icon add-comment"></div>
+                    <span>Comments</span>
+                  </a>
+                </div>
+              </div>
+              <div class="canvas-buttons-bottom-right">
+                <a id="toggle-properties" href="#" class="slim-select inset w-inline-block">
+                  <div class="select-label">
+                    <div class="button-label">100%</div>
+                    <div class="icon chevron-down-s"></div>
+                  </div>
                 </a>
-                <a id="toggle-sidebar" href="#" class="icon-button inset w-inline-block">
-                  <div class="icon right-panel-open"></div>
-                </a>
+                <div class="toolbar-section inset">
+                  <a href="#" class="icon-button inset w-inline-block">
+                    <div class="icon smart-display"></div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -739,8 +749,12 @@
           </div>
         </div>
       </div>
-      <div class="sidebar-pane is-collapsed">
+      <div class="sidebar-pane is-collapsed" data-active-panel="inspector">
         <div class="sidebar-content">
+
+        <!-- Panel: Inspector -->
+        <div class="sidebar-panel" data-panel="inspector">
+
           <div class="sidebar-header">
             <h3 class="heading-2">Inspector</h3>
             <a id="toggle-sidebar-closed" href="#" class="icon-button w-inline-block">
@@ -940,7 +954,65 @@
             </div>
             <div class="dotted-line horizontal"></div>
           </div>
+        
         </div>
+
+        <!-- Panel: Underlord Chat (placeholder) -->
+        <div class="sidebar-panel" data-panel="underlord" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Underlord chat</h3>
+            <a href="#" class="icon-button sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+          <div class="props-section">
+            <div class="prop-section-row">
+              <p class="prop-section-title" style="color:var(--fg-secondary,rgba(22,5,12,0.6))">Chat with Underlord to make edits, ask questions, or run skill templates.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Skill Templates (placeholder) -->
+        <div class="sidebar-panel" data-panel="skill-templates" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Skill templates</h3>
+            <a href="#" class="icon-button sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+          <div class="props-section">
+            <div class="prop-section-row">
+              <p class="prop-section-title" style="color:var(--fg-secondary,rgba(22,5,12,0.6))">Browse and run common Underlord workflows to automate editing tasks.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Comments (placeholder) -->
+        <div class="sidebar-panel" data-panel="comments" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Comments</h3>
+            <a href="#" class="icon-button sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+          <div class="props-section">
+            <div class="prop-section-row">
+              <p class="prop-section-title" style="color:var(--fg-secondary,rgba(22,5,12,0.6))">No comments yet.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Export (placeholder) -->
+        <div class="sidebar-panel" data-panel="export" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Export</h3>
+            <a href="#" class="icon-button sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+        </div>
+
+      </div>
       </div>
     </div>
   </div>

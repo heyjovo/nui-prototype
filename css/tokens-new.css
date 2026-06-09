@@ -42,3 +42,220 @@
   --overlay-light: #0000001a;
   --overlay-medium: #00000026;
 }
+
+/* ─────────────────────────────────────────────
+   PROTOTYPE LAYOUT OVERRIDES
+   Changes specific to the user-testing build
+   ───────────────────────────────────────────── */
+
+/* Canvas container: rounded, recessed */
+.canvas {
+  border-radius: 12px;
+  background-color: var(--surface-recessed-2, #ebe6e5);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+/* Canvas bottom-left: cursor selector */
+.canvas-buttons-bottom-left {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+/* Canvas bottom-right: zoom + view */
+.canvas-buttons-bottom-right {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Toolbar section wrapper (inset surface for bottom-corner buttons) */
+.toolbar-section.inset {
+  background-color: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* Export button – dark/inverse */
+.button.inverse {
+  background-color: var(--grey-950, #110a0d);
+  color: #ffffff;
+  border: none;
+}
+.button.inverse:hover {
+  background-color: var(--grey-900, #26171d);
+}
+
+/* Inset select/button — recessed surface, used for canvas corner controls */
+.slim-select.inset {
+  background-color: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+  padding: 4px 4px 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Chevron direction modifiers */
+.icon.chevron.right { transform: rotate(-90deg); }
+.icon.chevron.up    { transform: rotate(180deg); }
+
+.icon.smart-display {
+  -webkit-mask-image: url('../images/icon-smart_display.svg');
+  mask-image: url('../images/icon-smart_display.svg');
+}
+
+/* Remove box from canvas-buttons-right — it's now just a container for the button + dropdown */
+.canvas-buttons-right {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: absolute;
+  inset: 12px 12px auto auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Sidebar panel dropdown — fixed so it escapes overflow:hidden on .canvas */
+.sidebar-panel-dropdown {
+  position: fixed;
+  background-color: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(38,23,29,0.12);
+  min-width: 176px;
+  padding: 4px;
+  z-index: 300;
+}
+.sidebar-panel-dropdown.is-hidden { display: none; }
+
+.sidebar-panel-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.sidebar-panel-option:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.sidebar-panel-option .icon {
+  flex-shrink: 0;
+  background-color: var(--fg-primary, #26171d);
+}
+
+/* Sidebar content + panel wrappers fill the full pane height */
+.sidebar-content {
+  flex: 1;
+  align-self: stretch;
+}
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* ── Sidebar nav icon additions ── */
+.icon.mat-subscriptions {
+  -webkit-mask-image: url('../images/mat-subscriptions.svg');
+  mask-image: url('../images/mat-subscriptions.svg');
+}
+.icon.mat-newsstand {
+  -webkit-mask-image: url('../images/mat-newsstand.svg');
+  mask-image: url('../images/mat-newsstand.svg');
+}
+.icon.new-stock {
+  -webkit-mask-image: url('../images/new-stock.svg');
+  mask-image: url('../images/new-stock.svg');
+}
+.icon.insert-element {
+  -webkit-mask-image: url('../images/insert-element.svg');
+  mask-image: url('../images/insert-element.svg');
+}
+.icon.format-paint {
+  -webkit-mask-image: url('../images/format_paint_menu.svg');
+  mask-image: url('../images/format_paint_menu.svg');
+}
+.icon.record-circle {
+  -webkit-mask-image: url('../images/record-circle.svg');
+  mask-image: url('../images/record-circle.svg');
+}
+.icon.help-circle-stroke {
+  -webkit-mask-image: url('../images/help-circle-stroke.svg');
+  mask-image: url('../images/help-circle-stroke.svg');
+  background-color: var(--fg-primary, #26171d);
+}
+
+/* ── Header button hover + tooltips ── */
+.project-button:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+  border-radius: 4px;
+}
+/* Ensure relative positioning for tooltip anchors */
+.project-button,
+.project-header-left .icon-button,
+.project-header-left .slim-select {
+  position: relative;
+}
+.header-tooltip {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--grey-900, #26171d);
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 475;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 500;
+  transition: opacity 120ms ease;
+}
+.project-button:hover .header-tooltip,
+.project-header-left .icon-button:hover .header-tooltip,
+.project-header-left .slim-select:hover .header-tooltip {
+  opacity: 1;
+}
+
+/* Nav tooltips — prevent wrapping, ensure account wrapper is hoverable */
+.nav-menu-tab-label { white-space: nowrap; }
+
+.account-settings-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.account-settings-wrapper:hover .nav-menu-tab-label { opacity: 1; }
+
+.icon-button:hover .nav-menu-tab-label { opacity: 1; }
+
+/* Give nav-menu-bottom items a positioning context for their tooltips */
+.nav-menu-bottom .nav-menu-tab-item,
+.nav-menu-bottom .icon-button {
+  position: relative;
+}

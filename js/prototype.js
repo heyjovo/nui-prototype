@@ -110,7 +110,7 @@
 
       if (toggleScriptOpen) toggleScriptOpen.classList.toggle('is-hidden-smooth', scriptOpen);
       if (dividerScript) dividerScript.classList.toggle('is-hidden-smooth', scriptOpen);
-      if (toggleSidebar) toggleSidebar.classList.toggle('is-hidden-smooth', sidebarOpen);
+      // toggleSidebar always stays visible — used to switch between open panels
 
       if (canvasButtonsLeft) canvasButtonsLeft.classList.toggle('has-hidden-toggle', scriptOpen);
       if (canvasButtonsRight) canvasButtonsRight.classList.toggle('has-hidden-toggle', sidebarOpen);
@@ -141,9 +141,53 @@
       togglePanel(scriptWrapper);
     });
 
-    document.getElementById('toggle-sidebar')?.addEventListener('click', e => {
+    // --- Sidebar panel dropdown ---
+    const sidebarMenu = document.getElementById('sidebar-panel-menu');
+
+    function openSidebarPanel(panelKey) {
+      if (!sidebarPane || !panelKey) return;
+      // Show the selected panel, hide others
+      sidebarPane.dataset.activePanel = panelKey;
+      sidebarPane.querySelectorAll('.sidebar-panel').forEach(p => {
+        p.style.display = p.dataset.panel === panelKey ? '' : 'none';
+      });
+      // Open the sidebar if collapsed
+      if (sidebarPane.classList.contains('is-collapsed')) togglePanel(sidebarPane);
+    }
+
+    function toggleSidebarMenu(e) {
       e.preventDefault();
-      togglePanel(sidebarPane);
+      e.stopPropagation();
+      if (!sidebarMenu) return;
+      const isOpen = !sidebarMenu.classList.contains('is-hidden');
+      if (isOpen) {
+        sidebarMenu.classList.add('is-hidden');
+        return;
+      }
+      // Position below the toggle button
+      const rect = document.getElementById('toggle-sidebar').getBoundingClientRect();
+      sidebarMenu.style.top = (rect.bottom + 6) + 'px';
+      sidebarMenu.style.right = (window.innerWidth - rect.right) + 'px';
+      sidebarMenu.classList.remove('is-hidden');
+    }
+
+    document.getElementById('toggle-sidebar')?.addEventListener('click', toggleSidebarMenu);
+
+    sidebarMenu?.querySelectorAll('.sidebar-panel-option').forEach(opt => {
+      opt.addEventListener('click', e => {
+        e.preventDefault();
+        sidebarMenu.classList.add('is-hidden');
+        openSidebarPanel(opt.dataset.panel);
+      });
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', e => {
+      if (sidebarMenu && !sidebarMenu.classList.contains('is-hidden')) {
+        if (!e.target.closest('#sidebar-panel-menu') && !e.target.closest('#toggle-sidebar')) {
+          sidebarMenu.classList.add('is-hidden');
+        }
+      }
     });
 
     document.getElementById('toggle-sidebar-closed')?.addEventListener('click', e => {
@@ -151,9 +195,21 @@
       togglePanel(sidebarPane);
     });
 
+    document.querySelectorAll('.sidebar-close-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        if (sidebarPane && !sidebarPane.classList.contains('is-collapsed')) togglePanel(sidebarPane);
+      });
+    });
+
     document.getElementById('toggle-properties')?.addEventListener('click', e => {
       e.preventDefault();
-      togglePanel(sidebarPane);
+      openSidebarPanel('inspector');
+    });
+
+    document.getElementById('open-export-panel')?.addEventListener('click', e => {
+      e.preventDefault();
+      openSidebarPanel('export');
     });
 
     document.getElementById('toggle-toolbar-collapsed')?.addEventListener('click', e => {
