@@ -1928,23 +1928,82 @@
 
         <!-- Panel: Underlord Chat (placeholder) -->
         <div class="sidebar-panel" data-panel="underlord" style="display:none">
+
+          <!-- Header -->
           <div class="sidebar-header">
-            <h3 class="heading-2">Underlord chat</h3>
+            <a href="#" id="ul-header-trigger" class="ul-header-trigger">
+              <span class="ul-heading">Underlord</span>
+              <div class="icon chevron-down-s ul-header-chev"></div>
+            </a>
             <a href="#" class="icon-button sidebar-close-btn w-inline-block">
               <div class="icon right-panel-close"></div>
             </a>
           </div>
-          <div class="props-section">
-            <div class="prop-section-row">
-              <p class="prop-section-title" style="color:var(--fg-secondary,rgba(22,5,12,0.6))">Chat with Underlord to make edits, ask questions, or run skill templates.</p>
+
+          <!-- Content area: intro text + CTAs -->
+          <div class="ul-content">
+            <div class="ul-cta-area">
+              <p class="ul-intro-text"><strong>I'm Underlord, your AI co-editor.</strong> Where should we get started?</p>
+              <div class="ul-chips">
+                <a href="#" class="ul-chip">
+                  <div class="ul-chip-icon"><div class="icon radar"></div></div>
+                  <div class="ul-chip-body">
+                    <div class="ul-chip-title">Improve this video</div>
+                    <div class="ul-chip-sub">Scan project for smart suggestions</div>
+                  </div>
+                </a>
+                <a href="#" class="ul-chip" id="ul-skill-template-btn">
+                  <div class="ul-chip-icon"><div class="icon template"></div></div>
+                  <div class="ul-chip-title">Start with a skill template</div>
+                </a>
+              </div>
             </div>
           </div>
+
+          <!-- Footer: mode selector + illustration + input + disclaimer -->
+          <div class="ul-footer">
+            <div class="ul-input-header">
+              <a href="#" class="ul-mode-chip">
+                <span>Edit</span>
+                <div class="icon chevron-down-s"></div>
+              </a>
+            </div>
+            <div class="ul-art-wrap">
+              <img src="images/underlord-empty-state.png" alt="" class="ul-art-img">
+            </div>
+            <div class="ul-input-field">
+              <div class="ul-input-text">Ask Underlord, use @ to add context</div>
+              <div class="ul-input-actions">
+                <div class="ul-input-actions-left">
+                  <a href="#" class="ul-action-btn" data-tooltip="Attach">
+                    <div class="icon paperclip"></div>
+                  </a>
+                  <a href="#" class="ul-action-btn" data-tooltip="Add context">
+                    <div class="icon at-symbol"></div>
+                  </a>
+                  <div class="ul-model-chip">
+                    <div class="icon ai-model"></div>
+                    <span>Auto</span>
+                    <div class="icon chevron-down-s"></div>
+                  </div>
+                </div>
+                <a href="#" class="ul-send-btn" id="toolbar-send-collapsed">
+                  <div class="icon mat-send-fill"></div>
+                </a>
+              </div>
+            </div>
+            <div class="ul-disclaimer">Underlord can make mistakes. <a href="#">Learn more</a></div>
+          </div>
+
         </div>
 
-        <!-- Panel: Skill Templates (placeholder) -->
+        <!-- Panel: Skill Templates -->
         <div class="sidebar-panel" data-panel="skill-templates" style="display:none">
           <div class="sidebar-header">
-            <h3 class="heading-2">Skill templates</h3>
+            <a href="#" id="st-header-trigger" class="ul-header-trigger">
+              <span class="ul-heading">Skill templates</span>
+              <div class="icon chevron-down-s ul-header-chev"></div>
+            </a>
             <a href="#" class="icon-button sidebar-close-btn w-inline-block">
               <div class="icon right-panel-close"></div>
             </a>
@@ -2342,6 +2401,14 @@
     <a href="#" class="app-menu-item app-menu-logout">
       <span class="app-menu-item-label">Log out</span>
     </a>
+  </div>
+
+  <!-- Underlord Header Menu -->
+  <div id="ul-header-menu" class="ul-header-menu is-hidden" role="menu">
+    <a href="#" class="ul-menu-item" data-open-panel="underlord">Underlord</a>
+    <a href="#" class="ul-menu-item ul-menu-item--disabled">Chat history</a>
+    <div class="ul-menu-divider"></div>
+    <a href="#" class="ul-menu-item" data-open-panel="skill-templates">Skill templates</a>
   </div>
 
   <!-- Record Mode Dialog -->

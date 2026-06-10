@@ -969,6 +969,69 @@
     });
   }
 
+  function initUnderlordPanel() {
+    const menu = document.getElementById('ul-header-menu');
+    const sidebarPane = document.querySelector('.sidebar-pane');
+    if (!menu || !sidebarPane) return;
+
+    function openSidebarPanel(key) {
+      sidebarPane.dataset.activePanel = key;
+      sidebarPane.querySelectorAll('.sidebar-panel').forEach(p => {
+        p.style.display = p.dataset.panel === key ? '' : 'none';
+      });
+      if (sidebarPane.classList.contains('is-collapsed')) {
+        sidebarPane.classList.remove('is-collapsed');
+      }
+    }
+
+    function openMenu(trigger) {
+      if (!menu.classList.contains('is-hidden')) {
+        menu.classList.add('is-hidden');
+        return;
+      }
+      const rect = trigger.getBoundingClientRect();
+      const paneRect = sidebarPane.getBoundingClientRect();
+      menu.style.top = (rect.bottom + 6) + 'px';
+      menu.style.left = '';
+      menu.style.right = (window.innerWidth - paneRect.right) + 'px';
+      menu.classList.remove('is-hidden');
+    }
+
+    // Both header triggers open the same menu
+    ['ul-header-trigger', 'st-header-trigger'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openMenu(e.currentTarget);
+      });
+    });
+
+    // Menu item clicks
+    menu.querySelectorAll('[data-open-panel]').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        menu.classList.add('is-hidden');
+        openSidebarPanel(item.dataset.openPanel);
+      });
+    });
+
+    // "Start with a skill template" button
+    document.getElementById('ul-skill-template-btn')?.addEventListener('click', e => {
+      e.preventDefault();
+      openSidebarPanel('skill-templates');
+    });
+
+    // Close menu on outside click
+    document.addEventListener('click', e => {
+      if (!menu.classList.contains('is-hidden') &&
+          !menu.contains(e.target) &&
+          !e.target.closest('#ul-header-trigger') &&
+          !e.target.closest('#st-header-trigger')) {
+        menu.classList.add('is-hidden');
+      }
+    });
+  }
+
   // --- Generic dropdown dialog helper ---
   function initDropdownDialog(btnId, dialogId, alignRight) {
     const btn = document.getElementById(btnId);
@@ -1033,6 +1096,7 @@
     initLayoutPackDialog();
     initMediaTabs();
     initStockTabs();
+    initUnderlordPanel();
   }
 
   if (document.readyState === 'loading') {

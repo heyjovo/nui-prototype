@@ -438,6 +438,10 @@
 .icon.robot         { -webkit-mask-image: url('../images/robot.svg');                  mask-image: url('../images/robot.svg'); }
 .icon.lightning     { -webkit-mask-image: url('../images/lightning.svg');              mask-image: url('../images/lightning.svg'); }
 .icon.script-new    { -webkit-mask-image: url('../images/icon-script-new.svg');        mask-image: url('../images/icon-script-new.svg'); }
+.icon.radar         { -webkit-mask-image: url('../images/radar.svg');                  mask-image: url('../images/radar.svg'); }
+.icon.template      { -webkit-mask-image: url('../images/template.svg');               mask-image: url('../images/template.svg'); }
+.icon.at-symbol     { -webkit-mask-image: url('../images/at-symbol.svg');              mask-image: url('../images/at-symbol.svg'); }
+.icon.ai-model      { -webkit-mask-image: url('../images/ai-model.svg');               mask-image: url('../images/ai-model.svg'); }
 
 /* ─────────────────────────────────────────────
    SCRIPT TOOLBAR — TAB CHIPS + TOOLS
@@ -2504,4 +2508,345 @@
   flex: 1;
   font-size: 13px;
   line-height: 18px;
+}
+
+/* ── Underlord sidebar ──────────────────────────────────────────── */
+
+/* Header trigger: title + chevron as one clickable unit */
+.ul-header-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
+  padding: 2px 4px 2px 0;
+  margin-left: -2px;
+  transition: background 0.1s;
+}
+
+.ul-header-trigger:hover {
+  background: var(--surface-recessed, rgba(22,5,12,0.06));
+}
+
+.ul-heading {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--fg-primary, #26171d);
+  white-space: nowrap;
+}
+
+.ul-header-chev {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+/* Content area: fills remaining space, CTAs at bottom */
+.ul-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 0 8px;
+}
+
+/* CTA area: intro text + chips, no background */
+.ul-cta-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 0 12px;
+}
+
+.ul-intro-text {
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--fg-primary, #26171d);
+  margin: 0;
+}
+
+.ul-intro-text strong {
+  font-weight: 600;
+}
+
+.ul-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ul-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  background: var(--chip-bg-active, rgba(185,106,150,0.2));
+  border: 1px solid rgba(185,106,150,0.2);
+  transition: background 0.1s;
+}
+
+.ul-chip:hover {
+  background: rgba(185,106,150,0.28);
+}
+
+.ul-chip-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ul-chip-icon .icon {
+  width: 16px;
+  height: 16px;
+  background-color: var(--chip-fg-active, #651a39);
+}
+
+.ul-chip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ul-chip-title {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--chip-fg-active, #651a39);
+  font-weight: 500;
+}
+
+.ul-chip-sub {
+  font-size: 11px;
+  line-height: 14px;
+  color: rgba(89,38,72,0.85);
+}
+
+/* Footer: illustration + input + disclaimer */
+.ul-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px 2px;
+  flex-shrink: 0;
+}
+
+.ul-art-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  overflow: hidden;
+  pointer-events: none;
+  margin-left: -8px;
+  margin-top: -24px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 0;
+}
+
+.ul-art-img {
+  width: 220px;
+  height: auto;
+  display: block;
+  opacity: 0.85;
+}
+
+.ul-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2px 2px 0 8px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.ul-mode-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px 2px 6px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--fg-primary, #26171d);
+  transition: background 0.1s;
+}
+
+.ul-mode-chip:hover {
+  background: var(--surface-recessed, rgba(22,5,12,0.06));
+}
+
+.ul-mode-chip .icon {
+  width: 12px;
+  height: 12px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+.ul-input-field {
+  display: flex;
+  flex-direction: column;
+  background: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+  box-shadow: 0 -1px 0 0 rgba(255,255,255,0.5);
+  overflow: hidden;
+  min-height: 96px;
+}
+
+.ul-input-text {
+  flex: 1;
+  padding: 8px 10px 4px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ul-input-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.ul-input-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ul-action-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  text-decoration: none;
+  transition: background 0.1s;
+}
+
+.ul-action-btn:hover {
+  background: rgba(88,63,74,0.14);
+}
+
+.ul-action-btn .icon {
+  width: 16px;
+  height: 16px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+.ul-model-chip {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  cursor: default;
+}
+
+.ul-model-chip .icon {
+  width: 14px;
+  height: 14px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+.ul-model-chip .icon.chevron-down-s {
+  width: 10px;
+  height: 10px;
+}
+
+.ul-send-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--fg-primary, #26171d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity 0.1s;
+}
+
+.ul-send-btn:hover { opacity: 0.85; }
+
+.ul-send-btn .icon {
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+}
+
+.ul-disclaimer {
+  text-align: center;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  padding: 0 8px 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ul-disclaimer a {
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+}
+
+/* Underlord header dropdown menu */
+.ul-header-menu {
+  position: fixed;
+  z-index: 9999;
+  background: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(22,5,12,0.12);
+  min-width: 160px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ul-header-menu.is-hidden { display: none; }
+
+.ul-menu-item {
+  display: block;
+  padding: 7px 10px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.1s;
+}
+
+.ul-menu-item:hover {
+  background: var(--surface-recessed, rgba(22,5,12,0.06));
+}
+
+.ul-menu-item--disabled {
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  pointer-events: none;
+}
+
+.ul-menu-divider {
+  height: 1px;
+  background: var(--border-soft, rgba(88,63,74,0.1));
+  margin: 2px 0;
 }
