@@ -72,6 +72,17 @@
       });
     });
 
+    // -- Stock sidebar tab clicks (task 4 completion signals) -----------------
+    document.querySelectorAll('[data-stock-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.stockTab;
+        if (tab === 'images') track('stock_images_tab_clicked');
+        if (tab === 'music')  track('stock_music_tab_clicked');
+        if (tab === 'sounds') track('stock_sounds_tab_clicked');
+        if (tab === 'video')  track('stock_video_tab_clicked');
+      });
+    });
+
     // -- Right sidebar panel dropdown options ---------------------------------
     document.querySelectorAll('.sidebar-panel-option').forEach(opt => {
       opt.addEventListener('click', () => track('editor_menu_opened'));

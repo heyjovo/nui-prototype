@@ -667,26 +667,263 @@
     });
   }
 
-  // --- App Menu Dialog ---
-  function initAppMenu() {
-    const btn = document.getElementById('app-menu-btn');
-    const dialog = document.getElementById('app-menu-dialog');
+  // --- Elements sidebar: text layer creation, drag-to-canvas, edit, delete ---
+  function initElementsSidebar() {
+    let editingLayer = null;
+
+    function getActiveWrapper() {
+      return document.querySelector('.canvas-scene-wrapper.w--tab-active');
+    }
+
+    function selectLayer(layer) {
+      document.querySelectorAll('.canvas-text-layer').forEach(l => l.classList.remove('is-selected'));
+      if (layer) layer.classList.add('is-selected');
+    }
+
+    function startEditing(layer) {
+      editingLayer = layer;
+      layer.dataset.editing = '';
+      const content = layer.querySelector('.canvas-text-content');
+      content.contentEditable = 'true';
+      content.style.pointerEvents = 'auto';
+      content.focus();
+      // Select all text
+      const range = document.createRange();
+      range.selectNodeContents(content);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    function stopEditing(layer) {
+      const content = layer.querySelector('.canvas-text-content');
+      content.contentEditable = 'false';
+      content.style.pointerEvents = '';
+      // Restore default text if emptied
+      if (!content.textContent.trim()) {
+        content.textContent = layer.dataset.type === 'title' ? 'Title'
+          : layer.dataset.type === 'subtitle' ? 'Subtitle' : 'Text';
+      }
+      delete layer.dataset.editing;
+      editingLayer = null;
+    }
+
+    function makeDraggable(layer) {
+      let dragging = false, startX, startY, startLeft, startTop;
+
+      layer.addEventListener('mousedown', e => {
+        if (layer.dataset.editing !== undefined) return; // let browser handle text cursor
+        e.preventDefault();
+        e.stopPropagation();
+        selectLayer(layer);
+
+        // Resolve transform-based centering to px on first drag
+        if (layer.style.transform) {
+          const container = layer.parentElement;
+          const cRect = container.getBoundingClientRect();
+          const lRect = layer.getBoundingClientRect();
+          layer.style.left = (lRect.left - cRect.left) + 'px';
+          layer.style.top  = (lRect.top  - cRect.top)  + 'px';
+          layer.style.transform = '';
+        }
+
+        dragging = true;
+        startX    = e.clientX;
+        startY    = e.clientY;
+        startLeft = parseFloat(layer.style.left) || 0;
+        startTop  = parseFloat(layer.style.top)  || 0;
+
+        function onMove(e) {
+          if (!dragging) return;
+          const container = layer.parentElement;
+          const cRect = container.getBoundingClientRect();
+          const lRect = layer.getBoundingClientRect();
+          let newLeft = startLeft + (e.clientX - startX);
+          let newTop  = startTop  + (e.clientY - startY);
+          newLeft = Math.max(0, Math.min(cRect.width  - lRect.width,  newLeft));
+          newTop  = Math.max(0, Math.min(cRect.height - lRect.height, newTop));
+          layer.style.left = newLeft + 'px';
+          layer.style.top  = newTop  + 'px';
+        }
+        function onUp() {
+          dragging = false;
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+
+      layer.addEventListener('click', e => {
+        e.stopPropagation();
+        selectLayer(layer);
+      });
+
+      layer.addEventListener('dblclick', e => {
+        e.stopPropagation();
+        selectLayer(layer);
+        startEditing(layer);
+      });
+
+      const content = layer.querySelector('.canvas-text-content');
+      content.addEventListener('blur', () => {
+        if (editingLayer === layer) stopEditing(layer);
+      });
+      content.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { e.preventDefault(); stopEditing(layer); layer.focus(); }
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); stopEditing(layer); }
+      });
+    }
+
+    function addTextLayer(type, dropX, dropY) {
+      const wrapper = getActiveWrapper();
+      if (!wrapper) return;
+
+      const layer = document.createElement('div');
+      layer.className = 'canvas-text-layer';
+      layer.dataset.type = type;
+
+      const content = document.createElement('span');
+      content.className = 'canvas-text-content';
+      content.textContent = type === 'title' ? 'Title' : type === 'subtitle' ? 'Subtitle' : 'Text';
+      layer.appendChild(content);
+
+      if (dropX !== undefined) {
+        // Position centered on drop point; measure after insert
+        layer.style.left = '0px';
+        layer.style.top  = '0px';
+        wrapper.appendChild(layer);
+        const cRect = wrapper.getBoundingClientRect();
+        const lRect = layer.getBoundingClientRect();
+        const left = dropX - cRect.left - lRect.width  / 2;
+        const top  = dropY - cRect.top  - lRect.height / 2;
+        layer.style.left = Math.max(0, Math.min(cRect.width  - lRect.width,  left)) + 'px';
+        layer.style.top  = Math.max(0, Math.min(cRect.height - lRect.height, top))  + 'px';
+      } else {
+        layer.style.left = '50%';
+        layer.style.top  = '50%';
+        layer.style.transform = 'translate(-50%, -50%)';
+        wrapper.appendChild(layer);
+      }
+
+      selectLayer(layer);
+      makeDraggable(layer);
+      return layer;
+    }
+
+    // Ghost drag from tile to canvas
+    function initTileDrag(btn) {
+      let ghost = null;
+      let dragActive = false;
+
+      btn.addEventListener('mousedown', e => {
+        if (e.button !== 0) return;
+        const startX = e.clientX, startY = e.clientY;
+        let moved = false;
+        dragActive = false;
+
+        const onMove = e => {
+          if (!moved && Math.hypot(e.clientX - startX, e.clientY - startY) > 6) {
+            moved = true;
+            dragActive = true;
+            ghost = document.createElement('div');
+            ghost.className = 'elem-tile-ghost';
+            const type = btn.dataset.textType;
+            const label = document.createElement('span');
+            label.className = 'canvas-text-content';
+            label.textContent = type === 'title' ? 'Title' : type === 'subtitle' ? 'Subtitle' : 'Text';
+            ghost.appendChild(label);
+            document.body.appendChild(ghost);
+          }
+          if (ghost) {
+            ghost.style.left = (e.clientX + 14) + 'px';
+            ghost.style.top  = (e.clientY + 14) + 'px';
+          }
+        };
+
+        const onUp = e => {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+          if (ghost) { ghost.remove(); ghost = null; }
+
+          if (dragActive) {
+            const wrapper = getActiveWrapper();
+            if (wrapper) {
+              const r = wrapper.getBoundingClientRect();
+              if (e.clientX >= r.left && e.clientX <= r.right &&
+                  e.clientY >= r.top  && e.clientY <= r.bottom) {
+                addTextLayer(btn.dataset.textType, e.clientX, e.clientY);
+              }
+            }
+          }
+        };
+
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+
+      btn.addEventListener('click', () => {
+        if (dragActive) return; // handled on mouseup
+        addTextLayer(btn.dataset.textType);
+      });
+    }
+
+    // Delete/Backspace removes the selected layer
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return;
+      const active = document.activeElement;
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' ||
+          active.isContentEditable)) return;
+      const selected = document.querySelector('.canvas-text-layer.is-selected');
+      if (selected) { e.preventDefault(); selected.remove(); }
+    });
+
+    // Deselect + stop editing on canvas background click
+    document.querySelector('.canvas-stage')?.addEventListener('click', e => {
+      if (!e.target.closest('.canvas-text-layer')) {
+        if (editingLayer) stopEditing(editingLayer);
+        selectLayer(null);
+      }
+    });
+
+    document.querySelectorAll('.elem-text-tile').forEach(initTileDrag);
+  }
+
+  // --- Stock sidebar tabs ---
+  function initStockTabs() {
+    document.querySelectorAll('[data-stock-tab]').forEach(btn => {
+      btn.addEventListener('click', e => { e.preventDefault(); });
+    });
+  }
+
+  // --- Generic dropdown dialog helper ---
+  function initDropdownDialog(btnId, dialogId, alignRight) {
+    const btn = document.getElementById(btnId);
+    const dialog = document.getElementById(dialogId);
     if (!btn || !dialog) return;
 
-    function openAppMenu(e) {
+    btn.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
       if (!dialog.classList.contains('is-hidden')) {
         dialog.classList.add('is-hidden');
         return;
       }
+      // Close all other dialogs
+      document.querySelectorAll('.app-menu-dialog').forEach(d => {
+        if (d !== dialog) d.classList.add('is-hidden');
+      });
       const rect = btn.getBoundingClientRect();
       dialog.style.top = (rect.bottom + 6) + 'px';
-      dialog.style.left = rect.left + 'px';
+      if (alignRight) {
+        dialog.style.left = 'auto';
+        dialog.style.right = (window.innerWidth - rect.right) + 'px';
+      } else {
+        dialog.style.right = 'auto';
+        dialog.style.left = rect.left + 'px';
+      }
       dialog.classList.remove('is-hidden');
-    }
-
-    btn.addEventListener('click', openAppMenu);
+    });
 
     dialog.querySelectorAll('.app-menu-item').forEach(item => {
       item.addEventListener('click', e => { e.preventDefault(); });
@@ -694,11 +931,17 @@
 
     document.addEventListener('click', e => {
       if (!dialog.classList.contains('is-hidden')) {
-        if (!e.target.closest('#app-menu-dialog') && !e.target.closest('#app-menu-btn')) {
+        if (!e.target.closest('#' + dialogId) && !e.target.closest('#' + btnId)) {
           dialog.classList.add('is-hidden');
         }
       }
     });
+  }
+
+  // --- App Menu Dialog ---
+  function initAppMenu() {
+    initDropdownDialog('app-menu-btn', 'app-menu-dialog', true);
+    initDropdownDialog('project-menu-btn', 'project-menu-dialog', false);
   }
 
   // --- Init ---
@@ -712,6 +955,8 @@
     initCursorMenu();
     initTooltips();
     initAppMenu();
+    initElementsSidebar();
+    initStockTabs();
   }
 
   if (document.readyState === 'loading') {
