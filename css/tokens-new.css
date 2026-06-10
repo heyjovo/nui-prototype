@@ -427,17 +427,19 @@
 .icon.voice            { -webkit-mask-image: url('../images/icon-voice.svg');                mask-image: url('../images/icon-voice.svg'); }
 .icon.magic-smile      { -webkit-mask-image: url('../images/icon-magic-smile.svg');          mask-image: url('../images/icon-magic-smile.svg'); }
 .icon.mat-brand-family { -webkit-mask-image: url('../images/mat-brand_family.svg');          mask-image: url('../images/mat-brand_family.svg'); }
+.icon.brackets      { -webkit-mask-image: url('../images/icon-brackets.svg');         mask-image: url('../images/icon-brackets.svg'); }
+.icon.arrow-return  { -webkit-mask-image: url('../images/icon-arrow-return.svg');     mask-image: url('../images/icon-arrow-return.svg'); }
 
 /* ─────────────────────────────────────────────
    SCRIPT TOOLBAR — TAB CHIPS + TOOLS
    ───────────────────────────────────────────── */
 
-/* Tab chip container — matches canvas toolbar tabs visually */
+/* Tab chip container */
 .script-tab-group {
   display: flex;
   align-items: center;
   gap: 1px;
-  background-color: var(--accent-bg-toolbar, rgba(181,82,135,0.5));
+  background-color: #B96A96;
   border-radius: 3px;
   padding: 1px;
   flex-shrink: 0;
@@ -452,7 +454,7 @@
   min-width: 26px;
   border-radius: 2px;
   text-decoration: none;
-  color: var(--pink-100, #f2d9ec);
+  color: #390A1A;
   opacity: 0.75;
   flex-shrink: 0;
   gap: 0;
@@ -558,32 +560,65 @@
 
 /* Underlord bar fits the toolbar row */
 .script-underlord-bar {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-}
-.script-underlord-collapsed {
   display: flex;
   align-items: center;
   gap: 2px;
   flex: 1;
   min-width: 0;
 }
+/* Collapsed Underlord input box — exact spec */
 .script-underlord-input {
   flex: 1;
   min-width: 120px;
   width: auto;
-  background-color: rgba(88, 63, 74, 0.06);
-  border: 1px solid rgba(88, 63, 74, 0.1);
+  border-radius: 4px;
+  border-top: 1px solid rgba(88, 63, 74, 0.05);
+  border-right: 1px solid rgba(88, 63, 74, 0.05);
+  border-left: 1px solid rgba(88, 63, 74, 0.05);
+  border-bottom: none;
+  background: rgba(88, 63, 74, 0.08);
+  box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-/* Placeholder and typed text need dark color for light panel */
+/* Typed text color */
 .script-underlord-input .toolbar-input-inline {
   color: var(--fg-primary, #26171d);
   caret-color: var(--pink-900, #651a39);
 }
-.script-underlord-input .toolbar-input-inline:empty::before {
+/* Placeholder: secondary fg, shown via is-empty class toggled by JS */
+.script-underlord-input .toolbar-input-inline.is-empty::before {
+  content: attr(data-placeholder);
   color: var(--fg-secondary, rgba(22, 5, 12, 0.5));
+  pointer-events: none;
+}
+/* Send button in collapsed bar: primary fg color */
+.script-send-btn .icon {
+  background-color: var(--fg-primary, #26171d);
+}
+
+/* Expanded input area: same input style, dark on light */
+.script-expanded-input {
+  background: rgba(88, 63, 74, 0.08);
+  box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.script-expanded-input .toolbar-input-editable {
+  color: var(--fg-primary, #26171d);
+  caret-color: var(--pink-900, #651a39);
+}
+.script-expanded-input .toolbar-input-editable:empty::before {
+  color: var(--fg-secondary, rgba(22, 5, 12, 0.5));
+}
+/* Send button in expanded: white icon on dark bg */
+.toolbar-send-script {
+  background-color: #110A0D !important;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.toolbar-send-script .icon {
+  background-color: white !important;
 }
 
 /* Expanded Underlord — floats below the toolbar row */
@@ -599,16 +634,7 @@
   overflow: hidden;
   z-index: 100;
 }
-.script-underlord-expanded-header {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  justify-content: flex-end;
-  padding: 2px 4px;
-  border-bottom: 1px solid rgba(88,63,74,0.06);
-}
 .script-expanded-input {
-  background-color: rgba(88,63,74,0.03);
   height: auto;
   min-height: 80px;
 }

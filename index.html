@@ -282,8 +282,8 @@
                         <div class="select-label"><div class="icon chevron-down-s"></div></div>
                       </a>
                       <a href="#" class="icon-button inset w-inline-block" data-tooltip="Add emphasis"><div class="icon mat-brand-family"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Keep together"><div class="icon more-horizontal"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Force break"><div class="icon more-horizontal"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Keep together"><div class="icon brackets"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Force break"><div class="icon arrow-return"></div></a>
                       <div class="divider-simple-v"></div>
                       <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
                     </div>
@@ -326,48 +326,44 @@
                   <!-- Underlord bar (shown when Underlord tab active) -->
                   <div id="script-underlord-bar" class="script-underlord-bar" style="display:none">
 
-                    <!-- Collapsed input row -->
-                    <div id="script-underlord-collapsed" class="script-toolbar-items script-underlord-collapsed">
-                      <div class="fake-input script-underlord-input">
-                        <div class="toolbar-input-inline" contenteditable="true" data-placeholder="What do you want to change?" spellcheck="false" role="textbox" aria-label="Ask Underlord"></div>
-                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Send"><div class="icon send-fill"></div></a>
-                      </div>
-                      <div class="divider-simple-v"></div>
-                      <div class="script-toolbar-group">
-                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
-                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
-                        <a href="#" id="script-underlord-expand" class="icon-button dense w-inline-block" data-tooltip="Expand"><div class="icon expand"></div></a>
-                        <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
-                      </div>
+                    <!-- Input wrapper: hidden when expanded, visible when collapsed -->
+                    <div id="script-underlord-input-wrapper" class="fake-input script-underlord-input">
+                      <div class="toolbar-input-inline" id="script-underlord-inline" contenteditable="true" data-placeholder="What do you want to change?" spellcheck="false" role="textbox" aria-label="Ask Underlord"></div>
+                      <a href="#" class="icon-button dense script-send-btn w-inline-block" data-tooltip="Send"><div class="icon send-fill"></div></a>
                     </div>
 
-                    <!-- Expanded input area -->
-                    <div id="script-underlord-expanded" class="script-underlord-expanded" style="display:none">
-                      <div class="script-underlord-expanded-header">
-                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
-                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
-                        <div class="divider-simple-v"></div>
-                        <a href="#" id="script-underlord-collapse" class="icon-button dense w-inline-block" data-tooltip="Collapse"><div class="icon collapse"></div></a>
-                        <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
-                      </div>
-                      <div class="toolbar-expanded-input script-expanded-input">
-                        <div class="toolbar-input-editable" contenteditable="true" data-placeholder="How can Underlord help?" role="textbox" aria-multiline="true" aria-label="Ask Underlord" spellcheck="false"></div>
-                        <div class="toolbar-input-footer">
-                          <div class="toolbar-input-actions">
-                            <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon paperclip"></div></a>
-                            <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon at-symbol"></div></a>
-                            <a href="#" class="toolbar-model-select w-inline-block">
-                              <div class="icon ai-model"></div>
-                              <div class="toolbar-model-label">Auto</div>
-                              <div class="icon chevron-down-s"></div>
-                            </a>
-                          </div>
-                          <a href="#" class="icon-button toolbar-send-script w-inline-block"><div class="icon send-fill"></div></a>
-                        </div>
-                      </div>
+                    <!-- Actions: always visible in toolbar -->
+                    <div class="divider-simple-v"></div>
+                    <div class="script-toolbar-group">
+                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
+                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
+                    </div>
+                    <div class="divider-simple-v"></div>
+                    <div class="script-toolbar-group">
+                      <a href="#" id="script-underlord-expand" class="icon-button dense w-inline-block" data-tooltip="Expand"><div class="icon expand"></div></a>
+                      <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
                     </div>
 
                   </div><!-- /script-underlord-bar -->
+
+                  <!-- Expanded input: absolutely positioned below toolbar, toggled by expand btn -->
+                  <div id="script-underlord-expanded" class="script-underlord-expanded" style="display:none">
+                    <div class="toolbar-expanded-input script-expanded-input">
+                      <div class="toolbar-input-editable" contenteditable="true" data-placeholder="How can Underlord help?" role="textbox" aria-multiline="true" aria-label="Ask Underlord" spellcheck="false"></div>
+                      <div class="toolbar-input-footer">
+                        <div class="toolbar-input-actions">
+                          <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon paperclip"></div></a>
+                          <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon at-symbol"></div></a>
+                          <a href="#" class="toolbar-model-select w-inline-block">
+                            <div class="icon ai-model"></div>
+                            <div class="toolbar-model-label">Auto</div>
+                            <div class="icon chevron-down-s"></div>
+                          </a>
+                        </div>
+                        <a href="#" class="icon-button toolbar-send-script w-inline-block"><div class="icon send-fill"></div></a>
+                      </div>
+                    </div>
+                  </div><!-- /script-underlord-expanded -->
 
                 </div><!-- /script-toolbar-wrapper -->
                 <div class="script-top-bar-right">

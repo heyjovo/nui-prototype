@@ -446,9 +446,10 @@
     const toolPanes      = document.getElementById('script-tool-panes');
     const underlordBar   = document.getElementById('script-underlord-bar');
     const expandBtn      = document.getElementById('script-underlord-expand');
-    const collapseBtn    = document.getElementById('script-underlord-collapse');
-    const collapsedArea  = document.getElementById('script-underlord-collapsed');
+    const inputWrapper   = document.getElementById('script-underlord-input-wrapper');
+    const inlineInput    = document.getElementById('script-underlord-inline');
     const expandedArea   = document.getElementById('script-underlord-expanded');
+    let underlordIsExpanded = false;
 
     let underlordActive = false;
 
@@ -473,9 +474,10 @@
       underlordTab?.classList.remove('is-active');
       if (toolPanes) toolPanes.style.display = '';
       if (underlordBar) underlordBar.style.display = 'none';
-      // Collapse expanded Underlord if open
+      // Collapse expanded input if open
+      underlordIsExpanded = false;
       if (expandedArea) expandedArea.style.display = 'none';
-      if (collapsedArea) collapsedArea.style.display = '';
+      if (inputWrapper) inputWrapper.style.display = '';
     }
 
     function showUnderlordTab() {
@@ -485,6 +487,10 @@
       if (toolPanes) toolPanes.style.display = 'none';
       if (underlordBar) underlordBar.style.display = '';
       modeDropdown?.classList.add('is-hidden');
+      // Init placeholder class for inline input
+      if (inlineInput) {
+        inlineInput.classList.toggle('is-empty', !inlineInput.textContent.trim());
+      }
     }
 
     // Left chip: toggle dropdown (if already on direct tab) or switch to direct tab
@@ -521,16 +527,20 @@
       }
     });
 
-    // Expand / collapse Underlord input
+    // Expand/collapse: toggle input wrapper vs floating expanded area
     expandBtn?.addEventListener('click', e => {
       e.preventDefault();
-      if (collapsedArea) collapsedArea.style.display = 'none';
-      if (expandedArea) expandedArea.style.display = '';
+      underlordIsExpanded = !underlordIsExpanded;
+      if (inputWrapper) inputWrapper.style.display = underlordIsExpanded ? 'none' : '';
+      if (expandedArea) expandedArea.style.display = underlordIsExpanded ? '' : 'none';
+      if (underlordIsExpanded) {
+        expandedArea?.querySelector('.toolbar-input-editable')?.focus();
+      }
     });
-    collapseBtn?.addEventListener('click', e => {
-      e.preventDefault();
-      if (expandedArea) expandedArea.style.display = 'none';
-      if (collapsedArea) collapsedArea.style.display = '';
+
+    // Maintain is-empty class on the inline input for placeholder
+    inlineInput?.addEventListener('input', () => {
+      inlineInput.classList.toggle('is-empty', !inlineInput.textContent.trim());
     });
 
     // Open in sidebar buttons inside the script toolbar
