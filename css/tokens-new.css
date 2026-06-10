@@ -491,7 +491,9 @@
 }
 .script-tab-chip.is-active .script-tab-chevron { display: block; }
 
-/* Underlord chip: label + chevron only when active (reuses canvas tab-mode-label) */
+/* Underlord chip: label + chevron hidden when inactive */
+.script-tab-chip .tab-mode-label { display: none; }
+
 .script-tab-chip .tab-mode-chevron {
   width: 12px;
   height: 12px;
@@ -582,6 +584,15 @@
   min-height: 16px;
   margin: 4px 2px;
   flex-shrink: 0;
+}
+/* Action group always pushed to far right;
+   when input is visible (flex:1), input fills space and pushes this right;
+   when input is hidden (expanded), margin-left:auto does the pushing */
+.script-underlord-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 /* Tool panes: scroll horizontally, tab group + right actions stay fixed */

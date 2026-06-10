@@ -553,7 +553,10 @@
     const overflowDivider = document.querySelector('.script-overflow-divider');
     function syncOverflowDivider() {
       if (!overflowDivider) return;
-      const visible = !underlordActive && !!toolPanes && toolPanes.scrollWidth > toolPanes.clientWidth + 1;
+      // Underlord mode: always show divider to separate bar from Stack/Hide/Collapse
+      // Direct editing: show only when tools overflow the available width
+      const visible = underlordActive ||
+        (!underlordActive && !!toolPanes && toolPanes.scrollWidth > toolPanes.clientWidth + 1);
       overflowDivider.style.display = visible ? '' : 'none';
     }
     toolPanes?.addEventListener('scroll', syncOverflowDivider);
