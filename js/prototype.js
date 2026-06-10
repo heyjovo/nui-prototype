@@ -890,6 +890,79 @@
   }
 
   // --- Stock sidebar tabs ---
+  function initRecordModeDialog() {
+    const trigger = document.getElementById('rec-mode-btn');
+    const dialog = document.getElementById('rec-mode-dialog');
+    if (!trigger || !dialog) return;
+
+    trigger.addEventListener('click', e => {
+      e.preventDefault();
+      if (!dialog.classList.contains('is-hidden')) {
+        dialog.classList.add('is-hidden');
+        return;
+      }
+      const panel = document.querySelector('[data-panel="record"]');
+      const rect = panel.getBoundingClientRect();
+      dialog.style.top = (rect.top + 56) + 'px';
+      dialog.style.left = (rect.right + 8) + 'px';
+      dialog.classList.remove('is-hidden');
+    });
+
+    document.addEventListener('click', e => {
+      if (!dialog.classList.contains('is-hidden') &&
+          !dialog.contains(e.target) && !trigger.contains(e.target)) {
+        dialog.classList.add('is-hidden');
+      }
+    });
+
+    dialog.querySelectorAll('.rec-mode-option').forEach(opt => {
+      opt.addEventListener('click', e => e.preventDefault());
+    });
+  }
+
+  function initLayoutPackDialog() {
+    const trigger = document.querySelector('.bk-layout-card');
+    const dialog = document.getElementById('layout-pack-dialog');
+    if (!trigger || !dialog) return;
+
+    trigger.addEventListener('click', e => {
+      e.preventDefault();
+      if (!dialog.classList.contains('is-hidden')) {
+        dialog.classList.add('is-hidden');
+        return;
+      }
+      const panel = document.querySelector('[data-panel="brand-kit"]');
+      const rect = panel.getBoundingClientRect();
+      dialog.style.top = rect.top + 'px';
+      dialog.style.left = (rect.right + 8) + 'px';
+      dialog.classList.remove('is-hidden');
+    });
+
+    document.addEventListener('click', e => {
+      if (!dialog.classList.contains('is-hidden') &&
+          !dialog.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
+        dialog.classList.add('is-hidden');
+      }
+    });
+
+    dialog.querySelectorAll('.lp-card').forEach(card => {
+      card.addEventListener('click', e => e.preventDefault());
+    });
+  }
+
+  function initMediaTabs() {
+    const panel = document.querySelector('[data-panel="media"]');
+    if (!panel) return;
+    panel.querySelectorAll('[data-media-tab]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const tab = btn.dataset.mediaTab;
+        panel.querySelectorAll('[data-media-tab]').forEach(b => b.classList.toggle('active', b.dataset.mediaTab === tab));
+        panel.querySelectorAll('[data-media-content]').forEach(c => { c.style.display = c.dataset.mediaContent === tab ? '' : 'none'; });
+      });
+    });
+  }
+
   function initStockTabs() {
     document.querySelectorAll('[data-stock-tab]').forEach(btn => {
       btn.addEventListener('click', e => { e.preventDefault(); });
@@ -956,6 +1029,9 @@
     initTooltips();
     initAppMenu();
     initElementsSidebar();
+    initRecordModeDialog();
+    initLayoutPackDialog();
+    initMediaTabs();
     initStockTabs();
   }
 
