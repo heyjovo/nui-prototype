@@ -667,6 +667,40 @@
     });
   }
 
+  // --- App Menu Dialog ---
+  function initAppMenu() {
+    const btn = document.getElementById('app-menu-btn');
+    const dialog = document.getElementById('app-menu-dialog');
+    if (!btn || !dialog) return;
+
+    function openAppMenu(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!dialog.classList.contains('is-hidden')) {
+        dialog.classList.add('is-hidden');
+        return;
+      }
+      const rect = btn.getBoundingClientRect();
+      dialog.style.top = (rect.bottom + 6) + 'px';
+      dialog.style.left = rect.left + 'px';
+      dialog.classList.remove('is-hidden');
+    }
+
+    btn.addEventListener('click', openAppMenu);
+
+    dialog.querySelectorAll('.app-menu-item').forEach(item => {
+      item.addEventListener('click', e => { e.preventDefault(); });
+    });
+
+    document.addEventListener('click', e => {
+      if (!dialog.classList.contains('is-hidden')) {
+        if (!e.target.closest('#app-menu-dialog') && !e.target.closest('#app-menu-btn')) {
+          dialog.classList.add('is-hidden');
+        }
+      }
+    });
+  }
+
   // --- Init ---
   function init() {
     initTabs();
@@ -677,6 +711,7 @@
     initScriptToolbar();
     initCursorMenu();
     initTooltips();
+    initAppMenu();
   }
 
   if (document.readyState === 'loading') {

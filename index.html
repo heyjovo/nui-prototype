@@ -103,7 +103,7 @@
           <div class="header-tooltip">Aspect ratio</div>
         </a>
         <div class="dotted-line"></div>
-        <a href="#" class="icon-button inset w-inline-block">
+        <a id="app-menu-btn" href="#" class="icon-button inset w-inline-block">
           <div class="icon action-key"></div>
           <div class="header-tooltip">App menu</div>
         </a>
@@ -1261,6 +1261,66 @@
       </div>
     </div>
   </div>
+  <!-- App Menu Dialog -->
+  <div id="app-menu-dialog" class="app-menu-dialog is-hidden" role="dialog" aria-label="App menu">
+    <div class="app-menu-search-row">
+      <div class="icon search app-menu-search-icon"></div>
+      <span class="app-menu-search-label">Quick actions</span>
+      <span class="app-menu-kbd">⌘K</span>
+    </div>
+    <div class="app-menu-divider"></div>
+    <div class="app-menu-section">
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">File</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Edit</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Playback</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Insert</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Format</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Tools</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+    </div>
+    <div class="app-menu-divider"></div>
+    <div class="app-menu-section">
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Settings</span>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Help &amp; feedback</span>
+        <div class="icon chevron-right-s app-menu-chevron"></div>
+      </a>
+      <a href="#" class="app-menu-item">
+        <span class="app-menu-item-label">Open in desktop app</span>
+      </a>
+    </div>
+    <div class="app-menu-divider"></div>
+    <div class="app-menu-user-row">
+      <img src="images/account-settings-avatar.png" alt="" class="app-menu-avatar">
+      <div class="app-menu-user-info">
+        <span class="app-menu-user-name">John Voss</span>
+        <span class="app-menu-user-email">john.voss@descript.com</span>
+      </div>
+    </div>
+    <a href="#" class="app-menu-item app-menu-logout">
+      <span class="app-menu-item-label">Log out</span>
+    </a>
+  </div>
+
   <script src="js/components.js" type="text/javascript"></script>
   <script src="js/prototype.js" type="text/javascript"></script>
   <script src="js/interactions.js" type="text/javascript"></script>
