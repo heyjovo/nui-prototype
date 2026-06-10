@@ -183,42 +183,193 @@
           <div class="canvas-stage">
             <div class="script-wrapper is-collapsed">
               <div class="script-top-bar">
-                <div class="script-toolbar-items script-top-toolbar">
-                  <a href="#" class="slim-select w-inline-block">
-                    <div class="icon search"></div>
-                    <div class="select-label">
-                      <div class="button-label">Find</div>
-                      <div class="icon chevron"></div>
-                    </div>
-                  </a>
-                  <div class="divider-simple-v"></div>
-                  <div class="script-toolbar-group">
-                    <a href="#" class="toolbar-item-dropdown">
-                      <div class="icon strikethrough"></div>
-                      <div class="icon chevron"></div>
+                <div class="script-toolbar-wrapper script-top-toolbar" id="script-toolbar-new">
+
+                  <!-- Tab chip group: mode selector + Underlord -->
+                  <div class="script-tab-group">
+                    <a href="#" id="script-tab-direct" class="script-tab-chip is-active">
+                      <div class="icon cursor-text" id="script-mode-icon"></div>
+                      <div class="icon chevron-down-s script-tab-chevron"></div>
                     </a>
-                    <a href="#" class="icon-button inset w-inline-block">
-                      <div class="icon bold"></div>
-                    </a>
-                    <a href="#" class="icon-button inset w-inline-block">
-                      <div class="icon italic"></div>
+                    <a href="#" id="script-tab-underlord" class="script-tab-chip">
+                      <div class="icon robot"></div>
+                      <span class="tab-mode-label">Edit</span>
+                      <div class="icon chevron-down-s tab-mode-chevron"></div>
                     </a>
                   </div>
-                  <div class="divider-simple-v"></div>
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon color-swatch"></div>
-                  </a>
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon add-comment"></div>
-                  </a>
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon content-copy"></div>
-                  </a>
-                  <div class="divider-simple-v"></div>
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon more-horizontal"></div>
-                  </a>
-                </div>
+
+                  <!-- Mode dropdown (opens below left tab) -->
+                  <div id="script-mode-dropdown" class="script-mode-dropdown is-hidden">
+                    <a href="#" class="script-mode-item is-active" data-mode="edit" data-icon="cursor-text">
+                      <div class="icon cursor-text"></div>
+                      <span>Edit</span>
+                    </a>
+                    <a href="#" class="script-mode-item" data-mode="ai-speech" data-icon="text-to-speech">
+                      <div class="icon text-to-speech"></div>
+                      <span>AI Speech</span>
+                    </a>
+                    <a href="#" class="script-mode-item" data-mode="correct" data-icon="pencil-underline">
+                      <div class="icon pencil-underline"></div>
+                      <span>Correct</span>
+                    </a>
+                    <a href="#" class="script-mode-item" data-mode="captions" data-icon="text-box">
+                      <div class="icon text-box"></div>
+                      <span>Captions</span>
+                    </a>
+                  </div>
+
+                  <!-- Tool panes (one per mode, direct editing tab) -->
+                  <div id="script-tool-panes" class="script-toolbar-items">
+
+                    <!-- Edit -->
+                    <div class="script-tool-pane" data-mode="edit">
+                      <a href="#" class="slim-select w-inline-block" data-tooltip="Find">
+                        <div class="icon search"></div>
+                        <div class="select-label"><div class="button-label">Find</div><div class="icon chevron-down-s"></div></div>
+                      </a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Bold"><div class="icon bold"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Italic"><div class="icon italic"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Highlight"><div class="icon ink-highlighter"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Speaker"><div class="icon at-sign"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Chapter"><div class="icon hash"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Scene"><div class="icon slash"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Note"><div class="icon parenthesis"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Comment"><div class="icon add-comment"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="AI edit"><div class="icon magic-fill"></div><span>Edit</span></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Translate"><div class="icon translate"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                    </div>
+
+                    <!-- AI Speech -->
+                    <div class="script-tool-pane" data-mode="ai-speech" style="display:none">
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Create avatar"><div class="icon avatar"></div><span>Create avatar</span></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Voices"><div class="icon voice"></div><span>Voices</span></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Tone"><div class="icon magic-smile"></div><span>Tone</span></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Speaker"><div class="icon at-sign"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Note"><div class="icon parenthesis"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Translate"><div class="icon translate"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                    </div>
+
+                    <!-- Correct -->
+                    <div class="script-tool-pane" data-mode="correct" style="display:none">
+                      <a href="#" class="slim-select w-inline-block" data-tooltip="Find">
+                        <div class="icon search"></div>
+                        <div class="select-label"><div class="button-label">Find</div><div class="icon chevron-down-s"></div></div>
+                      </a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Punctuation"><div class="icon new-punctuation"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Capitalization"><div class="icon text-all-caps"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Highlight"><div class="icon ink-highlighter"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Comment"><div class="icon add-comment"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                    </div>
+
+                    <!-- Captions -->
+                    <div class="script-tool-pane" data-mode="captions" style="display:none">
+                      <a href="#" class="slim-select w-inline-block" data-tooltip="Find">
+                        <div class="icon search"></div>
+                        <div class="select-label"><div class="button-label">Find</div><div class="icon chevron-down-s"></div></div>
+                      </a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="slim-select w-inline-block" data-tooltip="Ignore">
+                        <div class="icon strikethrough"></div>
+                        <div class="select-label"><div class="icon chevron-down-s"></div></div>
+                      </a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Add emphasis"><div class="icon mat-brand-family"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Keep together"><div class="icon more-horizontal"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Force break"><div class="icon more-horizontal"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                    </div>
+
+                    <!-- Empty script (Task 1 starting state) -->
+                    <div class="script-tool-pane" data-mode="empty" style="display:none">
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Brainstorm"><div class="icon magic-fill"></div><span>Brainstorm</span></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Create outline"><div class="icon more-horizontal"></div><span>Create outline</span></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Write script"><div class="icon text-to-speech"></div><span>Write script</span></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Quick actions"><div class="icon magic-search"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Upload"><div class="icon upload"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                    </div>
+
+                    <!-- Text selected -->
+                    <div class="script-tool-pane" data-mode="text-selected" style="display:none">
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Regenerate"><div class="icon magic-heal"></div><span>Regenerate</span></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="slim-select w-inline-block" data-tooltip="Ignore">
+                        <div class="icon strikethrough"></div>
+                        <div class="select-label"><div class="icon chevron-down-s"></div></div>
+                      </a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Bold"><div class="icon bold"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Italic"><div class="icon italic"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Highlight"><div class="icon ink-highlighter"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Speaker"><div class="icon at-sign"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Chapter"><div class="icon hash"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Scene"><div class="icon slash"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Note"><div class="icon parenthesis"></div></a>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Comment"><div class="icon add-comment"></div></a>
+                      <div class="divider-simple-v"></div>
+                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Copy"><div class="icon content-copy"></div></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="AI edit"><div class="icon magic-fill"></div><span>Edit</span></a>
+                    </div>
+
+                  </div><!-- /script-tool-panes -->
+
+                  <!-- Underlord bar (shown when Underlord tab active) -->
+                  <div id="script-underlord-bar" class="script-underlord-bar" style="display:none">
+
+                    <!-- Collapsed input row -->
+                    <div id="script-underlord-collapsed" class="script-toolbar-items script-underlord-collapsed">
+                      <div class="fake-input script-underlord-input">
+                        <div class="toolbar-input-inline" contenteditable="true" data-placeholder="What do you want to change?" spellcheck="false" role="textbox" aria-label="Ask Underlord"></div>
+                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Send"><div class="icon send-fill"></div></a>
+                      </div>
+                      <div class="divider-simple-v"></div>
+                      <div class="script-toolbar-group">
+                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
+                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
+                        <a href="#" id="script-underlord-expand" class="icon-button dense w-inline-block" data-tooltip="Expand"><div class="icon expand"></div></a>
+                        <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
+                      </div>
+                    </div>
+
+                    <!-- Expanded input area -->
+                    <div id="script-underlord-expanded" class="script-underlord-expanded" style="display:none">
+                      <div class="script-underlord-expanded-header">
+                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
+                        <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
+                        <div class="divider-simple-v"></div>
+                        <a href="#" id="script-underlord-collapse" class="icon-button dense w-inline-block" data-tooltip="Collapse"><div class="icon collapse"></div></a>
+                        <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
+                      </div>
+                      <div class="toolbar-expanded-input script-expanded-input">
+                        <div class="toolbar-input-editable" contenteditable="true" data-placeholder="How can Underlord help?" role="textbox" aria-multiline="true" aria-label="Ask Underlord" spellcheck="false"></div>
+                        <div class="toolbar-input-footer">
+                          <div class="toolbar-input-actions">
+                            <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon paperclip"></div></a>
+                            <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon at-symbol"></div></a>
+                            <a href="#" class="toolbar-model-select w-inline-block">
+                              <div class="icon ai-model"></div>
+                              <div class="toolbar-model-label">Auto</div>
+                              <div class="icon chevron-down-s"></div>
+                            </a>
+                          </div>
+                          <a href="#" class="icon-button toolbar-send-script w-inline-block"><div class="icon send-fill"></div></a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /script-underlord-bar -->
+
+                </div><!-- /script-toolbar-wrapper -->
                 <div class="script-top-bar-right">
                   <a id="toggle-script-stacked" href="#" class="icon-button inset w-inline-block">
                     <div class="icon mat-page-menu-ios"></div>

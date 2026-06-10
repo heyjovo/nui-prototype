@@ -327,6 +327,9 @@
       }, 320);
     });
 
+    // Expose toggleSidebarPanel globally for script toolbar + canvas toolbar
+    window._toggleSidebarPanel = toggleSidebarPanel;
+
     // "Open in sidebar" buttons — toggle Underlord chat panel
     document.querySelectorAll('.toolbar-open-sidebar-btn').forEach(btn => {
       btn.addEventListener('click', e => {
@@ -431,6 +434,117 @@
     });
   }
 
+  // --- Script Toolbar ---
+  function initScriptToolbar() {
+    const wrapper    = document.getElementById('script-toolbar-new');
+    if (!wrapper) return;
+
+    const directTab      = document.getElementById('script-tab-direct');
+    const underlordTab   = document.getElementById('script-tab-underlord');
+    const modeDropdown   = document.getElementById('script-mode-dropdown');
+    const modeIcon       = document.getElementById('script-mode-icon');
+    const toolPanes      = document.getElementById('script-tool-panes');
+    const underlordBar   = document.getElementById('script-underlord-bar');
+    const expandBtn      = document.getElementById('script-underlord-expand');
+    const collapseBtn    = document.getElementById('script-underlord-collapse');
+    const collapsedArea  = document.getElementById('script-underlord-collapsed');
+    const expandedArea   = document.getElementById('script-underlord-expanded');
+
+    let underlordActive = false;
+
+    function setMode(mode, iconClass) {
+      // Update mode icon
+      if (modeIcon && iconClass) {
+        modeIcon.className = `icon ${iconClass}`;
+      }
+      // Update dropdown active item
+      document.querySelectorAll('.script-mode-item').forEach(item =>
+        item.classList.toggle('is-active', item.dataset.mode === mode));
+      // Show the right tool pane
+      document.querySelectorAll('.script-tool-pane').forEach(pane =>
+        pane.style.display = pane.dataset.mode === mode ? '' : 'none');
+      // Close dropdown
+      modeDropdown?.classList.add('is-hidden');
+    }
+
+    function showDirectTab() {
+      underlordActive = false;
+      directTab?.classList.add('is-active');
+      underlordTab?.classList.remove('is-active');
+      if (toolPanes) toolPanes.style.display = '';
+      if (underlordBar) underlordBar.style.display = 'none';
+      // Collapse expanded Underlord if open
+      if (expandedArea) expandedArea.style.display = 'none';
+      if (collapsedArea) collapsedArea.style.display = '';
+    }
+
+    function showUnderlordTab() {
+      underlordActive = true;
+      underlordTab?.classList.add('is-active');
+      directTab?.classList.remove('is-active');
+      if (toolPanes) toolPanes.style.display = 'none';
+      if (underlordBar) underlordBar.style.display = '';
+      modeDropdown?.classList.add('is-hidden');
+    }
+
+    // Left chip: toggle dropdown (if already on direct tab) or switch to direct tab
+    directTab?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (underlordActive) { showDirectTab(); return; }
+      const open = !modeDropdown?.classList.contains('is-hidden');
+      modeDropdown?.classList.toggle('is-hidden', open);
+    });
+
+    // Right chip: switch to Underlord tab
+    underlordTab?.addEventListener('click', e => {
+      e.preventDefault();
+      showUnderlordTab();
+    });
+
+    // Mode dropdown item selection
+    document.querySelectorAll('.script-mode-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        setMode(item.dataset.mode, item.dataset.icon);
+        if (underlordActive) showDirectTab();
+        else modeDropdown?.classList.add('is-hidden');
+      });
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', e => {
+      if (!modeDropdown?.classList.contains('is-hidden') &&
+          !directTab?.contains(e.target) &&
+          !modeDropdown?.contains(e.target)) {
+        modeDropdown?.classList.add('is-hidden');
+      }
+    });
+
+    // Expand / collapse Underlord input
+    expandBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      if (collapsedArea) collapsedArea.style.display = 'none';
+      if (expandedArea) expandedArea.style.display = '';
+    });
+    collapseBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      if (expandedArea) expandedArea.style.display = 'none';
+      if (collapsedArea) collapsedArea.style.display = '';
+    });
+
+    // Open in sidebar buttons inside the script toolbar
+    document.querySelectorAll('.script-open-sidebar-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        window._toggleSidebarPanel?.('underlord');
+      });
+    });
+  }
+
+  // Expose _toggleSidebarPanel so script toolbar can use it
+  // (populated in initToggles, safe to call after DOM ready)
+
   // --- Cursor Menu ---
   function initCursorMenu() {
     const menu = document.getElementById('cursor-menu');
@@ -511,6 +625,7 @@
     initToggles();
     initSceneListScroll();
     initLeftSidebar();
+    initScriptToolbar();
     initCursorMenu();
     initTooltips();
   }

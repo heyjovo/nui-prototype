@@ -410,6 +410,210 @@
 }
 
 /* ─────────────────────────────────────────────
+   SCRIPT TOOLBAR — NEW ICONS
+   ───────────────────────────────────────────── */
+.icon.cursor-text      { -webkit-mask-image: url('../images/icon-cursor-text.svg');          mask-image: url('../images/icon-cursor-text.svg'); }
+.icon.ink-highlighter  { -webkit-mask-image: url('../images/icon-ink_highlighter_move.svg'); mask-image: url('../images/icon-ink_highlighter_move.svg'); }
+.icon.at-sign          { -webkit-mask-image: url('../images/icon-at-sign.svg');              mask-image: url('../images/icon-at-sign.svg'); }
+.icon.hash             { -webkit-mask-image: url('../images/icon-hash.svg');                 mask-image: url('../images/icon-hash.svg'); }
+.icon.slash            { -webkit-mask-image: url('../images/icon-slash.svg');                mask-image: url('../images/icon-slash.svg'); }
+.icon.parenthesis      { -webkit-mask-image: url('../images/icon-parenthesis.svg');          mask-image: url('../images/icon-parenthesis.svg'); }
+.icon.translate        { -webkit-mask-image: url('../images/icon-translate.svg');            mask-image: url('../images/icon-translate.svg'); }
+.icon.magic-heal       { -webkit-mask-image: url('../images/icon-magic-heal.svg');           mask-image: url('../images/icon-magic-heal.svg'); }
+.icon.magic-fill       { -webkit-mask-image: url('../images/icon-magic-fill.svg');           mask-image: url('../images/icon-magic-fill.svg'); }
+.icon.new-punctuation  { -webkit-mask-image: url('../images/icon-new-punctuation.svg');      mask-image: url('../images/icon-new-punctuation.svg'); }
+.icon.text-all-caps    { -webkit-mask-image: url('../images/icon-text-all-caps.svg');        mask-image: url('../images/icon-text-all-caps.svg'); }
+.icon.avatar           { -webkit-mask-image: url('../images/icon-avatar.svg');               mask-image: url('../images/icon-avatar.svg'); }
+.icon.voice            { -webkit-mask-image: url('../images/icon-voice.svg');                mask-image: url('../images/icon-voice.svg'); }
+.icon.magic-smile      { -webkit-mask-image: url('../images/icon-magic-smile.svg');          mask-image: url('../images/icon-magic-smile.svg'); }
+.icon.mat-brand-family { -webkit-mask-image: url('../images/mat-brand_family.svg');          mask-image: url('../images/mat-brand_family.svg'); }
+
+/* ─────────────────────────────────────────────
+   SCRIPT TOOLBAR — TAB CHIPS + TOOLS
+   ───────────────────────────────────────────── */
+
+/* Tab chip container — matches canvas toolbar tabs visually */
+.script-tab-group {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background-color: var(--accent-bg-toolbar, rgba(181,82,135,0.5));
+  border-radius: 3px;
+  padding: 1px;
+  flex-shrink: 0;
+}
+
+/* Individual chip */
+.script-tab-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--pink-100, #f2d9ec);
+  opacity: 0.75;
+  flex-shrink: 0;
+  gap: 0;
+}
+.script-tab-chip .icon { background-color: currentColor; }
+
+/* Active chip: pink fill, dark text, shows chevron/label */
+.script-tab-chip.is-active {
+  background-color: var(--pink-200, #e5b6d5);
+  color: var(--pink-900, #651a39);
+  opacity: 1;
+  padding: 0 4px 0 5px;
+  gap: 2px;
+}
+
+/* Chevron on direct-editing chip — hidden when inactive */
+.script-tab-chip .script-tab-chevron {
+  display: none;
+  width: 12px;
+  height: 12px;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+.script-tab-chip.is-active .script-tab-chevron { display: block; }
+
+/* Underlord chip: label + chevron only when active (reuses canvas tab-mode-label) */
+.script-tab-chip .tab-mode-chevron {
+  width: 12px;
+  height: 12px;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  flex-shrink: 0;
+}
+
+/* Mode dropdown */
+.script-toolbar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  overflow: visible; /* allow mode dropdown to escape */
+}
+.script-mode-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background-color: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(38,23,29,0.12);
+  min-width: 152px;
+  padding: 4px;
+  z-index: 200;
+}
+.script-mode-dropdown.is-hidden { display: none; }
+.script-mode-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.script-mode-item:hover { background-color: var(--default-bg-hover, rgba(88,63,74,0.1)); }
+.script-mode-item.is-active { color: var(--pink-900, #651a39); background-color: var(--accent-bg-soft, rgba(171,92,134,0.15)); }
+.script-mode-item .icon { background-color: currentColor; }
+
+/* Each tool pane is a flex row */
+.script-tool-pane {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Labeled tool button (icon + text, light background) */
+.script-labeled-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  color: var(--fg-primary, #26171d);
+  font-size: 11px;
+  font-weight: 475;
+  line-height: 16px;
+  white-space: nowrap;
+  border-radius: 4px;
+  flex-shrink: 0;
+  text-decoration: none;
+  position: relative;
+}
+.script-labeled-item:hover { background-color: var(--default-bg-hover, rgba(88,63,74,0.1)); }
+.script-labeled-item .icon { background-color: currentColor; }
+
+/* Underlord bar fits the toolbar row */
+.script-underlord-bar {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.script-underlord-collapsed {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.script-underlord-input {
+  flex: 1;
+  min-width: 120px;
+  width: auto;
+  background-color: rgba(88, 63, 74, 0.06);
+  border: 1px solid rgba(88, 63, 74, 0.1);
+}
+/* Placeholder and typed text need dark color for light panel */
+.script-underlord-input .toolbar-input-inline {
+  color: var(--fg-primary, #26171d);
+  caret-color: var(--pink-900, #651a39);
+}
+.script-underlord-input .toolbar-input-inline:empty::before {
+  color: var(--fg-secondary, rgba(22, 5, 12, 0.5));
+}
+
+/* Expanded Underlord — floats below the toolbar row */
+.script-underlord-expanded {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--surface-default, #f7f4f3);
+  border: 1px solid rgba(88,63,74,0.1);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(38,23,29,0.08);
+  overflow: hidden;
+  z-index: 100;
+}
+.script-underlord-expanded-header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-end;
+  padding: 2px 4px;
+  border-bottom: 1px solid rgba(88,63,74,0.06);
+}
+.script-expanded-input {
+  background-color: rgba(88,63,74,0.03);
+  height: auto;
+  min-height: 80px;
+}
+
+/* ─────────────────────────────────────────────
    CURSOR MENU
    ───────────────────────────────────────────── */
 
