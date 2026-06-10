@@ -491,8 +491,9 @@
 }
 .script-tab-chip.is-active .script-tab-chevron { display: block; }
 
-/* Underlord chip: label + chevron hidden when inactive */
+/* Underlord chip: label hidden when inactive, shown when active */
 .script-tab-chip .tab-mode-label { display: none; }
+.script-tab-chip.is-active .tab-mode-label { display: block; }
 
 .script-tab-chip .tab-mode-chevron {
   width: 12px;
