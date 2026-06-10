@@ -452,8 +452,12 @@
     let underlordIsExpanded = false;
 
     let underlordActive = false;
+    let baseMode = 'edit';       // the real mode, excluding text-selected
+    let isTextSelected = false;
 
     function setMode(mode, iconClass) {
+      // Track the base mode (not text-selected, which is transient)
+      if (mode !== 'text-selected') baseMode = mode;
       // Update mode icon
       if (modeIcon && iconClass) {
         modeIcon.className = `icon ${iconClass}`;
@@ -467,6 +471,21 @@
       // Close dropdown
       modeDropdown?.classList.add('is-hidden');
     }
+
+    // Show text-selected toolbar when text is selected inside the script area
+    const scriptArea = document.querySelector('.script-scroll-area');
+    function syncTextSelection() {
+      if (underlordActive) return;
+      const sel = window.getSelection();
+      const hasText = !!sel && sel.toString().trim().length > 0;
+      const inScript = hasText && !!scriptArea && scriptArea.contains(sel.anchorNode);
+      if (inScript === isTextSelected) return;
+      isTextSelected = inScript;
+      const targetMode = inScript ? 'text-selected' : baseMode;
+      document.querySelectorAll('.script-tool-pane').forEach(p =>
+        p.style.display = p.dataset.mode === targetMode ? '' : 'none');
+    }
+    document.addEventListener('selectionchange', syncTextSelection);
 
     function showDirectTab() {
       underlordActive = false;
