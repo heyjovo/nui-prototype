@@ -56,6 +56,9 @@
   overflow: hidden;
 }
 
+/* Lift canvas toolbar 24px higher to avoid overlap on small screens */
+.canvas-toolbar { bottom: 48px !important; }
+
 /* Canvas bottom-left: cursor selector */
 .canvas-buttons-bottom-left {
   position: absolute;
