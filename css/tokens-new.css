@@ -466,8 +466,17 @@
   background-color: var(--pink-200, #e5b6d5);
   color: var(--pink-900, #651a39);
   opacity: 1;
-  padding: 0 4px 0 5px;
+  padding: 0 4px 0 4px;
   gap: 2px;
+}
+/* Underlord chip: 4px left pad, 8px icon→label gap */
+#script-tab-underlord.is-active {
+  gap: 0;
+  padding: 0 4px 0 4px;
+}
+#script-tab-underlord.is-active .tab-mode-label {
+  margin-left: 8px;
+  margin-right: 2px;
 }
 
 /* Chevron on direct-editing chip — hidden when inactive */
@@ -566,11 +575,38 @@
   flex: 1;
   min-width: 0;
 }
+/* Dividers inside the underlord bar need explicit height to show */
+.script-underlord-bar .divider-simple-v {
+  align-self: stretch;
+  height: auto;
+  min-height: 16px;
+  margin: 4px 2px;
+  flex-shrink: 0;
+}
+
+/* Tool panes: scroll horizontally, tab group + right actions stay fixed */
+#script-tool-panes {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#script-tool-panes::-webkit-scrollbar { display: none; }
+
+/* Overflow divider: appears between scrollable tools and fixed right actions */
+.script-overflow-divider {
+  align-self: stretch;
+  flex-shrink: 0;
+  margin: 4px 0;
+  height: auto;
+}
 /* Collapsed Underlord input box — exact spec */
 .script-underlord-input {
   flex: 1;
   min-width: 120px;
   width: auto;
+  background: rgba(88, 63, 74, 0.08) !important;
   border-radius: 4px;
   border-top: 1px solid rgba(88, 63, 74, 0.05);
   border-right: 1px solid rgba(88, 63, 74, 0.05);

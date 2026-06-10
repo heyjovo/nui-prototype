@@ -497,7 +497,11 @@
     directTab?.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
-      if (underlordActive) { showDirectTab(); return; }
+      if (underlordActive) {
+        showDirectTab();
+        setTimeout(syncOverflowDivider, 0);
+        return;
+      }
       const open = !modeDropdown?.classList.contains('is-hidden');
       modeDropdown?.classList.toggle('is-hidden', open);
     });
@@ -506,6 +510,7 @@
     underlordTab?.addEventListener('click', e => {
       e.preventDefault();
       showUnderlordTab();
+      setTimeout(syncOverflowDivider, 0);
     });
 
     // Mode dropdown item selection
@@ -515,6 +520,7 @@
         setMode(item.dataset.mode, item.dataset.icon);
         if (underlordActive) showDirectTab();
         else modeDropdown?.classList.add('is-hidden');
+        setTimeout(syncOverflowDivider, 0);
       });
     });
 
@@ -542,6 +548,17 @@
     inlineInput?.addEventListener('input', () => {
       inlineInput.classList.toggle('is-empty', !inlineInput.textContent.trim());
     });
+
+    // Overflow divider: show between scrollable tools and fixed right actions
+    const overflowDivider = document.querySelector('.script-overflow-divider');
+    function syncOverflowDivider() {
+      if (!overflowDivider) return;
+      const visible = !underlordActive && !!toolPanes && toolPanes.scrollWidth > toolPanes.clientWidth + 1;
+      overflowDivider.style.display = visible ? '' : 'none';
+    }
+    toolPanes?.addEventListener('scroll', syncOverflowDivider);
+    window.addEventListener('resize', syncOverflowDivider);
+    setTimeout(syncOverflowDivider, 200);
 
     // Open in sidebar buttons inside the script toolbar
     document.querySelectorAll('.script-open-sidebar-btn').forEach(btn => {
