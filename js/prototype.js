@@ -1080,6 +1080,41 @@
     initDropdownDialog('project-menu-btn', 'project-menu-dialog', false);
   }
 
+  // --- Music clip drag ---
+  function initMusicDrag() {
+    const clip = document.getElementById('music-clip-draggable');
+    if (!clip) return;
+
+    let dragging = false, startX = 0, startLeft = 0, maxLeft = 0;
+
+    clip.style.cursor = 'grab';
+
+    clip.addEventListener('mousedown', e => {
+      e.preventDefault();
+      dragging = true;
+      startX = e.clientX;
+      startLeft = clip.offsetLeft;
+      maxLeft = startLeft;
+      clip.style.marginLeft = startLeft + 'px';
+      clip.style.cursor = 'grabbing';
+      document.body.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const delta = e.clientX - startX;
+      const newLeft = Math.max(0, Math.min(maxLeft, startLeft + delta));
+      clip.style.marginLeft = newLeft + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      clip.style.cursor = 'grab';
+      document.body.style.userSelect = '';
+    });
+  }
+
   // --- Init ---
   function init() {
     initTabs();
@@ -1097,6 +1132,7 @@
     initMediaTabs();
     initStockTabs();
     initUnderlordPanel();
+    initMusicDrag();
   }
 
   if (document.readyState === 'loading') {

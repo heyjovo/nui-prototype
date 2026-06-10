@@ -2850,3 +2850,59 @@
   background: var(--border-soft, rgba(88,63,74,0.1));
   margin: 2px 0;
 }
+
+/* --- Timeline horizontal scroll --- */
+.timeline-scroll-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.timeline-scroll-body .time-strip,
+.timeline-scroll-body .timeline-layers {
+  min-width: 3200px;
+}
+.timeline-row-header {
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  background-color: var(--surface-recessed-light, #f0eaea);
+}
+
+/* Scene rail: flex layout for proportional scene widths */
+.timeline-scene-rail {
+  display: flex !important;
+}
+.timeline-scene-rail .scene-wrapper {
+  flex-shrink: 0;
+}
+
+/* Scene text: no wrapping */
+.scene-text > div:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 40px);
+}
+
+/* Script track: use the correct video thumbnails */
+.video-layer-film-strip.script {
+  background-image: linear-gradient(var(--overlay-light), var(--overlay-light)), url('../images/scene-02.jpg') !important;
+  background-size: auto, auto 100% !important;
+}
+
+/* Music track row: transparent so the offset gap matches the timeline bg */
+.timeline-layer.music {
+  background-color: transparent;
+}
+
+/* Music clip: layer title inside the draggable clip */
+#music-clip-draggable {
+  flex-flow: column;
+  height: 100%;
+}
+#music-clip-draggable .layer-title.music {
+  flex-shrink: 0;
+}
