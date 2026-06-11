@@ -443,6 +443,7 @@
     const underlordTab   = document.getElementById('script-tab-underlord');
     const modeDropdown   = document.getElementById('script-mode-dropdown');
     const modeIcon       = document.getElementById('script-mode-icon');
+    const modeLabel      = document.getElementById('script-mode-label');
     const toolPanes      = document.getElementById('script-tool-panes');
     const underlordBar   = document.getElementById('script-underlord-bar');
     const expandBtn      = document.getElementById('script-underlord-expand');
@@ -455,12 +456,15 @@
     let baseMode = 'edit';       // the real mode, excluding text-selected
     let isTextSelected = false;
 
-    function setMode(mode, iconClass) {
+    function setMode(mode, iconClass, label) {
       // Track the base mode (not text-selected, which is transient)
       if (mode !== 'text-selected') baseMode = mode;
-      // Update mode icon
+      // Update mode icon + label on the dropdown trigger
       if (modeIcon && iconClass) {
         modeIcon.className = `icon ${iconClass}`;
+      }
+      if (modeLabel && label) {
+        modeLabel.textContent = label;
       }
       // Update dropdown active item
       document.querySelectorAll('.script-mode-item').forEach(item =>
@@ -536,11 +540,28 @@
     document.querySelectorAll('.script-mode-item').forEach(item => {
       item.addEventListener('click', e => {
         e.preventDefault();
-        setMode(item.dataset.mode, item.dataset.icon);
+        const label = item.querySelector('span')?.textContent || '';
+        setMode(item.dataset.mode, item.dataset.icon, label);
         if (underlordActive) showDirectTab();
         else modeDropdown?.classList.add('is-hidden');
         setTimeout(syncOverflowDivider, 0);
       });
+    });
+
+    // Overflow menu (vertical ⋮) — holds "Hide canvas" checklist item
+    const overflowBtn  = document.getElementById('script-overflow-btn');
+    const overflowMenu = document.getElementById('script-overflow-menu');
+    overflowBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      overflowMenu?.classList.toggle('is-hidden');
+    });
+    document.addEventListener('click', e => {
+      if (overflowMenu && !overflowMenu.classList.contains('is-hidden') &&
+          !e.target.closest('#script-overflow-menu') &&
+          !e.target.closest('#script-overflow-btn')) {
+        overflowMenu.classList.add('is-hidden');
+      }
     });
 
     // Close dropdown on outside click
@@ -601,18 +622,39 @@
 
     const toggle = menu.querySelector('.cursor-menu-toggle');
     const timelineWrapper = document.querySelector('.timeline-wrapper');
+    const canvasToolbar = document.querySelector('.canvas-toolbar');
 
     function isTimelineOpen() {
       return timelineWrapper && !timelineWrapper.classList.contains('is-hidden');
     }
 
+    // Cap the expanded menu so it never grows closer than 8px to the left
+    // edge of the canvas toolbar (whose width is variable); extra tools
+    // scroll horizontally inside .cursor-tools-scroll.
+    function syncMaxWidth() {
+      if (!menu.classList.contains('is-expanded') || !canvasToolbar) return;
+      const toolbarLeft = canvasToolbar.getBoundingClientRect().left;
+      const menuLeft = menu.getBoundingClientRect().left;
+      const limit = Math.floor(toolbarLeft - 8 - menuLeft);
+      if (limit > 0) menu.style.maxWidth = limit + 'px';
+    }
+
     function open() {
       menu.classList.toggle('has-timeline', isTimelineOpen());
       menu.classList.add('is-expanded');
+      syncMaxWidth();
     }
 
     function close() {
       menu.classList.remove('is-expanded');
+      menu.style.maxWidth = '';
+    }
+
+    window.addEventListener('resize', syncMaxWidth);
+    document.addEventListener('panelstatechange', syncMaxWidth);
+    const stage = document.querySelector('.canvas-stage');
+    if (stage && 'ResizeObserver' in window) {
+      new ResizeObserver(syncMaxWidth).observe(stage);
     }
 
     toggle?.addEventListener('click', e => {
@@ -621,11 +663,36 @@
       menu.classList.contains('is-expanded') ? close() : open();
     });
 
-    // Close on outside click
-    document.addEventListener('click', e => {
-      if (menu.classList.contains('is-expanded') && !menu.contains(e.target)) {
+    // Tool selection: clicking a tool while expanded makes it active and
+    // collapses the menu; clicking the active tool while collapsed expands.
+    menu.querySelectorAll('.cursor-tool').forEach(tool => {
+      tool.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!menu.classList.contains('is-expanded')) {
+          open();
+          return;
+        }
+        menu.querySelectorAll('.cursor-tool').forEach(t => t.classList.remove('is-active'));
+        tool.classList.add('is-active');
         close();
-      }
+      });
+    });
+
+    // Close on outside click — but stay open when the click is opening or
+    // closing a surface (script, timeline, canvas, sidebars), so the menu
+    // can live-update its tool sections.
+    const SURFACE_TOGGLES = [
+      '#toggle-timeline', '#toggle-script-open', '#toggle-script-closed',
+      '#toggle-script-stacked', '#toggle-canvas-hidden', '#script-overflow-btn',
+      '#script-overflow-menu', '#toggle-sidebar', '#sidebar-panel-menu',
+      '#toggle-sidebar-closed', '#toggle-properties', '#open-export-panel',
+      '[data-left-panel]', '.left-sidebar-close-btn', '.sidebar-close-btn'
+    ].join(', ');
+    document.addEventListener('click', e => {
+      if (!menu.classList.contains('is-expanded') || menu.contains(e.target)) return;
+      if (e.target.closest(SURFACE_TOGGLES)) return;
+      close();
     });
 
     // Sync timeline tools if timeline is toggled while menu is open
@@ -950,6 +1017,17 @@
     });
   }
 
+  // --- Captions panel: style card selection ---
+  function initCaptionStyles() {
+    const cards = document.querySelectorAll('.caption-style-card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => c.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+      });
+    });
+  }
+
   function initMediaTabs() {
     const panel = document.querySelector('[data-panel="media"]');
     if (!panel) return;
@@ -1129,6 +1207,7 @@
     initElementsSidebar();
     initRecordModeDialog();
     initLayoutPackDialog();
+    initCaptionStyles();
     initMediaTabs();
     initStockTabs();
     initUnderlordPanel();

@@ -34,19 +34,23 @@
           <div class="nav-menu-tab-label">Media</div>
           <div class="icon mat-newsstand"></div>
         </a>
-        <a data-w-tab="Tab 3" data-left-panel="stock" class="nav-menu-tab-item w-inline-block w-tab-link">
-          <div class="nav-menu-tab-label">Stock</div>
-          <div class="icon new-stock"></div>
-        </a>
-        <a data-w-tab="Tab 4" data-left-panel="elements" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 3" data-left-panel="elements" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Elements</div>
           <div class="icon insert-element"></div>
+        </a>
+        <a data-w-tab="Tab 4" data-left-panel="captions" class="nav-menu-tab-item w-inline-block w-tab-link">
+          <div class="nav-menu-tab-label">Captions</div>
+          <div class="icon mat-rtt"></div>
         </a>
         <a data-w-tab="Tab 5" data-left-panel="brand-kit" class="nav-menu-tab-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Brand kit</div>
           <div class="icon format-paint"></div>
         </a>
-        <a data-w-tab="Tab 6" data-left-panel="record" class="nav-menu-tab-item w-inline-block w-tab-link">
+        <a data-w-tab="Tab 6" data-left-panel="stock" class="nav-menu-tab-item w-inline-block w-tab-link">
+          <div class="nav-menu-tab-label">Stock</div>
+          <div class="icon new-stock"></div>
+        </a>
+        <a data-w-tab="Tab 7" data-left-panel="record" class="nav-menu-tab-item nav-record-item w-inline-block w-tab-link">
           <div class="nav-menu-tab-label">Record</div>
           <div class="icon record-circle"></div>
         </a>
@@ -58,6 +62,7 @@
         <div data-w-tab="Tab 4" class="w-tab-pane"></div>
         <div data-w-tab="Tab 5" class="w-tab-pane"></div>
         <div data-w-tab="Tab 6" class="w-tab-pane"></div>
+        <div data-w-tab="Tab 7" class="w-tab-pane"></div>
       </div>
     </div>
     <div class="nav-menu-bottom">
@@ -111,6 +116,10 @@
       <div class="project-header-right"><img src="images/Avatar-Group.svg" loading="lazy" alt="" class="avatar-group">
         <a id="open-export-panel" href="#" class="button inverse w-inline-block">
           <div class="text-block">Export</div>
+        </a>
+        <a id="toggle-sidebar" href="#" class="header-sidebar-menu w-inline-block" data-tooltip="Open sidebar">
+          <div class="icon right-panel-open"></div>
+          <div class="icon chevron-down-s"></div>
         </a>
         <a href="#" class="icon-button w-inline-block">
           <div class="icon mat-cloud"></div>
@@ -578,6 +587,71 @@
           </div>
         </div>
 
+        <div class="sidebar-panel" data-panel="captions" style="display:none">
+          <div class="sidebar-header">
+            <h3 class="heading-2">Captions</h3>
+            <a href="#" class="icon-button left-sidebar-close-btn w-inline-block">
+              <div class="icon right-panel-close"></div>
+            </a>
+          </div>
+          <div class="elem-scroll">
+
+            <div class="caption-style-list">
+
+              <button class="caption-style-card is-selected">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--classic">Captions will look like this</span>
+                </div>
+                <span class="caption-style-name">Classic</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--bold">Captions will look like this</span>
+                </div>
+                <span class="caption-style-name">Bold</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--outline">Captions will look like this</span>
+                </div>
+                <span class="caption-style-name">Outline</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--highlight">Captions <em>will look</em> like this</span>
+                </div>
+                <span class="caption-style-name">Highlight</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--karaoke"><em>Captions will</em> look like this</span>
+                </div>
+                <span class="caption-style-name">Karaoke</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--typewriter">Captions will look like this</span>
+                </div>
+                <span class="caption-style-name">Typewriter</span>
+              </button>
+
+              <button class="caption-style-card">
+                <div class="caption-style-thumb">
+                  <span class="caption-sample caption-sample--minimal">Captions will look like this</span>
+                </div>
+                <span class="caption-style-name">Minimal</span>
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
         <div class="sidebar-panel" data-panel="brand-kit" style="display:none">
           <div class="sidebar-header">
             <h3 class="heading-2">Brand kit</h3>
@@ -909,18 +983,14 @@
               <div class="script-top-bar">
                 <div class="script-toolbar-wrapper script-top-toolbar" id="script-toolbar-new">
 
-                  <!-- Tab chip group: mode selector + Underlord -->
-                  <div class="script-tab-group">
-                    <a href="#" id="script-tab-direct" class="script-tab-chip is-active">
+                  <!-- Script tool dropdown trigger -->
+                  <a href="#" id="script-tab-direct" class="script-tool-select w-inline-block">
+                    <div class="script-tool-chip">
                       <div class="icon cursor-text" id="script-mode-icon"></div>
-                      <div class="icon chevron-down-s script-tab-chevron"></div>
-                    </a>
-                    <a href="#" id="script-tab-underlord" class="script-tab-chip">
-                      <div class="icon robot"></div>
-                      <span class="tab-mode-label">Edit</span>
-                      <div class="icon chevron-down-s tab-mode-chevron"></div>
-                    </a>
-                  </div>
+                      <span id="script-mode-label">Edit</span>
+                    </div>
+                    <div class="icon chevron-down-s script-tool-select-chevron"></div>
+                  </a>
 
                   <!-- Mode dropdown (opens below left tab) -->
                   <div id="script-mode-dropdown" class="script-mode-dropdown is-hidden">
@@ -951,20 +1021,8 @@
                         <div class="icon search"></div>
                         <div class="select-label"><div class="button-label">Find</div><div class="icon chevron-down-s"></div></div>
                       </a>
-                      <div class="divider-simple-v"></div>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Bold"><div class="icon bold"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Italic"><div class="icon italic"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Highlight"><div class="icon ink-highlighter"></div></a>
-                      <div class="divider-simple-v"></div>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Speaker"><div class="icon at-sign"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Chapter"><div class="icon hash"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Scene"><div class="icon slash"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Note"><div class="icon parenthesis"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Comment"><div class="icon add-comment"></div></a>
-                      <div class="divider-simple-v"></div>
-                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="AI edit"><div class="icon magic-fill"></div><span>Edit</span></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="Translate"><div class="icon translate"></div></a>
-                      <a href="#" class="icon-button inset w-inline-block" data-tooltip="More"><div class="icon more-horizontal"></div></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Write with Underlord"><div class="icon magic-fill"></div><span>Write</span></a>
+                      <a href="#" class="script-labeled-item w-inline-block" data-tooltip="Translate"><div class="icon translate"></div><span>Translate</span></a>
                     </div>
 
                     <!-- AI Speech -->
@@ -1047,60 +1105,28 @@
 
                   </div><!-- /script-tool-panes -->
 
-                  <!-- Underlord bar (shown when Underlord tab active) -->
-                  <div id="script-underlord-bar" class="script-underlord-bar" style="display:none">
-
-                    <!-- Input wrapper: hidden when expanded, visible when collapsed -->
-                    <div id="script-underlord-input-wrapper" class="fake-input script-underlord-input">
-                      <div class="toolbar-input-inline" id="script-underlord-inline" contenteditable="true" data-placeholder="What do you want to change?" spellcheck="false" role="textbox" aria-label="Ask Underlord"></div>
-                      <a href="#" class="icon-button dense script-send-btn w-inline-block" data-tooltip="Send"><div class="icon send-fill"></div></a>
-                    </div>
-
-                    <!-- Actions: pushed to far right (margin-left:auto), always visible -->
-                    <div class="script-toolbar-group script-underlord-actions">
-                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates"><div class="icon automation"></div></a>
-                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history"><div class="icon comment-bank"></div></a>
-                      <div class="divider-simple-v"></div>
-                      <a href="#" id="script-underlord-expand" class="icon-button dense w-inline-block" data-tooltip="Expand"><div class="icon expand"></div></a>
-                      <a href="#" class="icon-button dense script-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar"><div class="icon right-panel-close"></div></a>
-                    </div>
-
-                  </div><!-- /script-underlord-bar -->
-
-                  <!-- Expanded input: absolutely positioned below toolbar, toggled by expand btn -->
-                  <div id="script-underlord-expanded" class="script-underlord-expanded" style="display:none">
-                    <div class="toolbar-expanded-input script-expanded-input">
-                      <div class="toolbar-input-editable" contenteditable="true" data-placeholder="How can Underlord help?" role="textbox" aria-multiline="true" aria-label="Ask Underlord" spellcheck="false"></div>
-                      <div class="toolbar-input-footer">
-                        <div class="toolbar-input-actions">
-                          <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon paperclip"></div></a>
-                          <a href="#" class="toolbar-attachment-btn w-inline-block"><div class="icon at-symbol"></div></a>
-                          <a href="#" class="toolbar-model-select w-inline-block">
-                            <div class="icon ai-model"></div>
-                            <div class="toolbar-model-label">Auto</div>
-                            <div class="icon chevron-down-s"></div>
-                          </a>
-                        </div>
-                        <a href="#" class="icon-button toolbar-send-script w-inline-block"><div class="icon send-fill"></div></a>
-                      </div>
-                    </div>
-                  </div><!-- /script-underlord-expanded -->
 
                 </div><!-- /script-toolbar-wrapper -->
                 <div class="script-overflow-divider divider-simple-v" style="display:none"></div>
                 <div class="script-top-bar-right">
+                  <a id="script-overflow-btn" href="#" class="icon-button inset w-inline-block">
+                    <div class="icon more-vertical"></div>
+                    <div class="header-tooltip">More options</div>
+                  </a>
                   <a id="toggle-script-stacked" href="#" class="icon-button inset w-inline-block">
                     <div class="icon mat-page-menu-ios"></div>
                     <div class="header-tooltip">Stack under video</div>
-                  </a>
-                  <a id="toggle-canvas-hidden" href="#" class="icon-button inset w-inline-block">
-                    <div class="icon hide-canvas"></div>
-                    <div class="header-tooltip">Hide Canvas</div>
                   </a>
                   <a id="toggle-script-closed" href="#" class="icon-button inset w-inline-block">
                     <div class="icon collapse-diagonal"></div>
                     <div class="header-tooltip">Collapse</div>
                   </a>
+                  <div id="script-overflow-menu" class="script-overflow-menu is-hidden">
+                    <a id="toggle-canvas-hidden" href="#" class="script-overflow-item">
+                      <div class="icon check overflow-check"></div>
+                      <span>Hide canvas</span>
+                    </a>
+                  </div>
                 </div>
               </div>
               <div class="script-scroll-area">
@@ -1198,166 +1224,61 @@
                   <div data-w-tab="Tab 8" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-08-p-500.jpg 500w, images/scene-08-p-800.jpg 800w, images/scene-08-p-1080.jpg 1080w, images/scene-08.jpg 1280w" alt="" src="images/scene-08.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
                 </div>
               </div>
-              <div class="canvas-toolbar">
-                <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="canvas-toolbar-content w-tabs">
-                  <div class="canvas-toolbar-tabs w-tab-menu">
-                    <a data-w-tab="Tab 1" class="canvas-toolbar-tab w-inline-block w-tab-link w--current">
-                      <div class="icon direct-editing"></div>
-                    </a>
-                    <a data-w-tab="Tab 2" class="canvas-toolbar-tab w-inline-block w-tab-link">
-                      <div class="icon robot"></div>
-                      <span class="tab-mode-label">Edit</span>
-                      <div class="icon chevron-down-s tab-mode-chevron"></div>
-                    </a>
-                  </div>
-                  <div class="tabs-content w-tab-content">
-                    <div data-w-tab="Tab 1" class="canvas-toolbar-tab-content w-tab-pane w--tab-active">
-                      <div class="tab-content-wrapper">
-                        <div class="canvas-toolbar-group">
-                          <a href="#" class="toolbar-item w-inline-block" data-tooltip="Layout">
-                            <div class="icon layout"></div>
-                            <span>Layout</span>
-                          </a>
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Background color">
-                            <div class="icon color-swatch"></div>
-                          </a>
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Transitions">
-                            <div class="icon transition"></div>
-                          </a>
-                        </div>
-                        <div class="divider-simple-v inverse"></div>
-                        <div class="canvas-toolbar-group">
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Generate media">
-                            <div class="icon magic-media"></div>
-                          </a>
-                        </div>
-                        <div class="canvas-toolbar-group">
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Save frame">
-                            <div class="icon screenshot"></div>
-                          </a>
-                          <a id="toolbar-upload-btn" href="#" class="icon-button inset w-inline-block" data-tooltip="Upload">
-                            <div class="icon upload"></div>
-                          </a>
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Quick actions">
-                            <div class="icon magic-search"></div>
-                          </a>
-                        </div>
-                        <div class="divider-simple-v inverse"></div>
-                        <div class="canvas-toolbar-group">
-                          <a id="toggle-properties" href="#" class="icon-button inset w-inline-block" data-tooltip="Inspector">
-                            <div class="icon gear"></div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div data-w-tab="Tab 2" class="canvas-toolbar-tab-content w-tab-pane">
-                      <div class="tab-content-wrapper">
-                        <div id="toolbar-fake-input" class="fake-input">
-                          <div class="toolbar-input-inline"
-                               contenteditable="true"
-                               data-placeholder="What do you want to change?"
-                               spellcheck="false"
-                               role="textbox"
-                               aria-label="Ask Underlord"></div>
-                          <a id="toolbar-send-collapsed" href="#" class="icon-button dense w-inline-block">
-                            <div class="icon send-fill"></div>
-                          </a>
-                        </div>
-                        <div class="canvas-toolbar-group">
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Skill templates">
-                            <div class="icon automation"></div>
-                          </a>
-                          <a href="#" class="icon-button inset w-inline-block" data-tooltip="Chat history">
-                            <div class="icon comment-bank"></div>
-                          </a>
-                        </div>
-                        <div class="divider-simple-v inverse"></div>
-                        <div class="canvas-toolbar-group dense">
-                          <a id="toolbar-expand" href="#" class="icon-button dense w-inline-block" data-tooltip="Expand">
-                            <div class="icon expand"></div>
-                          </a>
-                          <a href="#" class="icon-button dense toolbar-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar">
-                            <div class="icon right-panel-close"></div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="toolbar-expanded-view">
-                  <div class="toolbar-expanded-header">
-                    <div class="toolbar-expanded-header-left">
-                      <div class="toolbar-expanded-tabs">
-                        <div class="toolbar-expanded-tab-inactive" data-tooltip="Direct editing">
-                          <div class="icon direct-editing"></div>
-                        </div>
-                        <div class="toolbar-expanded-agent-chip">
-                          <div class="icon robot"></div>
-                          <span class="tab-mode-label">Edit</span>
-                          <div class="icon chevron-down-s tab-mode-chevron"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="toolbar-expanded-header-right">
-                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Skill templates">
-                        <div class="icon automation"></div>
-                      </a>
-                      <a href="#" class="icon-button dense w-inline-block" data-tooltip="Chat history">
-                        <div class="icon comment-bank"></div>
-                      </a>
-                      <div class="divider-simple-v inverse"></div>
-                      <a id="toolbar-collapse" href="#" class="icon-button dense w-inline-block" data-tooltip="Collapse">
-                        <div class="icon expand"></div>
-                      </a>
-                      <a href="#" class="icon-button dense toolbar-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar">
-                        <div class="icon right-panel-close"></div>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="toolbar-expanded-body">
-                    <div class="toolbar-expanded-input">
-                      <div class="toolbar-input-editable"
-                           contenteditable="true"
-                           data-placeholder="How can Underlord help?"
-                           role="textbox"
-                           aria-multiline="true"
-                           aria-label="Ask Underlord"
-                           spellcheck="false"></div>
-                      <div class="toolbar-input-footer">
-                        <div class="toolbar-input-actions">
-                          <a href="#" class="toolbar-attachment-btn w-inline-block">
-                            <div class="icon paperclip"></div>
-                          </a>
-                          <a href="#" class="toolbar-attachment-btn w-inline-block">
-                            <div class="icon at-symbol"></div>
-                          </a>
-                          <a href="#" class="toolbar-model-select w-inline-block">
-                            <div class="icon ai-model"></div>
-                            <div class="toolbar-model-label">Nano Banana Pro</div>
-                            <div class="icon chevron-down-s"></div>
-                          </a>
-                        </div>
-                        <a href="#" class="icon-button toolbar-send-expanded w-inline-block">
-                          <div class="icon send-fill"></div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div class="canvas-buttons-left">
-                <a id="toggle-script-open" href="#" class="script-button w-inline-block">
+                <a id="toggle-script-open" href="#" class="script-button toolbar-chip w-inline-block">
                   <div class="icon script"></div>
                   <div class="button-label">Script</div>
                   <div class="icon expand-diagonal"></div>
                 </a>
-                <div id="divider-script" class="divider-simple-v"></div>
-                <a href="#" class="icon-button inset w-inline-block">
+                <a href="#" class="icon-button inset toolbar-chip w-inline-block" data-tooltip="Layers">
                   <div class="icon layers"></div>
                 </a>
               </div>
-              <div class="canvas-buttons-bottom-left">
-                <div id="cursor-menu" class="cursor-menu">
+              <div class="canvas-buttons-top-right">
+                <a href="#" class="slim-select inset w-inline-block" data-tooltip="Zoom">
+                  <div class="select-label">
+                    <div class="button-label">100%</div>
+                    <div class="icon chevron-down-s"></div>
+                  </div>
+                </a>
+                <div class="toolbar-section inset">
+                  <a href="#" class="icon-button inset w-inline-block" data-tooltip="Canvas view">
+                    <div class="icon smart-display"></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="canvas-toolbar">
+              <a id="toolbar-underlord-btn" href="#" class="toolbar-underlord-btn w-inline-block" data-tooltip="Underlord">
+                <div class="icon robot"></div>
+              </a>
+              <div class="canvas-toolbar-group">
+                <a href="#" class="icon-button inset w-inline-block" data-tooltip="Generate media">
+                  <div class="icon magic-media"></div>
+                </a>
+                <a href="#" class="icon-button inset w-inline-block" data-tooltip="Save frame">
+                  <div class="icon screenshot"></div>
+                </a>
+                <a id="toolbar-upload-btn" href="#" class="icon-button inset w-inline-block" data-tooltip="Upload">
+                  <div class="icon upload"></div>
+                </a>
+                <a href="#" class="icon-button inset w-inline-block" data-tooltip="Quick actions">
+                  <div class="icon magic-search"></div>
+                </a>
+                <a href="#" class="icon-button inset w-inline-block" data-tooltip="More">
+                  <div class="icon more-horizontal"></div>
+                </a>
+              </div>
+              <div class="divider-simple-v inverse"></div>
+              <div class="canvas-toolbar-group">
+                <a id="toggle-properties" href="#" class="icon-button inset w-inline-block" data-tooltip="Inspector">
+                  <div class="icon gear"></div>
+                </a>
+              </div>
+            </div>
+            <div class="canvas-buttons-bottom-left">
+              <div id="cursor-menu" class="cursor-menu">
+                <div class="cursor-tools-scroll">
                   <a href="#" class="cursor-tool is-active" data-tooltip="Select">
                     <div class="icon pointer"></div>
                   </a>
@@ -1367,6 +1288,20 @@
                   <a href="#" class="cursor-tool" data-tooltip="Comment">
                     <div class="icon add-comment"></div>
                   </a>
+                  <div class="cursor-menu-divider cursor-divider--script"></div>
+                  <a href="#" class="cursor-tool cursor-tool--script" data-tooltip="Text">
+                    <div class="icon cursor-text"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--script" data-tooltip="Punctuation">
+                    <div class="icon new-punctuation"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--script" data-tooltip="Capitalization">
+                    <div class="icon text-all-caps"></div>
+                  </a>
+                  <a href="#" class="cursor-tool cursor-tool--script" data-tooltip="Correct">
+                    <div class="icon ink-highlighter"></div>
+                  </a>
+                  <div class="cursor-menu-divider cursor-divider--timeline"></div>
                   <a href="#" class="cursor-tool cursor-tool--timeline" data-tooltip="Blade">
                     <div class="icon blade"></div>
                   </a>
@@ -1376,75 +1311,38 @@
                   <a href="#" class="cursor-tool cursor-tool--timeline" data-tooltip="Slip">
                     <div class="icon slip"></div>
                   </a>
-                  <button class="cursor-menu-toggle" aria-label="Toggle cursor tools">
-                    <div class="cursor-menu-chevron-wrap">
-                      <div class="icon chevron-right-s"></div>
-                    </div>
-                  </button>
                 </div>
-              </div>
-              <div class="canvas-buttons-right">
-                <a id="toggle-sidebar" href="#" class="slim-select inset w-inline-block">
-                  <div class="icon right-panel-open"></div>
-                  <div class="select-label">
-                    <div class="icon chevron-down-s"></div>
+                <button class="cursor-menu-toggle" aria-label="Toggle cursor tools">
+                  <div class="cursor-menu-chevron-wrap">
+                    <div class="icon chevron-right-s"></div>
                   </div>
-                </a>
-                <div class="sidebar-panel-dropdown is-hidden" id="sidebar-panel-menu">
-                  <a href="#" class="sidebar-panel-option" data-panel="underlord">
-                    <div class="icon robot"></div>
-                    <span>Underlord chat</span>
-                  </a>
-                  <a href="#" class="sidebar-panel-option" data-panel="inspector">
-                    <div class="icon gear"></div>
-                    <span>Inspector</span>
-                  </a>
-                  <a href="#" class="sidebar-panel-option" data-panel="skill-templates">
-                    <div class="icon magic"></div>
-                    <span>Skill templates</span>
-                  </a>
-                  <a href="#" class="sidebar-panel-option" data-panel="comments">
-                    <div class="icon add-comment"></div>
-                    <span>Comments</span>
-                  </a>
-                </div>
+                </button>
               </div>
-              <div class="canvas-buttons-bottom-right">
-                <a id="toggle-properties" href="#" class="slim-select inset w-inline-block">
-                  <div class="select-label">
-                    <div class="button-label">100%</div>
-                    <div class="icon chevron-down-s"></div>
-                  </div>
-                </a>
-                <div class="toolbar-section inset">
-                  <a href="#" class="icon-button inset w-inline-block">
-                    <div class="icon smart-display"></div>
-                  </a>
-                </div>
-              </div>
+            </div>
+            <div class="canvas-undo-redo">
+              <a href="#" class="icon-button w-inline-block" data-tooltip="Undo">
+                <div class="icon undo"></div>
+              </a>
+              <a href="#" class="icon-button w-inline-block" data-tooltip="Redo">
+                <div class="icon redo"></div>
+              </a>
             </div>
           </div>
         </div>
         <div class="playback-timeline-wrapper">
           <div class="playback-bar">
             <div class="playback-bar-left">
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon undo"></div>
+              <a href="#" class="button playback-speed w-inline-block" data-tooltip="Playback speed">
+                <div>1</div>
+                <div class="icon x-s"></div>
               </a>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon redo"></div>
-              </a>
-              <div class="dotted-line"></div>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon volume"></div>
-              </a>
-              <a href="#" class="icon-button playback w-inline-block">
+              <a href="#" class="icon-button playback w-inline-block" data-tooltip="Back">
                 <div class="icon rewind"></div>
               </a>
-              <a href="#" class="icon-button playback w-inline-block">
+              <a href="#" class="icon-button playback w-inline-block" data-tooltip="Play">
                 <div class="icon play"></div>
               </a>
-              <a href="#" class="icon-button playback w-inline-block">
+              <a href="#" class="icon-button playback w-inline-block" data-tooltip="Forward">
                 <div class="icon fastforward"></div>
               </a>
             </div>
@@ -1463,11 +1361,10 @@
                 <div class="secondary-text">/</div>
                 <div class="secondary-text">05:20</div>
               </div>
-              <a href="#" class="button playback-speed w-inline-block">
-                <div>1</div>
-                <div class="icon x-s"></div>
+              <a href="#" class="icon-button w-inline-block" data-tooltip="Volume">
+                <div class="icon volume"></div>
               </a>
-              <a href="#" class="icon-button w-inline-block">
+              <a href="#" class="icon-button w-inline-block" data-tooltip="Fullscreen">
                 <div class="icon fullscreen"></div>
               </a>
               <div class="dotted-line"></div>
@@ -2503,6 +2400,26 @@
       </div>
     </div>
   </div>
+  <!-- Sidebar Panel Dropdown -->
+  <div class="sidebar-panel-dropdown is-hidden" id="sidebar-panel-menu">
+    <a href="#" class="sidebar-panel-option" data-panel="underlord">
+      <div class="icon robot"></div>
+      <span>Underlord chat</span>
+    </a>
+    <a href="#" class="sidebar-panel-option" data-panel="inspector">
+      <div class="icon gear"></div>
+      <span>Inspector</span>
+    </a>
+    <a href="#" class="sidebar-panel-option" data-panel="skill-templates">
+      <div class="icon magic"></div>
+      <span>Skill templates</span>
+    </a>
+    <a href="#" class="sidebar-panel-option" data-panel="comments">
+      <div class="icon add-comment"></div>
+      <span>Comments</span>
+    </a>
+  </div>
+
   <!-- Project Menu Dialog -->
   <div id="project-menu-dialog" class="app-menu-dialog is-hidden" role="dialog" aria-label="Project menu">
     <div class="app-menu-section">
