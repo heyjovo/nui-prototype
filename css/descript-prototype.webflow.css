@@ -1385,7 +1385,9 @@ img {
               width 250ms var(--panel-slide-easing),
               padding 150ms var(--panel-slide-easing),
               border 150ms var(--panel-slide-easing),
-              box-shadow 150ms var(--panel-slide-easing);
+              box-shadow 150ms var(--panel-slide-easing),
+              opacity 100ms ease,
+              transform 100ms ease;
 }
 
 .canvas-toolbar-content {

@@ -3675,3 +3675,598 @@ body.script-open .cursor-menu.is-expanded .cursor-tool--script {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
 }
+
+/* ── Canvas toolbar — Skill templates (nested in Underlord flyout) ──
+   Same panel pattern as quick actions; reached from the agent header's
+   automation button, back arrow returns to the agent view. */
+/* Left-pointing variant (◀ + bar); mat-arrow_menu_close.svg is the mirrored
+   right-pointing one */
+.icon.arrow-menu-close {
+  -webkit-mask-image: url('../images/icon-mat-arrow_menu_close.svg');
+  mask-image: url('../images/icon-mat-arrow_menu_close.svg');
+}
+
+.canvas-toolbar.is-st-expanded {
+  height: 200px;
+  border-radius: 8px;
+}
+.canvas-toolbar.is-st-expanded .canvas-toolbar-row {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toolbar-st-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 2px 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+.canvas-toolbar.is-st-expanded .toolbar-st-view {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 180ms ease 90ms;
+}
+
+/* ── Selected text toolbar — floats above the first line of selection ──
+   Same surface as the canvas toolbar. The canvas toolbar fades up+out first,
+   then this fades up+in (sequenced in JS); reverse on deselection. */
+.icon.delete   { -webkit-mask-image: url('../images/delete.svg');   mask-image: url('../images/delete.svg'); }
+.icon.gap      { -webkit-mask-image: url('../images/gap.svg');      mask-image: url('../images/gap.svg'); }
+.icon.volume-x { -webkit-mask-image: url('../images/volume-x.svg'); mask-image: url('../images/volume-x.svg'); }
+.icon.eraser   { -webkit-mask-image: url('../images/eraser.svg');   mask-image: url('../images/eraser.svg'); }
+
+/* Canvas toolbar hidden while text is selected — fades up and out */
+.canvas-toolbar.is-hidden-for-selection {
+  opacity: 0;
+  transform: translate(-50%) translateY(-10px);
+  pointer-events: none;
+}
+
+.sel-toolbar {
+  position: fixed;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 2px;
+  background-color: #fdfcfc;
+  border: 1px solid rgba(88,63,74,0.1);
+  border-top: none;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 1px rgba(88,63,74,0.05), 0 -1px 0 0 rgba(88,63,74,0.05);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 100ms ease, transform 100ms ease,
+              width 200ms ease, left 200ms ease;
+}
+.sel-toolbar.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.sel-toolbar.no-anim { transition: none; }
+
+.sel-toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.sel-toolbar .divider-simple-v.inverse {
+  align-self: stretch;
+  height: auto;
+  min-height: 0;
+  background-color: rgba(88,63,74,0.1);
+  opacity: 1;
+  margin: 0 2px;
+}
+
+.sel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+  position: relative;
+}
+.sel-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.sel-item .icon { background-color: currentColor; }
+.sel-item--select {
+  width: auto;
+  padding: 0 4px 0 6px;
+}
+.sel-chevron {
+  width: 12px;
+  height: 12px;
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+}
+
+.sel-labeled-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+}
+.sel-labeled-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.sel-labeled-item .icon { background-color: currentColor; }
+
+/* Highlight glyph: "A" over a yellow bar */
+.sel-highlight-glyph {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
+  color: var(--fg-primary, #26171d);
+  position: relative;
+  margin-top: -3px;
+}
+.sel-highlight-glyph::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -5px;
+  height: 4px;
+  background-color: #F2C94C;
+  border-radius: 1px;
+}
+
+/* Underlord sub-view — seamlessly replaces the toolbar content */
+.sel-toolbar-underlord {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.sel-toolbar.is-underlord .sel-toolbar-main { display: none; }
+.sel-toolbar.is-underlord .sel-toolbar-underlord { display: flex; }
+.sel-underlord-robot {
+  flex-shrink: 0;
+  background-color: var(--fg-primary, #26171d);
+}
+.sel-underlord-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  caret-color: var(--pink-750, #651a39);
+}
+.sel-underlord-input::placeholder {
+  color: var(--fg-secondary, rgba(22,5,12,0.5));
+}
+
+/* Ignore dropdown */
+.sel-ignore-menu {
+  position: fixed;
+  z-index: 700;
+  background-color: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(38,23,29,0.12);
+  min-width: 208px;
+  padding: 4px;
+}
+.sel-ignore-menu.is-hidden { display: none; }
+.sel-ignore-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.sel-ignore-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.sel-ignore-item .icon {
+  flex-shrink: 0;
+  background-color: currentColor;
+}
+
+/* Keep the text selection painted while focus is in the Underlord input */
+::highlight(sel-underlord) {
+  background-color: rgba(33, 119, 255, 0.25);
+}
+
+/* ── Scene actions — small chips above the scene frame ──
+   Positioned by JS to span the visible scene image; transparent until the
+   mouse is inside the canvas. */
+.scene-actions {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+.canvas:hover .scene-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.scene-actions-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.scene-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 4px 8px;
+  border: 1px solid var(--new-border-medium, rgba(63,42,50,0.3));
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  font-size: 11px;
+  font-weight: 475;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+}
+.scene-chip:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+  color: var(--fg-primary, #26171d);
+}
+.scene-chip--icon {
+  width: 24px;
+  padding: 4px;
+}
+.scene-chip--icon .icon {
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+}
+.scene-chip.is-selected {
+  border-color: var(--pink-600, #b96a96);
+  color: var(--pink-900, #651a39);
+}
+
+/* Pink selection outline around the visible scene frame (JS-positioned) */
+.scene-selection-outline {
+  position: absolute;
+  z-index: 9;
+  pointer-events: none;
+  border: 2px solid var(--pink-600, #b96a96);
+  border-radius: 3px;
+}
+.scene-selection-outline.is-hidden { display: none; }
+
+/* ── Quick edits dialog ── */
+.qe-dialog {
+  position: fixed;
+  z-index: 500;
+  width: 280px;
+  background-color: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(38,23,29,0.14);
+  padding: 4px;
+}
+.qe-dialog.is-hidden { display: none; }
+.qe-header {
+  display: flex;
+  align-items: center;
+  padding: 4px 4px 4px 8px;
+  border-bottom: 1px solid var(--border-soft, rgba(63,42,50,0.08));
+  margin-bottom: 4px;
+}
+.qe-title {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+}
+.qe-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.qe-header-actions .icon-button {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+.qe-rows {
+  display: flex;
+  flex-direction: column;
+}
+.qe-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 4px 4px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+}
+.qe-row:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.qe-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  white-space: nowrap;
+}
+.qe-row .select-menu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.qe-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background-color: #1E1E2E;
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  flex-shrink: 0;
+}
+
+/* ── Scene actions refinements ── */
+/* Stay visible while a scene tool (quick edits / slim underlord) is open */
+.scene-actions.is-pinned {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Canvas toolbar — scene-selected tool set ──
+   (two classes needed: .canvas-toolbar-group's display:flex loads later) */
+.canvas-toolbar .toolbar-scene-tools { display: none; }
+.canvas-toolbar.is-scene-selected .toolbar-default-tools { display: none; }
+.canvas-toolbar.is-scene-selected .toolbar-scene-tools { display: flex; }
+
+/* Labeled toolbar items on the light bar */
+.canvas-toolbar .toolbar-item {
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  gap: 8px;
+  height: 28px;
+  border-radius: 4px;
+}
+.canvas-toolbar .toolbar-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.canvas-toolbar .toolbar-item .icon {
+  background-color: currentColor;
+}
+
+/* ── Scene inspector (shown when scene or nothing is selected) ── */
+.si-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 12px 16px;
+}
+.si-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0 8px;
+}
+.si-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--new-border-medium, rgba(63,42,50,0.3));
+  border-radius: 6px;
+}
+.si-title-icon .icon { background-color: var(--fg-primary, #26171d); }
+.si-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--fg-primary, #26171d);
+}
+.si-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--surface-elevated, #fdfcfc);
+  border: 1px solid rgba(88,63,74,0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.si-card--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+}
+.si-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.si-card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.si-card .icon-button {
+  width: 24px;
+  height: 24px;
+}
+.si-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+}
+.si-layout-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid var(--border-soft, rgba(63,42,50,0.08));
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(38,23,29,0.04);
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+}
+.si-layout-select:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.06));
+}
+.si-layout-thumb {
+  width: 64px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.si-layout-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.si-layout-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.si-layout-name {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+.si-layout-sub {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.si-save-layout {
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-primary, #26171d);
+  cursor: pointer;
+}
+.si-save-layout:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.06));
+}
+.si-duration {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  background-color: rgba(88,63,74,0.08);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.si-trans-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.si-trans-label {
+  width: 24px;
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.si-trans-select {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border: 1px solid var(--border-soft, rgba(63,42,50,0.08));
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+}
+.si-trans-select:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.06));
+}
+.si-trans-select .icon { background-color: var(--fg-secondary, rgba(22,5,12,0.6)); }
+.si-layer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+}
+.si-layer-row:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.06));
+}
+.si-layer-thumb {
+  width: 26px;
+  height: 18px;
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.si-layer-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* settings-alt was referenced but never defined — wire up the existing asset */
+.icon.settings-alt {
+  -webkit-mask-image: url('../images/settings-alt.svg');
+  mask-image: url('../images/settings-alt.svg');
+}

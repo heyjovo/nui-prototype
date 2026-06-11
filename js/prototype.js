@@ -330,14 +330,23 @@
       expandToolbarPanel('is-qa-expanded', '#qa-input');
     });
 
-    document.getElementById('toolbar-agent-collapse')?.addEventListener('click', e => {
+    // Skill templates: nested panel reached from the agent header;
+    // back arrow returns to the Underlord view
+    document.getElementById('toolbar-agent-skills-btn')?.addEventListener('click', e => {
       e.preventDefault();
-      collapseToolbarPanel();
+      expandToolbarPanel('is-st-expanded', '#st-input');
     });
 
-    document.getElementById('toolbar-qa-collapse')?.addEventListener('click', e => {
+    document.getElementById('toolbar-st-back')?.addEventListener('click', e => {
       e.preventDefault();
-      collapseToolbarPanel();
+      expandToolbarPanel('is-agent-expanded', '.agent-input-editable');
+    });
+
+    ['toolbar-agent-collapse', 'toolbar-qa-collapse', 'toolbar-st-collapse'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', e => {
+        e.preventDefault();
+        collapseToolbarPanel();
+      });
     });
 
     document.addEventListener('keydown', e => {
@@ -1037,6 +1046,272 @@
     });
   }
 
+  // --- Selected text toolbar (floats above first line of selection) ---
+  function initSelectionToolbar() {
+    const tb = document.getElementById('selection-toolbar');
+    if (!tb) return;
+
+    const canvasToolbar = document.querySelector('.canvas-toolbar');
+    const scriptArea = document.querySelector('.script-scroll-area');
+    const ignoreBtn = document.getElementById('sel-ignore-btn');
+    const ignoreMenu = document.getElementById('sel-ignore-menu');
+    const ulInput = document.getElementById('sel-underlord-input');
+
+    const FADE_MS = 110; // matches the 100ms opacity/transform transitions
+    let visible = false;
+    let mainWidth = 0;
+    let pendingShow = null;
+    let savedRange = null;
+
+    // Keep toolbar/menu clicks from collapsing the text selection.
+    // The input is focused manually so the document selection stays painted
+    // (inactive) while the user types in the Underlord field.
+    tb.addEventListener('mousedown', e => {
+      e.preventDefault();
+      if (e.target.closest('#sel-underlord-input')) ulInput?.focus();
+    });
+    ignoreMenu?.addEventListener('mousedown', e => e.preventDefault());
+
+    function selectionRect() {
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+      if (!sel.toString().trim()) return null;
+      if (!scriptArea || !scriptArea.contains(sel.anchorNode)) return null;
+      const rects = sel.getRangeAt(0).getClientRects();
+      return rects.length ? rects[0] : null;
+    }
+
+    // Centered above the first line of the selection, clamped to the viewport
+    function place(rect) {
+      const w = tb.offsetWidth;
+      const h = tb.offsetHeight;
+      let left = rect.left + rect.width / 2 - w / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
+      tb.style.left = Math.round(left) + 'px';
+      tb.style.top = Math.round(Math.max(8, rect.top - h - 8)) + 'px';
+    }
+
+    function placeWithoutAnim(rect) {
+      tb.classList.add('no-anim');
+      place(rect);
+      tb.offsetHeight; // flush so the un-animated move applies
+      tb.classList.remove('no-anim');
+    }
+
+    function show(rect) {
+      if (visible) { place(rect); return; }
+      visible = true;
+      // 1. canvas toolbar fades up and out…
+      canvasToolbar?.classList.add('is-hidden-for-selection');
+      clearTimeout(pendingShow);
+      // 2. …then the selection toolbar fades up and in
+      pendingShow = setTimeout(() => {
+        placeWithoutAnim(rect);
+        tb.classList.add('is-visible');
+        // Re-place once layout settles (e.g. a panel was still animating)
+        setTimeout(() => {
+          if (!visible || tb.classList.contains('is-underlord')) return;
+          const fresh = selectionRect();
+          if (fresh) placeWithoutAnim(fresh);
+        }, 280);
+      }, FADE_MS);
+    }
+
+    function hide() {
+      if (!visible) return;
+      visible = false;
+      clearTimeout(pendingShow);
+      // 1. selection toolbar fades out…
+      tb.classList.remove('is-visible');
+      exitUnderlord(true);
+      ignoreMenu?.classList.add('is-hidden');
+      // 2. …then the canvas toolbar fades back in
+      setTimeout(() => {
+        if (!visible) canvasToolbar?.classList.remove('is-hidden-for-selection');
+      }, FADE_MS);
+    }
+
+    let selDebounce;
+    document.addEventListener('selectionchange', () => {
+      // In Underlord mode the toolbar persists until back/send,
+      // even though focusing the input collapses the doc selection
+      if (tb.classList.contains('is-underlord')) return;
+      clearTimeout(selDebounce);
+      selDebounce = setTimeout(() => {
+        if (tb.classList.contains('is-underlord')) return;
+        const rect = selectionRect();
+        if (rect) show(rect); else hide();
+      }, 120);
+    });
+
+    // Track the selection while the script scrolls
+    scriptArea?.addEventListener('scroll', () => {
+      if (!visible || tb.classList.contains('is-underlord')) return;
+      const rect = selectionRect();
+      if (rect) placeWithoutAnim(rect);
+    });
+
+    // --- Underlord sub-view: slim input replaces the toolbar content ---
+    function enterUnderlord() {
+      if (tb.classList.contains('is-underlord')) return;
+      // Snapshot the selection so it can be restored if anything collapses it,
+      // and keep it visually painted while focus is in the input
+      const sel = window.getSelection();
+      savedRange = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+      if (savedRange && window.Highlight && CSS.highlights) {
+        CSS.highlights.set('sel-underlord', new Highlight(savedRange));
+      }
+      mainWidth = tb.offsetWidth;
+      const center = tb.offsetLeft + mainWidth / 2;
+      tb.style.width = mainWidth + 'px';
+      tb.offsetHeight;
+      tb.classList.add('is-underlord');
+      const targetW = 480;
+      let left = center - targetW / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - targetW - 8));
+      tb.style.width = targetW + 'px';
+      tb.style.left = Math.round(left) + 'px';
+      setTimeout(() => ulInput?.focus(), 210);
+    }
+
+    function exitUnderlord(immediate) {
+      if (ulInput) ulInput.value = '';
+      if (window.CSS?.highlights) CSS.highlights.delete('sel-underlord');
+      if (!tb.classList.contains('is-underlord')) {
+        if (immediate) tb.style.width = '';
+        return;
+      }
+      const center = tb.offsetLeft + tb.offsetWidth / 2;
+      tb.classList.remove('is-underlord');
+      if (immediate) { tb.style.width = ''; return; }
+      tb.style.width = mainWidth + 'px';
+      tb.style.left = Math.round(center - mainWidth / 2) + 'px';
+      setTimeout(() => { tb.style.width = ''; }, 220);
+    }
+
+    document.getElementById('sel-underlord-btn')?.addEventListener('click', e => {
+      e.preventDefault();
+      enterUnderlord();
+    });
+
+    // Dismiss while still in the underlord view: fade out first, swap views
+    // after — avoids a glimpse of the text-editing toolbar on close.
+    function dismissSlim() {
+      visible = false;
+      savedRange = null;
+      clearTimeout(pendingShow);
+      tb.classList.remove('is-visible');
+      ignoreMenu?.classList.add('is-hidden');
+      setTimeout(() => {
+        exitUnderlord(true);
+        if (!visible) canvasToolbar?.classList.remove('is-hidden-for-selection');
+      }, FADE_MS);
+      document.dispatchEvent(new CustomEvent('slim-underlord-closed'));
+    }
+
+    // Slim Underlord input anchored to an arbitrary rect (e.g. scene actions).
+    // Skips the canvas-toolbar hand-off — the toolbar stays visible.
+    // opts.over: sit in line with the anchor (right-aligned) instead of above it.
+    window._openSlimUnderlord = function (anchorRect, opts) {
+      visible = true;
+      clearTimeout(pendingShow);
+      tb.classList.add('no-anim');
+      if (opts && opts.over) {
+        const w = tb.offsetWidth;
+        tb.style.left = Math.round(Math.max(8, anchorRect.right - w)) + 'px';
+        tb.style.top = Math.round(anchorRect.top + (anchorRect.height - tb.offsetHeight) / 2) + 'px';
+        tb.offsetHeight;
+        tb.classList.remove('no-anim');
+        tb.classList.add('is-visible');
+        enterUnderlord();
+        // keep the bar right-anchored to the trigger as it grows to 480
+        const left = Math.max(8, Math.min(anchorRect.right - 480, window.innerWidth - 480 - 8));
+        tb.style.left = Math.round(left) + 'px';
+      } else {
+        place(anchorRect);
+        tb.offsetHeight;
+        tb.classList.remove('no-anim');
+        tb.classList.add('is-visible');
+        enterUnderlord();
+      }
+    };
+    window._closeSlimUnderlord = function () {
+      if (tb.classList.contains('is-underlord')) dismissSlim();
+    };
+    window._isSlimUnderlordOpen = function () {
+      return visible && tb.classList.contains('is-underlord');
+    };
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && tb.classList.contains('is-underlord')) {
+        window.getSelection()?.removeAllRanges();
+        dismissSlim();
+      }
+    });
+
+    // Clicking outside the underlord bar closes it
+    document.addEventListener('click', e => {
+      if (!tb.classList.contains('is-underlord') || !visible) return;
+      if (tb.contains(e.target)) return;
+      if (e.target.closest('#sel-underlord-btn, #scene-underlord-btn')) return;
+      dismissSlim();
+    });
+
+    document.getElementById('sel-underlord-back')?.addEventListener('click', e => {
+      e.preventDefault();
+      // Restore the selection if it was collapsed while typing
+      if (savedRange) {
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(savedRange);
+      }
+      if (selectionRect()) {
+        // Text flow: return to the main selection toolbar
+        exitUnderlord();
+        document.dispatchEvent(new CustomEvent('slim-underlord-closed'));
+      } else {
+        // Scene flow (no selection): fade out in place
+        dismissSlim();
+      }
+    });
+
+    document.getElementById('sel-underlord-send')?.addEventListener('click', e => {
+      e.preventDefault();
+      window.getSelection()?.removeAllRanges();
+      dismissSlim();
+    });
+
+    // --- Ignore dropdown ---
+    ignoreBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!ignoreMenu) return;
+      if (!ignoreMenu.classList.contains('is-hidden')) {
+        ignoreMenu.classList.add('is-hidden');
+        return;
+      }
+      const r = ignoreBtn.getBoundingClientRect();
+      ignoreMenu.style.top = (r.bottom + 6) + 'px';
+      ignoreMenu.style.left = r.left + 'px';
+      ignoreMenu.classList.remove('is-hidden');
+    });
+
+    document.addEventListener('click', e => {
+      if (ignoreMenu && !ignoreMenu.classList.contains('is-hidden') &&
+          !e.target.closest('#sel-ignore-menu') &&
+          !e.target.closest('#sel-ignore-btn')) {
+        ignoreMenu.classList.add('is-hidden');
+      }
+    });
+
+    ignoreMenu?.querySelectorAll('.sel-ignore-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        ignoreMenu.classList.add('is-hidden');
+      });
+    });
+  }
+
   // --- Find dialog (combined search field + mode menu) ---
   function initFindDialog() {
     const dialog = document.getElementById('find-dialog');
@@ -1092,6 +1367,163 @@
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && !dialog.classList.contains('is-hidden')) close();
+    });
+  }
+
+  // --- Scene actions: chips above the scene frame + quick edits dialog ---
+  function initSceneActions() {
+    const row = document.getElementById('scene-actions');
+    const outline = document.getElementById('scene-selection-outline');
+    const canvas = document.querySelector('.canvas');
+    const selectBtn = document.getElementById('scene-select-btn');
+    const selectLabel = document.getElementById('scene-select-label');
+    if (!row || !canvas) return;
+
+    // The a-roll uses object-fit:contain — compute the visible frame rect
+    // (canvas-relative) so the row hugs the rendered image, not the wrapper.
+    function frameRect() {
+      const img = document.querySelector('.canvas-scene-wrapper.w--tab-active .canvas-scene-a-roll');
+      if (!img || !img.naturalWidth) return null;
+      const r = img.getBoundingClientRect();
+      const c = canvas.getBoundingClientRect();
+      const scale = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+      const w = img.naturalWidth * scale;
+      const h = img.naturalHeight * scale;
+      return {
+        left: r.left - c.left + (r.width - w) / 2,
+        top: r.top - c.top + (r.height - h) / 2,
+        width: w,
+        height: h
+      };
+    }
+
+    function sync() {
+      const rect = frameRect();
+      if (!rect) return;
+      row.style.left = Math.round(rect.left) + 'px';
+      row.style.width = Math.round(rect.width) + 'px';
+      row.style.top = Math.round(Math.max(4, rect.top - 24 - 8)) + 'px';
+      outline.style.left = Math.round(rect.left - 3) + 'px';
+      outline.style.top = Math.round(rect.top - 3) + 'px';
+      outline.style.width = Math.round(rect.width + 6) + 'px';
+      outline.style.height = Math.round(rect.height + 6) + 'px';
+    }
+
+    window.addEventListener('resize', sync);
+    window.addEventListener('load', sync);
+    if ('ResizeObserver' in window) new ResizeObserver(sync).observe(canvas);
+
+    // Track scene switches: update the label, clear selection, re-anchor
+    document.querySelectorAll('.canvas-scene-thumbnail').forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        if (selectLabel) selectLabel.textContent = 'Scene ' + (i + 1);
+        setSelected(false);
+        setTimeout(sync, 0);
+      });
+    });
+    sync();
+
+    // --- Scene selection (pink outline + scene tools in the canvas toolbar) ---
+    let sceneSelected = false;
+    const canvasToolbar = document.querySelector('.canvas-toolbar');
+    function setSelected(v) {
+      sceneSelected = v;
+      selectBtn?.classList.toggle('is-selected', v);
+      outline?.classList.toggle('is-hidden', !v);
+      canvasToolbar?.classList.toggle('is-scene-selected', v);
+      if (v) sync();
+    }
+    selectBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setSelected(!sceneSelected);
+    });
+    // Clicking the canvas background deselects
+    canvas.addEventListener('click', e => {
+      if (!e.target.closest('#scene-actions')) setSelected(false);
+    });
+
+    // --- Pin the row while one of its tools is open (ignore mouse position) ---
+    let slimOpenFromScene = false;
+    function syncPin() {
+      const qeOpen = qeDialog && !qeDialog.classList.contains('is-hidden');
+      row.classList.toggle('is-pinned', !!qeOpen || slimOpenFromScene);
+    }
+    document.addEventListener('slim-underlord-closed', () => {
+      slimOpenFromScene = false;
+      syncPin();
+    });
+
+    // --- Underlord: slim input in line with the trigger, canvas toolbar stays put ---
+    const sceneUnderlordBtn = document.getElementById('scene-underlord-btn');
+    sceneUnderlordBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeQuickEdits(); // never both open
+      slimOpenFromScene = true;
+      syncPin();
+      window._openSlimUnderlord?.(sceneUnderlordBtn.getBoundingClientRect(), { over: true });
+    });
+
+    // --- Quick edits dialog ---
+    const qeDialog = document.getElementById('quick-edits-dialog');
+    const qeBtn = document.getElementById('scene-quick-edits-btn');
+    const lpDialog = document.getElementById('layout-pack-dialog');
+
+    function closeQuickEdits() {
+      qeDialog?.classList.add('is-hidden');
+      lpDialog?.classList.add('is-hidden');
+      syncPin();
+    }
+
+    qeBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!qeDialog) return;
+      if (!qeDialog.classList.contains('is-hidden')) { closeQuickEdits(); return; }
+      window._closeSlimUnderlord?.(); // never both open
+      qeDialog.classList.remove('is-hidden');
+      const r = qeBtn.getBoundingClientRect();
+      const w = qeDialog.offsetWidth;
+      qeDialog.style.top = (r.bottom + 6) + 'px';
+      qeDialog.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + 'px';
+      syncPin();
+    });
+
+    document.getElementById('qe-collapse-btn')?.addEventListener('click', e => {
+      e.preventDefault();
+      closeQuickEdits();
+    });
+
+    document.getElementById('qe-inspector-btn')?.addEventListener('click', e => {
+      e.preventDefault();
+      closeQuickEdits();
+      window._toggleSidebarPanel?.('inspector');
+    });
+
+    // Scene layout row opens the Brand kit layout pack menu alongside
+    document.getElementById('qe-layout-row')?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!lpDialog || !qeDialog) return;
+      if (!lpDialog.classList.contains('is-hidden')) { lpDialog.classList.add('is-hidden'); return; }
+      lpDialog.classList.remove('is-hidden');
+      const qr = qeDialog.getBoundingClientRect();
+      const lw = lpDialog.offsetWidth;
+      const lh = lpDialog.offsetHeight;
+      let left = qr.left - lw - 8;
+      if (left < 8) left = Math.min(qr.right + 8, window.innerWidth - lw - 8);
+      lpDialog.style.left = Math.round(left) + 'px';
+      lpDialog.style.top = Math.round(Math.max(8, Math.min(qr.top, window.innerHeight - lh - 8))) + 'px';
+    });
+
+    document.addEventListener('click', e => {
+      if (qeDialog && !qeDialog.classList.contains('is-hidden') &&
+          !e.target.closest('#quick-edits-dialog') &&
+          !e.target.closest('#scene-quick-edits-btn') &&
+          !e.target.closest('#layout-pack-dialog')) {
+        closeQuickEdits();
+      }
     });
   }
 
@@ -1286,6 +1718,8 @@
     initRecordModeDialog();
     initLayoutPackDialog();
     initFindDialog();
+    initSelectionToolbar();
+    initSceneActions();
     initCaptionStyles();
     initMediaTabs();
     initStockTabs();

@@ -1175,6 +1175,20 @@
                   <div data-w-tab="Tab 8" class="canvas-scene-wrapper w-tab-pane"><img sizes="(max-width: 1280px) 100vw, 1280px" srcset="images/scene-08-p-500.jpg 500w, images/scene-08-p-800.jpg 800w, images/scene-08-p-1080.jpg 1080w, images/scene-08.jpg 1280w" alt="" src="images/scene-08.jpg" loading="lazy" class="canvas-scene-a-roll"></div>
                 </div>
               </div>
+              <div id="scene-actions" class="scene-actions">
+                <a id="scene-select-btn" href="#" class="scene-chip w-inline-block">
+                  <span id="scene-select-label">Scene 1</span>
+                </a>
+                <div class="scene-actions-right">
+                  <a id="scene-underlord-btn" href="#" class="scene-chip scene-chip--icon w-inline-block" data-tooltip="Underlord">
+                    <div class="icon magic-fill"></div>
+                  </a>
+                  <a id="scene-quick-edits-btn" href="#" class="scene-chip scene-chip--icon w-inline-block" data-tooltip="Quick edits">
+                    <div class="icon dial"></div>
+                  </a>
+                </div>
+              </div>
+              <div id="scene-selection-outline" class="scene-selection-outline is-hidden"></div>
               <div class="canvas-buttons-left">
                 <a id="toggle-script-open" href="#" class="script-button toolbar-chip w-inline-block">
                   <div class="icon script"></div>
@@ -1204,7 +1218,7 @@
                 <a id="toolbar-underlord-btn" href="#" class="toolbar-underlord-btn w-inline-block" data-tooltip="Underlord">
                   <div class="icon robot"></div>
                 </a>
-                <div class="canvas-toolbar-group">
+                <div class="canvas-toolbar-group toolbar-default-tools">
                   <a href="#" class="icon-button inset w-inline-block" data-tooltip="Generate media">
                     <div class="icon magic-media"></div>
                   </a>
@@ -1217,6 +1231,22 @@
                   <a id="toolbar-quick-actions-btn" href="#" class="icon-button inset w-inline-block" data-tooltip="Quick actions">
                     <div class="icon magic-search"></div>
                   </a>
+                </div>
+                <div class="canvas-toolbar-group toolbar-scene-tools">
+                  <a href="#" class="toolbar-item w-inline-block">
+                    <div class="icon layout"></div>
+                    <span>Change layout</span>
+                  </a>
+                  <a href="#" class="toolbar-item w-inline-block">
+                    <div class="icon magic"></div>
+                    <span>Add effects</span>
+                  </a>
+                  <a href="#" class="toolbar-item w-inline-block">
+                    <div class="icon color-swatch"></div>
+                    <span>Color adjustments</span>
+                  </a>
+                </div>
+                <div class="canvas-toolbar-group">
                   <a href="#" class="icon-button inset w-inline-block" data-tooltip="More">
                     <div class="icon more-horizontal"></div>
                   </a>
@@ -1236,7 +1266,7 @@
                     <div class="icon chevron-down-s"></div>
                   </a>
                   <div class="agent-header-actions">
-                    <a href="#" class="icon-button inset w-inline-block" data-tooltip="Skill templates">
+                    <a id="toolbar-agent-skills-btn" href="#" class="icon-button inset w-inline-block" data-tooltip="Skill templates">
                       <div class="icon automation"></div>
                     </a>
                     <a href="#" class="icon-button inset toolbar-open-sidebar-btn w-inline-block" data-tooltip="Open in sidebar">
@@ -1320,6 +1350,82 @@
                     <div class="icon search"></div>
                     <span><em>Find in script</em> '<span id="qa-query"></span>'</span>
                     <span class="qa-kbd">⌘F</span>
+                  </a>
+                </div>
+              </div>
+              <div class="toolbar-st-view">
+                <div class="qa-header">
+                  <a id="toolbar-st-back" href="#" class="icon-button inset w-inline-block" data-tooltip="Back to Underlord">
+                    <div class="icon arrow-menu-close"></div>
+                  </a>
+                  <div class="qa-input-wrap">
+                    <div class="icon search"></div>
+                    <input id="st-input" class="qa-input" type="text" placeholder="Search skill templates" spellcheck="false">
+                  </div>
+                  <a id="toolbar-st-collapse" href="#" class="icon-button inset w-inline-block" data-tooltip="Collapse">
+                    <div class="icon chevron-down-s"></div>
+                  </a>
+                </div>
+                <div class="qa-menu">
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon scissors"></div>
+                    <span>Find and clip the best parts</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon magic"></div>
+                    <span>Clean up video recording</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon magic-heal"></div>
+                    <span>Remove filler words and retakes</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon magic-smile"></div>
+                    <span>Apply eye contact and studio sound</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon scissors"></div>
+                    <span>Create highlight reel</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon translate"></div>
+                    <span>Translate and dub</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon media-music"></div>
+                    <span>Add background music</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon brackets"></div>
+                    <span>Add captions and subtitles</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon magic-fill"></div>
+                    <span>Improve pacing and flow</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon script-new"></div>
+                    <span>Help me write a script</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon media-doc"></div>
+                    <span>Draft a blog post</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon at-sign"></div>
+                    <span>Generate social clips</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon lightning"></div>
+                    <span>Brainstorm ideas</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon hash"></div>
+                    <span>Generate chapter markers</span>
+                  </a>
+                  <a href="#" class="qa-item w-inline-block">
+                    <div class="icon robot"></div>
+                    <span>Ask Underlord for suggestions</span>
                   </a>
                 </div>
               </div>
@@ -1874,200 +1980,121 @@
               <div class="icon right-panel-close"></div>
             </a>
           </div>
-          <div class="props-section">
-            <div class="prop-section-row">
-              <div class="layer-type">
-                <div class="icon video-file"></div>
-                <h4 class="prop-section-title">studio-setup.png</h4>
-              </div>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon lock"></div>
-              </a>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon more-horizontal"></div>
-              </a>
+          <div class="elem-scroll si-scroll">
+
+            <div class="si-title-row">
+              <div class="si-title-icon"><div class="icon slash"></div></div>
+              <span class="si-title">Scene</span>
             </div>
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Scenes</h4>
-              <div class="pill-tab-wrapper">
-                <a href="#" class="pill-tab w-inline-block">
-                  <div class="select-label">
-                    <div>Current</div>
+
+            <!-- Layout -->
+            <div class="si-card">
+              <div class="si-card-header">
+                <span class="si-card-title">Layout</span>
+                <a href="#" class="icon-button w-inline-block"><div class="icon more-horizontal"></div></a>
+              </div>
+              <a href="#" class="si-layout-select w-inline-block">
+                <div class="si-layout-thumb"><img src="images/scene-01.jpg" alt=""></div>
+                <div class="si-layout-text">
+                  <span class="si-layout-name">Descript</span>
+                  <span class="si-layout-sub">Default Camera</span>
+                </div>
+                <div class="icon chevron-down-s"></div>
+              </a>
+              <button class="si-save-layout">Save as new layout</button>
+            </div>
+
+            <!-- Duration -->
+            <div class="si-card si-card--row">
+              <span class="si-card-title">Duration</span>
+              <span class="si-duration">1:25.5</span>
+            </div>
+
+            <!-- Background -->
+            <div class="si-card si-card--row">
+              <span class="si-card-title">Background</span>
+              <a href="#" class="icon-button w-inline-block"><div class="icon plus"></div></a>
+            </div>
+
+            <!-- Color adjustments -->
+            <div class="si-card">
+              <div class="si-card-header">
+                <span class="si-card-title">Color adjustments</span>
+                <a href="#" class="icon-button w-inline-block"><div class="icon settings-alt"></div></a>
+              </div>
+              <div data-delay="4000" data-animation="slide" class="effect-slider-wrapper w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+                <div class="slider-gap w-slider-mask">
+                  <div class="effect-slider-option w-slide">
+                    <div class="effect-thumbnail none selected">
+                      <div class="icon forbidden"></div>
+                    </div>
+                    <div class="effect-slider-label selected">None</div>
                   </div>
-                </a>
-                <a href="#" class="pill-tab active w-inline-block">
-                  <div class="select-label">
-                    <div>All</div>
+                  <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
+                    <div class="effect-slider-label">Neutral</div>
                   </div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="props-section">
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Visual role</h4>
-              <div class="select-menu">
-                <div class="text-block-2">Graphic</div>
-                <div class="elevated-chevron">
-                  <div class="icon chevron"></div>
-                </div>
-              </div>
-            </div>
-            <div class="dotted-line horizontal"></div>
-          </div>
-          <div class="props-section p-1">
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Opacity</h4>
-            </div>
-            <div class="dotted-line horizontal"></div>
-            <div class="prop-section-row p0">
-              <div class="faux-input numerical centered">
-                <div class="text-block-2">80%</div>
-              </div>
-              <div class="w-layout-blockcontainer faux-slider-track w-container">
-                <div class="faux-slider-progress">
-                  <div class="faux-slider-handle"></div>
-                </div>
-                <div class="faux-slider-tic-wrapper">
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="faux-slider-mid-way-tick"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                  <div class="slider-tic"></div>
-                </div>
-              </div>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon visibility"></div>
-              </a>
-            </div>
-          </div>
-          <div class="props-section p-1">
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Size &amp; position</h4>
-            </div>
-            <div class="dotted-line horizontal"></div>
-            <div class="prop-section-row p0">
-              <div class="properties-field-grid">
-                <div class="faux-input numerical">
-                  <div class="field-label">Y</div>
-                  <div class="text-block-2">0</div>
-                </div>
-                <div id="w-node-a946543b-8838-9aaf-7172-784efaa38509-6b8f2212" class="faux-input numerical">
-                  <div class="field-label">H</div>
-                  <div class="text-block-2">1080</div>
-                </div>
-                <div id="w-node-_835d4487-8afe-bf87-856a-f9992b7aa725-6b8f2212" class="faux-input numerical">
-                  <div class="field-label">W</div>
-                  <div class="text-block-2">1920</div>
-                </div>
-                <div id="w-node-_5473df5a-9d6e-f847-5c8c-cf36df48f67c-6b8f2212" class="faux-input numerical">
-                  <div class="field-label">X</div>
-                  <div class="text-block-2">0</div>
-                </div>
-                <div id="w-node-_20dc656c-b83e-1610-1677-ce231d4caf2c-6b8f2212" class="faux-input numerical">
-                  <div class="icon field-label angle"></div>
-                  <div class="text-block-2">0</div>
-                </div>
-                <div id="w-node-_4ebd6059-d310-e70d-9b3b-449e4854d3f5-6b8f2212" class="faux-input numerical">
-                  <div class="icon field-label border-radius"></div>
-                  <div class="text-block-2">0</div>
-                </div>
-                <a id="w-node-_55727e82-0b2f-3f7d-9abd-41c7f3fa6db0-6b8f2212" href="#" class="icon-button active w-inline-block">
-                  <div class="icon link"></div>
-                </a>
-                <a id="w-node-_5fbf1e95-443e-66f9-77fb-a6fb21f0f19b-6b8f2212" href="#" class="icon-button w-inline-block">
-                  <div class="icon corners"></div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="props-section full-bleed">
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Color adjustments</h4>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon collapse"></div>
-              </a>
-            </div>
-            <div class="dotted-line horizontal"></div>
-            <div data-delay="4000" data-animation="slide" class="effect-slider-wrapper w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
-              <div class="slider-gap w-slider-mask">
-                <div class="effect-slider-option w-slide">
-                  <div class="effect-thumbnail none selected">
-                    <div class="icon forbidden"></div>
+                  <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
+                    <div class="effect-slider-label">Warm</div>
                   </div>
-                  <div class="effect-slider-label selected">None</div>
+                  <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
+                    <div class="effect-slider-label">Cool</div>
+                  </div>
+                  <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
+                    <div class="effect-slider-label">Pop</div>
+                  </div>
+                  <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
+                    <div class="effect-slider-label">B&amp;W</div>
+                  </div>
                 </div>
-                <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
-                  <div class="effect-slider-label">Neutral</div>
+                <div class="effects-slider-arrow-wrapper w-slider-arrow-left">
+                  <div class="effects-slider-arrow icon w-icon-slider-left"></div>
                 </div>
-                <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
-                  <div class="effect-slider-label">Warm</div>
+                <div class="effects-slider-arrow-wrapper right w-slider-arrow-right">
+                  <div class="effects-slider-arrow icon right w-icon-slider-right"></div>
                 </div>
-                <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
-                  <div class="effect-slider-label">Cool</div>
-                </div>
-                <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
-                  <div class="effect-slider-label">Pop</div>
-                </div>
-                <div class="effect-slider-option w-slide"><img src="images/filter-neutral.png" loading="lazy" sizes="(max-width: 1125px) 100vw, 1125px" srcset="images/filter-neutral-p-500.png 500w, images/filter-neutral-p-800.png 800w, images/filter-neutral-p-1080.png 1080w, images/filter-neutral.png 1125w" alt="" class="effect-thumbnail">
-                  <div class="effect-slider-label">B&amp;W</div>
-                </div>
+                <div class="slide-nav w-slider-nav"></div>
               </div>
-              <div class="effects-slider-arrow-wrapper w-slider-arrow-left">
-                <div class="effects-slider-arrow icon w-icon-slider-left"></div>
-              </div>
-              <div class="effects-slider-arrow-wrapper right w-slider-arrow-right">
-                <div class="effects-slider-arrow icon right w-icon-slider-right"></div>
-              </div>
-              <div class="slide-nav w-slider-nav"></div>
             </div>
+
+            <!-- Effects -->
+            <div class="si-card si-card--row">
+              <span class="si-card-title">Effects</span>
+              <a href="#" class="icon-button w-inline-block"><div class="icon plus"></div></a>
+            </div>
+
+            <!-- Transitions -->
+            <div class="si-card">
+              <div class="si-card-header">
+                <span class="si-card-title">Transitions</span>
+              </div>
+              <div class="si-trans-row">
+                <span class="si-trans-label">In</span>
+                <a href="#" class="si-trans-select w-inline-block"><span>None</span><div class="icon chevron-right-s"></div></a>
+                <a href="#" class="icon-button w-inline-block"><div class="icon settings-alt"></div></a>
+              </div>
+              <div class="si-trans-row">
+                <span class="si-trans-label">Out</span>
+                <a href="#" class="si-trans-select w-inline-block"><span>None</span><div class="icon chevron-right-s"></div></a>
+                <a href="#" class="icon-button w-inline-block"><div class="icon settings-alt"></div></a>
+              </div>
+            </div>
+
+            <!-- Layers -->
+            <div class="si-card">
+              <div class="si-card-header">
+                <span class="si-card-title">Layers</span>
+                <div class="si-card-header-actions">
+                  <a href="#" class="icon-button w-inline-block"><div class="icon screenshot"></div></a>
+                  <a href="#" class="icon-button w-inline-block"><div class="icon plus"></div></a>
+                </div>
+              </div>
+              <a href="#" class="si-layer-row w-inline-block">
+                <div class="si-layer-thumb"><img src="images/scene-01.jpg" alt=""></div>
+                <span>Script</span>
+              </a>
+            </div>
+
           </div>
-          <div class="props-section">
-            <div class="prop-section-row">
-              <h4 class="prop-section-title">Effects</h4>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon plus"></div>
-              </a>
-            </div>
-            <div class="prop-section-row">
-              <div class="prop-row-label">Film grain</div>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon dial"></div>
-              </a>
-              <div class="faux-radio on">
-                <div class="icon-off"></div>
-                <div class="icon-on"></div>
-                <div class="switch-handle on-position"></div>
-              </div>
-            </div>
-            <div class="prop-section-row">
-              <div class="prop-row-label">Shadow</div>
-              <a href="#" class="icon-button w-inline-block">
-                <div class="icon dial"></div>
-              </a>
-              <div class="faux-radio">
-                <div class="icon-on"></div>
-                <div class="icon-off"></div>
-                <div class="switch-handle"></div>
-              </div>
-            </div>
-            <div class="dotted-line horizontal"></div>
-          </div>
-        
         </div>
 
         <!-- Panel: Underlord Chat (placeholder) -->
@@ -2448,6 +2475,124 @@
       </div>
     </div>
   </div>
+  <!-- Quick Edits Dialog (scene actions) -->
+  <div id="quick-edits-dialog" class="qe-dialog is-hidden" role="dialog" aria-label="Quick edits">
+    <div class="qe-header">
+      <span class="qe-title">Quick edits</span>
+      <div class="qe-header-actions">
+        <a id="qe-inspector-btn" href="#" class="icon-button w-inline-block" data-tooltip="Open Inspector">
+          <div class="icon gear"></div>
+        </a>
+        <a id="qe-collapse-btn" href="#" class="icon-button w-inline-block" data-tooltip="Collapse">
+          <div class="icon chevron-down-s"></div>
+        </a>
+      </div>
+    </div>
+    <div class="qe-rows">
+      <a id="qe-layout-row" href="#" class="qe-row w-inline-block">
+        <span class="qe-label">Scene layout</span>
+        <div class="select-menu">
+          <div class="text-block-2">Full bleed</div>
+          <div class="elevated-chevron"><div class="icon chevron"></div></div>
+        </div>
+      </a>
+      <a href="#" class="qe-row w-inline-block">
+        <span class="qe-label">Background</span>
+        <div class="select-menu">
+          <span class="qe-swatch"></span>
+          <div class="text-block-2">#1E1E2E</div>
+          <div class="elevated-chevron"><div class="icon chevron"></div></div>
+        </div>
+      </a>
+      <a href="#" class="qe-row w-inline-block">
+        <span class="qe-label">Transition in</span>
+        <div class="select-menu">
+          <div class="text-block-2">None</div>
+          <div class="elevated-chevron"><div class="icon chevron"></div></div>
+        </div>
+      </a>
+      <a href="#" class="qe-row w-inline-block">
+        <span class="qe-label">Transition out</span>
+        <div class="select-menu">
+          <div class="text-block-2">Cross dissolve</div>
+          <div class="elevated-chevron"><div class="icon chevron"></div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Selected Text Toolbar (floats above first line of selection) -->
+  <div id="selection-toolbar" class="sel-toolbar">
+    <div class="sel-toolbar-main">
+      <a id="sel-underlord-btn" href="#" class="toolbar-underlord-btn w-inline-block" data-tooltip="Underlord">
+        <div class="icon robot"></div>
+      </a>
+      <div class="divider-simple-v inverse"></div>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Correct">
+        <div class="icon pencil-underline"></div>
+      </a>
+      <a id="sel-ignore-btn" href="#" class="sel-item sel-item--select w-inline-block" data-tooltip="Ignore">
+        <div class="icon strikethrough"></div>
+        <div class="icon chevron-down-s sel-chevron"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Bold">
+        <div class="icon bold"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Italic">
+        <div class="icon italic"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Highlight">
+        <span class="sel-highlight-glyph">A</span>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Copy to">
+        <div class="icon content-copy"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Comment">
+        <div class="icon add-comment"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="Add">
+        <div class="icon plus"></div>
+      </a>
+      <a href="#" class="sel-item w-inline-block" data-tooltip="More">
+        <div class="icon more-horizontal"></div>
+      </a>
+    </div>
+    <div class="sel-toolbar-underlord">
+      <a id="sel-underlord-back" href="#" class="sel-item w-inline-block" data-tooltip="Back">
+        <div class="icon arrow-menu-close"></div>
+      </a>
+      <div class="icon robot sel-underlord-robot"></div>
+      <input id="sel-underlord-input" class="sel-underlord-input" type="text" placeholder="What would you like to change?" spellcheck="false">
+      <a id="sel-underlord-send" href="#" class="agent-send-btn w-inline-block" data-tooltip="Send">
+        <div class="icon send-fill"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Ignore dropdown for selection toolbar -->
+  <div id="sel-ignore-menu" class="sel-ignore-menu is-hidden">
+    <a href="#" class="sel-ignore-item w-inline-block">
+      <div class="icon scissors"></div>
+      <span>Ignore media</span>
+    </a>
+    <a href="#" class="sel-ignore-item w-inline-block">
+      <div class="icon delete"></div>
+      <span>Delete media</span>
+    </a>
+    <a href="#" class="sel-ignore-item w-inline-block">
+      <div class="icon gap"></div>
+      <span>Replace with gap clip</span>
+    </a>
+    <a href="#" class="sel-ignore-item w-inline-block">
+      <div class="icon volume-x"></div>
+      <span>Mute clip</span>
+    </a>
+    <a href="#" class="sel-ignore-item w-inline-block">
+      <div class="icon eraser"></div>
+      <span>Remove from transcript</span>
+    </a>
+  </div>
+
   <!-- Find Dialog (combined search + mode menu) -->
   <div id="find-dialog" class="find-dialog is-hidden" role="dialog" aria-label="Find">
     <div class="find-dialog-top">
