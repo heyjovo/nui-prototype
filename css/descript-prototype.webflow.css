@@ -1367,10 +1367,11 @@ img {
 }
 
 .canvas-toolbar {
-  background-color: rgba(17, 10, 13, .9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 5px;
+  background-color: #fdfcfc; /* Figma Surface/Default — local --surface-default resolves darker */
+  border: 1px solid rgba(88, 63, 74, .1);
+  border-top: none;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 1px rgba(88, 63, 74, .05), 0 -1px 0 0 rgba(88, 63, 74, .05);
   height: 32px;
   padding-left: 2px;
   padding-right: 2px;

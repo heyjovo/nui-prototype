@@ -441,6 +441,7 @@
 .icon.translate        { -webkit-mask-image: url('../images/icon-translate.svg');            mask-image: url('../images/icon-translate.svg'); }
 .icon.magic-heal       { -webkit-mask-image: url('../images/icon-magic-heal.svg');           mask-image: url('../images/icon-magic-heal.svg'); }
 .icon.magic-fill       { -webkit-mask-image: url('../images/icon-magic-fill.svg');           mask-image: url('../images/icon-magic-fill.svg'); }
+.icon.magic-edit       { -webkit-mask-image: url('../images/icon-magic-edit.svg');           mask-image: url('../images/icon-magic-edit.svg'); }
 .icon.new-punctuation  { -webkit-mask-image: url('../images/icon-new-punctuation.svg');      mask-image: url('../images/icon-new-punctuation.svg'); }
 .icon.text-all-caps    { -webkit-mask-image: url('../images/icon-text-all-caps.svg');        mask-image: url('../images/icon-text-all-caps.svg'); }
 .icon.avatar           { -webkit-mask-image: url('../images/icon-avatar.svg');               mask-image: url('../images/icon-avatar.svg'); }
@@ -588,7 +589,7 @@
   padding: 0 8px;
   color: var(--fg-primary, #26171d);
   font-size: 12px;
-  font-weight: 475;
+  font-weight: 400; /* match Find — slim-select label inherits body weight */
   line-height: 16px;
   white-space: nowrap;
   border-radius: 4px;
@@ -3023,12 +3024,10 @@ body.script-open .cursor-menu.is-expanded .cursor-tool--script {
   background-color: rgba(88,63,74,0.12);
 }
 
-/* ── Canvas toolbar r3 — single dark action bar with Underlord button ── */
+/* ── Canvas toolbar r3 — light action bar with Underlord button ──
+   Container colors (bg/border/radius/shadow) live on the .canvas-toolbar
+   rule in descript-prototype.webflow.css, which loads last. */
 .canvas-toolbar {
-  background-color: rgba(17,10,13,0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 5px;
   height: 32px;
   padding-left: 2px;
   padding-right: 2px;
@@ -3042,30 +3041,30 @@ body.script-open .cursor-menu.is-expanded .cursor-tool--script {
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  background-color: var(--pink-300, #d597bf);
-  border: 1px solid var(--pink-500, #ab5c86);
+  background-color: var(--pink-750, #651a39);
+  border: 1px solid var(--new-border-medium, rgba(63,42,50,0.3));
   border-radius: 4px;
   text-decoration: none;
   position: relative;
 }
 .toolbar-underlord-btn:hover {
-  background-color: var(--pink-200, #e5b6d5);
+  background-color: #7a2347;
 }
 .toolbar-underlord-btn .icon {
-  background-color: var(--pink-900, #651a39);
+  background-color: var(--pink-200, #e5b6d5);
 }
 .canvas-toolbar .icon-button.inset {
-  color: var(--grey-5, #f7f4f3);
+  color: var(--fg-primary, #26171d);
   position: relative;
 }
 .canvas-toolbar .icon-button.inset:hover {
-  background-color: rgba(255,255,255,0.08);
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
 }
 .canvas-toolbar .divider-simple-v.inverse {
-  height: 28px;
+  align-self: stretch;
+  height: auto;
   min-height: 0;
-  align-self: center;
-  background-color: rgba(255,255,255,0.25);
+  background-color: rgba(88,63,74,0.1);
   opacity: 1;
   margin: 0 2px;
 }
@@ -3291,4 +3290,388 @@ body.script-open .cursor-menu.is-expanded .cursor-tool--script {
   font-size: 11px;
   opacity: 0.95;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* ── Find dialog — combined search field + mode menu ── */
+.find-dialog {
+  position: fixed;
+  width: 340px;
+  background-color: var(--surface-elevated, #fefcfb);
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(38,23,29,0.14);
+  padding: 8px;
+  z-index: 400;
+}
+.find-dialog.is-hidden { display: none; }
+
+/* Top row: search input + match options + close */
+.find-dialog-top {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-soft, rgba(63,42,50,0.08));
+  margin-bottom: 4px;
+}
+.find-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 8px;
+  background-color: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+}
+.find-input-wrap .icon.search {
+  flex-shrink: 0;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.find-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+}
+.find-input::placeholder {
+  color: var(--fg-secondary, rgba(22,5,12,0.5));
+}
+.find-dialog-top .icon-button {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Menu list */
+.find-menu {
+  display: flex;
+  flex-direction: column;
+}
+.find-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.find-menu-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.find-menu-item .find-check {
+  flex-shrink: 0;
+  opacity: 0;
+}
+.find-menu-item.is-checked .find-check {
+  opacity: 1;
+}
+.find-menu-heading {
+  padding: 8px 8px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+/* ── Canvas toolbar — Underlord agent expanded state ──
+   The toolbar is anchored bottom-center (absolute bottom + translateX(-50%)),
+   so animating width/height grows it naturally from the bottom center. */
+.canvas-toolbar {
+  overflow: hidden;
+  transition: width 250ms var(--panel-slide-easing, ease),
+              height 250ms var(--panel-slide-easing, ease),
+              border-radius 250ms var(--panel-slide-easing, ease);
+}
+.canvas-toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 32px;
+  flex-shrink: 0;
+  transition: opacity 120ms ease;
+}
+.canvas-toolbar.is-agent-expanded {
+  height: 134px;
+  border-radius: 8px;
+}
+.canvas-toolbar.is-agent-expanded .canvas-toolbar-row {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Expanded agent view — fades in over the collapsed row */
+.toolbar-agent-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 2px 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+.canvas-toolbar.is-agent-expanded .toolbar-agent-view {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 180ms ease 90ms;
+}
+
+/* Header row: mode chip + actions */
+.agent-header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.agent-mode-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 2px 6px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 475;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.agent-mode-chip:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.agent-mode-chip .icon { background-color: currentColor; }
+.agent-mode-chip span { margin-left: 4px; }
+.agent-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+}
+
+/* Input area */
+.agent-input {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+.agent-input-editable {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  outline: none;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  caret-color: var(--pink-750, #651a39);
+  padding: 2px 4px;
+}
+.agent-input-editable:empty::before {
+  content: attr(data-placeholder);
+  color: var(--fg-secondary, rgba(22,5,12,0.5));
+  pointer-events: none;
+}
+.agent-input-footer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Footer chips: attach / add context.
+   Scoped under .toolbar-agent-view so the chip style beats the legacy
+   .toolbar-attachment-btn rule (32px, lighter fill) that loads last. */
+.toolbar-agent-view .agent-chip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+  position: relative;
+  padding: 0;
+}
+.toolbar-agent-view .agent-chip-btn:hover {
+  background-color: rgba(88,63,74,0.16);
+}
+.toolbar-agent-view .agent-chip-btn .icon { background-color: currentColor; }
+
+/* Model picker */
+.agent-model-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 4px 0 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.agent-model-chip:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.agent-model-chip .icon { background-color: currentColor; }
+
+/* Send */
+.agent-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  margin-left: auto;
+  background-color: var(--pink-750, #651a39);
+  border-radius: 4px;
+  text-decoration: none;
+  position: relative;
+}
+.agent-send-btn:hover {
+  background-color: #7a2347;
+}
+.agent-send-btn .icon {
+  background-color: var(--pink-200, #e5b6d5);
+}
+
+/* ── Canvas toolbar — Quick actions expanded state ──
+   Reuses the agent panel mechanic: same surface, same grow-from-bottom-center
+   transition; .is-qa-expanded swaps in .toolbar-qa-view. */
+.icon.bookmark  { -webkit-mask-image: url('../images/elements-icon-bookmark.svg');  mask-image: url('../images/elements-icon-bookmark.svg'); }
+.icon.wave-sine { -webkit-mask-image: url('../images/elements-icon-wave_sine.svg'); mask-image: url('../images/elements-icon-wave_sine.svg'); }
+
+.canvas-toolbar.is-qa-expanded {
+  height: 200px;
+  border-radius: 8px;
+}
+.canvas-toolbar.is-qa-expanded .canvas-toolbar-row {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toolbar-qa-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 2px 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+.canvas-toolbar.is-qa-expanded .toolbar-qa-view {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 180ms ease 90ms;
+}
+
+/* Top row: search field + collapse */
+.qa-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+.qa-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  background-color: rgba(88,63,74,0.08);
+  border: 1px solid rgba(88,63,74,0.05);
+  border-radius: 4px;
+}
+.qa-input-wrap .icon {
+  flex-shrink: 0;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.qa-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  caret-color: var(--pink-750, #651a39);
+}
+.qa-input::placeholder {
+  color: var(--fg-secondary, rgba(22,5,12,0.5));
+}
+
+/* Scrollable action list */
+.qa-menu {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 2px 2px;
+}
+.toolbar-qa-view .qa-menu--results { display: none; }
+.toolbar-qa-view.is-filtering .qa-menu--default { display: none; }
+.toolbar-qa-view.is-filtering .qa-menu--results { display: flex; }
+
+.qa-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--fg-primary, #26171d);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.qa-item:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.qa-item .icon {
+  flex-shrink: 0;
+  background-color: currentColor;
+}
+.qa-item em {
+  font-style: normal;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.qa-kbd {
+  margin-left: auto;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
 }

@@ -278,63 +278,97 @@
       if (toolbarGroup) toolbarGroup.classList.toggle('is-collapsed');
     });
 
-    // --- Toolbar Expand/Collapse (Underlord Tab 2) ---
-    function expandToolbar() {
-      if (!canvasToolbar) return;
-      const currentWidth = canvasToolbar.offsetWidth;
-      canvasToolbar.style.width = currentWidth + 'px';
-      canvasToolbar.offsetHeight; // force reflow
-      canvasToolbar.classList.add('is-expanded');
+    // --- Canvas toolbar: expandable panels (Underlord agent, Quick actions) ---
+    // The toolbar is anchored bottom-center, so pinning the current width and
+    // transitioning width/height makes panels grow naturally from the bottom center.
+    let toolbarCollapsedWidth = 0;
+    let activeToolbarPanel = null;
+
+    function expandToolbarPanel(cls, focusSel) {
+      if (!canvasToolbar || activeToolbarPanel === cls) return;
+      if (activeToolbarPanel) {
+        // Switching panels while already expanded — just swap views
+        canvasToolbar.classList.remove(activeToolbarPanel);
+      } else {
+        toolbarCollapsedWidth = canvasToolbar.offsetWidth;
+        canvasToolbar.style.width = toolbarCollapsedWidth + 'px';
+        canvasToolbar.offsetHeight; // force reflow so width animates
+        canvasToolbar.style.width = '480px';
+      }
+      canvasToolbar.classList.add(cls);
+      activeToolbarPanel = cls;
+      if (focusSel) setTimeout(() => canvasToolbar.querySelector(focusSel)?.focus(), 260);
     }
 
-    function collapseToolbar() {
-      if (!canvasToolbar) return;
-      canvasToolbar.classList.add('is-collapsing');
-      canvasToolbar.classList.remove('is-expanded');
+    function collapseToolbarPanel() {
+      if (!canvasToolbar || !activeToolbarPanel) return;
+      canvasToolbar.classList.remove(activeToolbarPanel);
+      activeToolbarPanel = null;
+      canvasToolbar.style.width = toolbarCollapsedWidth + 'px';
       const onDone = (e) => {
-        if (e.propertyName !== 'height') return;
+        if (e.propertyName !== 'width') return;
         canvasToolbar.style.width = '';
-        canvasToolbar.classList.remove('is-collapsing');
         canvasToolbar.removeEventListener('transitionend', onDone);
       };
       canvasToolbar.addEventListener('transitionend', onDone);
+      // Reset quick-actions search state for next open
+      const qaInput = document.getElementById('qa-input');
+      if (qaInput) qaInput.value = '';
+      document.querySelector('.toolbar-qa-view')?.classList.remove('is-filtering');
     }
 
-    // Expose collapse + element so initTabs can orchestrate collapse-then-switch
     _toolbar.el = canvasToolbar;
-    _toolbar.collapse = collapseToolbar;
+    _toolbar.collapse = collapseToolbarPanel;
 
-    document.getElementById('toolbar-expand')?.addEventListener('click', e => {
+    document.getElementById('toolbar-underlord-btn')?.addEventListener('click', e => {
       e.preventDefault();
-      expandToolbar();
+      expandToolbarPanel('is-agent-expanded', '.agent-input-editable');
     });
 
-    document.getElementById('toolbar-collapse')?.addEventListener('click', e => {
+    document.getElementById('toolbar-quick-actions-btn')?.addEventListener('click', e => {
       e.preventDefault();
-      collapseToolbar();
+      expandToolbarPanel('is-qa-expanded', '#qa-input');
     });
 
-    // Clicking the inactive direct-editing chip in the expanded header collapses
-    // and switches back to Tab 1
-    document.querySelector('.toolbar-expanded-tab-inactive')?.addEventListener('click', e => {
+    document.getElementById('toolbar-agent-collapse')?.addEventListener('click', e => {
       e.preventDefault();
-      collapseToolbar();
-      setTimeout(() => {
-        document.querySelectorAll('.canvas-toolbar-tab').forEach((t, idx) =>
-          t.classList.toggle('w--current', idx === 0));
-        document.querySelectorAll('.canvas-toolbar .w-tab-pane').forEach((p, idx) =>
-          p.classList.toggle('w--tab-active', idx === 0));
-      }, 320);
+      collapseToolbarPanel();
+    });
+
+    document.getElementById('toolbar-qa-collapse')?.addEventListener('click', e => {
+      e.preventDefault();
+      collapseToolbarPanel();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') collapseToolbarPanel();
+    });
+
+    // Collapse on outside click (the expanding click itself lands inside)
+    document.addEventListener('click', e => {
+      if (activeToolbarPanel && canvasToolbar && !canvasToolbar.contains(e.target)) {
+        collapseToolbarPanel();
+      }
+    });
+
+    // Quick actions: fake search filtering — any query swaps to the results menu
+    const qaInput = document.getElementById('qa-input');
+    const qaView = document.querySelector('.toolbar-qa-view');
+    qaInput?.addEventListener('input', () => {
+      const q = qaInput.value.trim();
+      qaView?.classList.toggle('is-filtering', q.length > 0);
+      const qEl = document.getElementById('qa-query');
+      if (qEl) qEl.textContent = q;
     });
 
     // Expose toggleSidebarPanel globally for script toolbar + canvas toolbar
     window._toggleSidebarPanel = toggleSidebarPanel;
 
-    // "Open in sidebar" buttons — toggle Underlord chat panel
+    // "Open in sidebar" buttons — collapse the toolbar panel, open Underlord chat
     document.querySelectorAll('.toolbar-open-sidebar-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
-        if (canvasToolbar.classList.contains('is-expanded')) collapseToolbar();
+        collapseToolbarPanel();
         toggleSidebarPanel('underlord');
       });
     });
@@ -453,12 +487,10 @@
     let underlordIsExpanded = false;
 
     let underlordActive = false;
-    let baseMode = 'edit';       // the real mode, excluding text-selected
-    let isTextSelected = false;
+    let baseMode = 'edit';
 
     function setMode(mode, iconClass, label) {
-      // Track the base mode (not text-selected, which is transient)
-      if (mode !== 'text-selected') baseMode = mode;
+      baseMode = mode;
       // Update mode icon + label on the dropdown trigger
       if (modeIcon && iconClass) {
         modeIcon.className = `icon ${iconClass}`;
@@ -476,20 +508,8 @@
       modeDropdown?.classList.add('is-hidden');
     }
 
-    // Show text-selected toolbar when text is selected inside the script area
-    const scriptArea = document.querySelector('.script-scroll-area');
-    function syncTextSelection() {
-      if (underlordActive) return;
-      const sel = window.getSelection();
-      const hasText = !!sel && sel.toString().trim().length > 0;
-      const inScript = hasText && !!scriptArea && scriptArea.contains(sel.anchorNode);
-      if (inScript === isTextSelected) return;
-      isTextSelected = inScript;
-      const targetMode = inScript ? 'text-selected' : baseMode;
-      document.querySelectorAll('.script-tool-pane').forEach(p =>
-        p.style.display = p.dataset.mode === targetMode ? '' : 'none');
-    }
-    document.addEventListener('selectionchange', syncTextSelection);
+    // Selecting text in the script no longer swaps the toolbar —
+    // it stays on whatever mode is currently selected.
 
     function showDirectTab() {
       underlordActive = false;
@@ -1017,6 +1037,64 @@
     });
   }
 
+  // --- Find dialog (combined search field + mode menu) ---
+  function initFindDialog() {
+    const dialog = document.getElementById('find-dialog');
+    if (!dialog) return;
+
+    const input = document.getElementById('find-input');
+    const triggers = document.querySelectorAll('.script-tool-pane .slim-select[data-tooltip="Find"]');
+
+    function close() {
+      dialog.classList.add('is-hidden');
+    }
+
+    function openBelow(btn) {
+      const rect = btn.getBoundingClientRect();
+      dialog.classList.remove('is-hidden');
+      const width = dialog.offsetWidth;
+      const left = Math.min(rect.left, window.innerWidth - width - 8);
+      dialog.style.top = (rect.bottom + 6) + 'px';
+      dialog.style.left = Math.max(8, left) + 'px';
+      input?.focus();
+    }
+
+    triggers.forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (dialog.classList.contains('is-hidden')) openBelow(btn);
+        else close();
+      });
+    });
+
+    // Mode selection: move the checkmark
+    dialog.querySelectorAll('.find-menu-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        dialog.querySelectorAll('.find-menu-item').forEach(i => i.classList.remove('is-checked'));
+        item.classList.add('is-checked');
+        input?.focus();
+      });
+    });
+
+    document.getElementById('find-dialog-close')?.addEventListener('click', e => {
+      e.preventDefault();
+      close();
+    });
+
+    document.addEventListener('click', e => {
+      if (dialog.classList.contains('is-hidden')) return;
+      if (dialog.contains(e.target)) return;
+      if (e.target.closest('.script-tool-pane .slim-select[data-tooltip="Find"]')) return;
+      close();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !dialog.classList.contains('is-hidden')) close();
+    });
+  }
+
   // --- Captions panel: style card selection ---
   function initCaptionStyles() {
     const cards = document.querySelectorAll('.caption-style-card');
@@ -1207,6 +1285,7 @@
     initElementsSidebar();
     initRecordModeDialog();
     initLayoutPackDialog();
+    initFindDialog();
     initCaptionStyles();
     initMediaTabs();
     initStockTabs();
