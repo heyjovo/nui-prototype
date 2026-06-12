@@ -23,10 +23,19 @@ no new project needed. Events go via the HTTP V2 API; no SDK is loaded.
 2. Paste it into `js/metrics.js` → `STUDY_METRICS_CONFIG.amplitudeApiKey`.
 3. Push to main (deploys to GitHub Pages).
 
-Participants appear as users `nui-p-xxxxxx`. Analyze with Event Segmentation /
-Funnels / User Lookup, filtering `event_properties.task`. Etiquette: our event
-names don't collide with the app telemetry already in Hot Dog, but mention it
-in #analytics if the team actively QAs dashboards there.
+Study data is fully namespaced so it can't blend into whatever else is in the
+project: every event type is prefixed `nui_*`, participants appear as users
+`nui-p-xxxxxx`, and every event carries `source: "nui-prototype"`. Existing
+Hot Dog data has none of these, so either side can be isolated (or excluded)
+with one filter. Analyze with Event Segmentation / Funnels / User Lookup,
+filtering on `source` or `event_properties.task`.
+
+Note the separation is logical, not physical — `nui_*` events will appear in
+Hot Dog's event list and count toward its (effectively unlimited) volume. The
+production Descript project is a separate project and is untouched. If a team
+actively QAs staging dashboards in Hot Dog, a heads-up in #analytics is
+polite; deleting the events later (or just ignoring them) is trivial since
+they're all `nui_*`.
 
 ## Option B — Google Sheet collector (no third party)
 

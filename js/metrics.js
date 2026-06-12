@@ -53,6 +53,9 @@
   function sendAmplitude(rec) {
     const key = window.STUDY_METRICS_CONFIG.amplitudeApiKey;
     if (!key) return;
+    // Everything is namespaced so study data can never blend into whatever
+    // else lives in the destination project: nui_* event types, nui- user
+    // ids, and a source property for one-click filtering/exclusion.
     fetch('https://api2.amplitude.com/2/httpapi', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -63,9 +66,9 @@
           user_id: 'nui-' + rec.pid,
           device_id: rec.pid,
           session_id: rec.session_id,
-          event_type: rec.event,
+          event_type: 'nui_' + rec.event,
           time: Date.now(),
-          event_properties: rec
+          event_properties: Object.assign({ source: 'nui-prototype' }, rec)
         }]
       })
     }).catch(() => {});
