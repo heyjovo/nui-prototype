@@ -2,19 +2,27 @@
   'use strict';
 
   // ---------------------------------------------------------------------------
-  // Sprig SDK init — replace PLACEHOLDER_APP_ID before running the study
+  // Sprig SDK init — Descript workspace environment IDs.
+  // Localhost uses the Development environment so testing never pollutes
+  // Production data; the deployed prototype automatically uses Production.
   // ---------------------------------------------------------------------------
-  (function (l, e) {
+  var SPRIG_ENV_IDS = { development: 'gVnqA56rA', production: '2xc7AkouG6' };
+  var IS_DEV_HOST = ['localhost', '127.0.0.1', ''].indexOf(window.location.hostname) !== -1;
+
+  (function (l, e, a, p) {
     if (window.Sprig) return;
     window.Sprig = function () { S._queue.push(arguments); };
     var S = window.Sprig;
-    S.appId = 'PLACEHOLDER_APP_ID';
+    S.appId = a;
     S._queue = [];
-    var t = l.createElement('script');
-    t.async = 1; t.src = e;
-    var f = l.getElementsByTagName('script')[0];
-    f ? f.parentNode.insertBefore(t, f) : l.head.appendChild(t);
-  })(document, 'https://cdn.sprig.com/shim.js');
+    window.UserLeap = S;
+    a = l.createElement('script');
+    a.async = 1;
+    a.src = e + '?id=' + S.appId;
+    p = l.getElementsByTagName('script')[0];
+    p ? p.parentNode.insertBefore(a, p) : l.head.appendChild(a);
+  })(document, 'https://cdn.sprig.com/shim.js',
+     IS_DEV_HOST ? SPRIG_ENV_IDS.development : SPRIG_ENV_IDS.production);
 
   // ---------------------------------------------------------------------------
   // Track helper — logs in dev, sends to Sprig in all envs once SDK loads
@@ -133,6 +141,107 @@
     // -- Underlord: submit (expanded view send button) ------------------------
     document.querySelector('.toolbar-send-expanded')?.addEventListener('click', () => {
       track(getUnderlordEvent());
+    });
+
+    // -- Underlord: submit (selection toolbar slim input + sidebar) -----------
+    ['sel-underlord-send'].forEach(id => {
+      document.getElementById(id)?.addEventListener('click', () => track(getUnderlordEvent()));
+    });
+    document.querySelector('.ul-send-btn')?.addEventListener('click', () => {
+      track(getUnderlordEvent());
+    });
+
+    // -- Task 2: empty state upload + attachment flows ------------------------
+    document.getElementById('empty-upload-btn')?.addEventListener('click', () => {
+      track('upload_direct_clicked');
+    });
+    document.addEventListener('study-upload-complete', () => {
+      track('upload_direct_submitted');
+    });
+    document.addEventListener('study-underlord-submit', e => {
+      track(e.detail?.hadAttachment ? 'underlord_attachment_submitted' : getUnderlordEvent());
+    });
+
+    // -- Task 3: script tools -------------------------------------------------
+    document.getElementById('find-item-filler')?.addEventListener('click', () => {
+      track('script_filler_words_selected');
+    });
+    document.querySelector('.find-menu-item[data-find-mode="correct"]')?.addEventListener('click', () => {
+      track('script_edit_clarity_selected');
+    });
+    document.querySelectorAll('#sel-ignore-menu .sel-ignore-item').forEach(item => {
+      item.addEventListener('click', () => track('script_ignore_text_selected'));
+    });
+
+    // -- Task 5: layouts ------------------------------------------------------
+    document.querySelectorAll('.bk-layout-card, .toolbar-layout-btn, #qe-layout-row, [data-panel="inspector"] .si-layout-select').forEach(el => {
+      el.addEventListener('click', () => track('layout_pack_opened'));
+    });
+    document.getElementById('lp-card-speaker')?.addEventListener('click', () => {
+      track('layout_speaker_selected');
+    });
+    document.querySelectorAll('.elem-text-tile').forEach(tile => {
+      tile.addEventListener('click', () => track('elements_text_layer_placed'));
+    });
+
+    // -- Task 6: text layers + styles -----------------------------------------
+    document.addEventListener('click', e => {
+      if (e.target.closest('.canvas-text-layer')) track('canvas_layer_selected');
+    });
+    document.getElementById('toggle-properties')?.addEventListener('click', () => {
+      track('properties_panel_opened');
+    });
+    document.addEventListener('study-textstyle-click', () => {
+      track('text_style_toolbar_clicked');
+    });
+    document.querySelectorAll('[data-panel="inspector"] .si-state[data-state="text"] .si-text-style, [data-panel="inspector"] .si-state[data-state="text"] .si-font-select').forEach(el => {
+      el.addEventListener('click', () => track('text_style_properties_clicked'));
+    });
+
+    // -- Task 7: music repositioned -------------------------------------------
+    (() => {
+      const clip = document.getElementById('music-clip-draggable');
+      if (!clip) return;
+      let startX = 0;
+      clip.addEventListener('mousedown', e => { startX = e.clientX; });
+      document.addEventListener('mouseup', e => {
+        if (startX && Math.abs(e.clientX - startX) > 8 &&
+            !document.querySelector('.timeline-wrapper')?.classList.contains('is-hidden')) {
+          track('timeline_music_repositioned');
+        }
+        startX = 0;
+      });
+    })();
+
+    // -- Task 8: A-roll selection + Studio Sound ------------------------------
+    document.addEventListener('click', e => {
+      if (e.target.classList?.contains('canvas-scene-a-roll')) track('aroll_canvas_selected');
+      if (e.target.closest('.script-layer-wrapper')) track('aroll_timeline_selected');
+    });
+    document.getElementById('effects-item-studio-sound')?.addEventListener('click', () => {
+      track('ai_studio_sound_applied');
+    });
+
+    // -- Task 9: clip creation entry points ------------------------------------
+    document.querySelectorAll('.export-tool-row').forEach(rowEl => {
+      if (rowEl.textContent.includes('Create clips')) {
+        rowEl.addEventListener('click', () => track('clip_creation_entrypoint_export'));
+      }
+    });
+    document.querySelectorAll('.skill-card').forEach(card => {
+      if (card.textContent.includes('clip')) {
+        card.addEventListener('click', () => track('clip_creation_entrypoint_skill_template'));
+      }
+    });
+    document.querySelectorAll('.qa-item').forEach(item => {
+      if (item.textContent.includes('AI Tools')) {
+        item.addEventListener('click', () => track('clip_creation_entrypoint_quick_actions'));
+      }
+    });
+
+    // -- Task 10: clips in project pane ---------------------------------------
+    document.querySelectorAll('.proj-clip-row').forEach(rowEl => {
+      rowEl.addEventListener('click', () => track('clip_opened_in_tab'));
     });
 
   }
