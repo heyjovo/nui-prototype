@@ -1152,8 +1152,11 @@ img {
 
 .canvas-scene-wrapper {
   flex: 1;
-  align-self: stretch;
-  max-height: 100%;
+  align-self: center;
+  /* Headroom keeps the floating scene-actions row clear of the canvas
+     header buttons; 880px stops the video dominating very tall screens */
+  max-height: min(calc(100% - 56px), 880px);
+  height: 100%;
 }
 
 .tabs-menu {

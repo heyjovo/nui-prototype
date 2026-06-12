@@ -37,7 +37,7 @@
 
   const CONFIG = {
     'empty':         { empty: true },
-    'post-upload':   { scriptOpen: true, ul: 'post-upload' },
+    'post-upload':   { ul: 'post-upload' },
     'rough-cut':     { scenes: true, ul: 'rough-cut' },
     'image-added':   { scenes: true, introImage: true, ul: 'image-added' },
     'post-layout':   { scenes: true, introImage: true, speakers: true, startScene2: true, ul: 'post-layout' },
