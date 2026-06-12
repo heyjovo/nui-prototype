@@ -382,6 +382,28 @@
       if (e.key === 'Escape') collapseToolbarPanel();
     });
 
+    // Enter submits in every Underlord input (participants type + Enter far
+    // more often than they find the send arrow). Routes to the surface's own
+    // send button so UI side effects and study tracking both fire.
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' || e.shiftKey) return;
+      const t = e.target;
+      let sendBtn = null;
+      if (t.id === 'ul-sidebar-input') {
+        sendBtn = document.getElementById('toolbar-send-collapsed');
+      } else if (t.id === 'sel-underlord-input') {
+        sendBtn = document.getElementById('sel-underlord-send');
+      } else if (t.id === 'empty-underlord-input') {
+        sendBtn = document.getElementById('empty-underlord-send');
+      } else if (t.classList && t.classList.contains('agent-input-editable')) {
+        sendBtn = t.closest('.canvas-toolbar')?.querySelector('.toolbar-send-expanded');
+      }
+      if (sendBtn) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
     // Collapse on outside click (the expanding click itself lands inside)
     document.addEventListener('click', e => {
       if (activeToolbarPanel && canvasToolbar && !canvasToolbar.contains(e.target)) {

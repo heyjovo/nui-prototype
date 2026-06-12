@@ -75,7 +75,10 @@
     if (window.Sprig) window.Sprig('track', event);
     window.StudyMetrics?.track(event);
     const ends = TASK_END_EVENTS[task];
-    if (ends && ends.indexOf(event) !== -1) {
+    // Any Underlord submit succeeds any task — every task can be done by
+    // asking the agent, regardless of which input surface was used
+    const isUnderlordSubmit = /^underlord_.*submitted$/.test(event);
+    if (ends && (ends.indexOf(event) !== -1 || isUnderlordSubmit)) {
       // One success record per task attempt, stamped with the mechanism
       if (!taskSuccessSent) {
         taskSuccessSent = true;
@@ -101,7 +104,9 @@
     5: 'underlord_lowerthirds_submitted',
     6: 'underlord_visual_submitted',
     7: 'underlord_timeline_submitted',
+    8: 'underlord_audio_submitted',
     9: 'underlord_clips_submitted',
+    10: 'underlord_find_clips_submitted',
   };
 
   function getUnderlordEvent() {
@@ -195,11 +200,9 @@
       track(getUnderlordEvent());
     });
 
-    // -- Underlord: submit (selection toolbar slim input + sidebar) -----------
-    ['sel-underlord-send'].forEach(id => {
-      document.getElementById(id)?.addEventListener('click', () => track(getUnderlordEvent()));
-    });
-    document.querySelector('.ul-send-btn')?.addEventListener('click', () => {
+    // -- Underlord: submit (selection toolbar slim input) ---------------------
+    // (the sidebar send is #toolbar-send-collapsed, already wired above)
+    document.getElementById('sel-underlord-send')?.addEventListener('click', () => {
       track(getUnderlordEvent());
     });
 
