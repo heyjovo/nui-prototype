@@ -2326,7 +2326,7 @@ img {
   z-index: 10;
   aspect-ratio: 16 / 9;
   background-color: var(--grey-950);
-  background-image: url('../images/video-thumb-0003.jpg');
+  background-image: url('../images/scene-01-p-500.jpg');
   background-position: 0 0;
   background-size: cover;
   width: auto;
@@ -2539,7 +2539,7 @@ img {
 
 .video-layer-film-strip {
   z-index: 20;
-  background-image: linear-gradient(var(--overlay-light), var(--overlay-light)), url('../images/video-thumb-0337.jpg');
+  background-image: linear-gradient(var(--overlay-light), var(--overlay-light)), url('../images/scene-04-p-500.jpg');
   background-position: 0 0, 0%;
   background-repeat: repeat, repeat-x;
   background-size: auto, auto 100%;
@@ -2550,7 +2550,7 @@ img {
 }
 
 .video-layer-film-strip.script {
-  background-image: linear-gradient(var(--overlay-light), var(--overlay-light)), url('../images/video-thumb-0466.jpg');
+  background-image: linear-gradient(var(--overlay-light), var(--overlay-light)), url('../images/scene-02-p-500.jpg');
   background-position: 0 0, 0 0;
   background-repeat: repeat, repeat-x;
   background-size: auto, contain;
@@ -2721,7 +2721,7 @@ img {
   z-index: 0;
   filter: saturate(200%) blur(12px);
   mix-blend-mode: multiply;
-  background-image: url('../images/video-thumb-0492.jpg');
+  background-image: url('../images/scene-01-p-500.jpg');
   background-position: 0%;
   background-repeat: repeat-x;
   background-size: contain;
@@ -3286,4 +3286,43 @@ img {
 
 .icon-button.toolbar-send-expanded:hover {
   background-color: var(--pink-450);
+}
+
+/* ── Narrow desktop adaptations (testers' laptops vary) ──
+   Keep every task-success affordance; shed secondary chrome. */
+@media (max-width: 1280px) {
+  /* Header: wayfinding + Export stay; secondary controls go */
+  .project-header-left > .icon-button.inset:not(#app-menu-btn),
+  .project-header-left > .slim-select,
+  .project-header-right > .icon-button,
+  .avatar-group { display: none; }
+  /* Playback: drop the scrubber; the timestamp holds the center */
+  .scrubber-wrapper { display: none; }
+  .playback-bar { position: relative; justify-content: space-between; }
+  .playback-bar .time-stamp {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* Long names truncate instead of pushing the header around */
+  .project-button .button-label {
+    max-width: 18vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 1120px) {
+  /* Icon-only where the icon already carries the meaning */
+  #toggle-timeline > div:not(.icon) { display: none; }
+  .playback-bar-right .icon-button[data-tooltip="Volume"],
+  .playback-bar-right .icon-button[data-tooltip="Fullscreen"] { display: none; }
+  /* Underlord/inspector sidebar takes less of the canvas */
+  .sidebar-pane:not(.is-collapsed) { max-width: 300px; }
+}
+
+@media (max-width: 1120px) {
+  /* Inspector field grid squeezes without clipping its values */
+  .si-field-grid .si-field { min-width: 0; overflow: hidden; }
 }

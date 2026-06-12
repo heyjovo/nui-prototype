@@ -1550,7 +1550,10 @@
       const r = qeBtn.getBoundingClientRect();
       const w = qeDialog.offsetWidth;
       qeDialog.style.top = (r.bottom + 6) + 'px';
-      qeDialog.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + 'px';
+      // Scene mode hangs off the chip's right edge; text mode hangs off its
+      // left so the dialog stays beside the layer instead of covering it
+      const left = isText ? r.left : r.right - w;
+      qeDialog.style.left = Math.max(8, Math.min(left, window.innerWidth - w - 8)) + 'px';
       syncPin();
     });
 

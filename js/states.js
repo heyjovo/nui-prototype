@@ -34,7 +34,7 @@
       '<p>I added a stock image behind your intro slide.</p>' +
       '<p>Next up: want me to style the speaker introduction in scene 2?</p>',
     'post-layout':
-      '<p>I applied the <strong>Speaker</strong> layout to scene 2 with Neda’s name and title.</p>' +
+      '<p>I applied the <strong>Speaker</strong> layout to scene 2 with Jordan’s name and title.</p>' +
       '<p>You can tweak the text styles right on the canvas.</p>',
     'clipping':
       '<p>I applied <strong>Studio Sound</strong> across the project &mdash; background noise is gone and voices sound crisp.</p>' +
@@ -84,8 +84,8 @@
   window._runUploadToast = runUploadToast;
 
   function initEmptyState() {
-    // Document-style titles
-    document.querySelectorAll('.project-button .button-label').forEach(l => {
+    // Untitled composition inside the existing project (project name stays)
+    document.querySelectorAll('#composition-menu-btn .button-label').forEach(l => {
       l.textContent = 'Untitled Composition';
     });
     const scriptHeading = document.querySelector('.script-scroll-area h1');
@@ -159,9 +159,19 @@
     });
   }
 
+  // Narrative progression — surfaces only mention work that has happened.
+  // (Default/no-state loads stay ungated as the full demo.)
+  const STATE_ORDER = ['empty', 'post-upload', 'rough-cut', 'image-added',
+                       'post-layout', 'studio-sound', 'clipping', 'post-clipping'];
+
   function apply() {
     const cfg = CONFIG[state];
     if (!cfg) return;
+
+    const stage = STATE_ORDER.indexOf(state);
+    if (stage >= STATE_ORDER.indexOf('rough-cut')) document.body.classList.add('has-rough-cut');
+    if (stage >= STATE_ORDER.indexOf('clipping')) document.body.classList.add('has-studio-sound');
+    if (stage >= STATE_ORDER.indexOf('post-clipping')) document.body.classList.add('has-clips');
 
     if (cfg.scenes) document.body.classList.add('has-state-scenes');
     if (cfg.speakers) document.body.classList.add('has-speaker-layers');
