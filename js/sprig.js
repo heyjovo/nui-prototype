@@ -25,12 +25,49 @@
      IS_DEV_HOST ? SPRIG_ENV_IDS.development : SPRIG_ENV_IDS.production);
 
   // ---------------------------------------------------------------------------
-  // Track helper — logs in dev, sends to Sprig in all envs once SDK loads
+  // Track helper — logs in dev, sends to Sprig in all envs once SDK loads.
+  // When a task-ending event fires for the current ?task=N, surface a
+  // "task complete" toast so participants know to return to the survey tab.
   // ---------------------------------------------------------------------------
+  const TASK_END_EVENTS = {
+    2: ['upload_direct_submitted', 'underlord_attachment_submitted'],
+    3: ['script_filler_words_selected', 'script_edit_clarity_selected',
+        'script_ignore_text_selected', 'underlord_script_submitted'],
+    4: ['stock_entrypoint_opened', 'underlord_stock_submitted'],
+    5: ['layout_speaker_selected', 'elements_text_layer_placed',
+        'underlord_lowerthirds_submitted'],
+    6: ['text_style_toolbar_clicked', 'text_style_properties_clicked',
+        'underlord_visual_submitted'],
+    7: ['timeline_music_repositioned', 'underlord_timeline_submitted'],
+    8: ['ai_studio_sound_applied'],
+    9: ['clip_creation_entrypoint_export', 'clip_creation_entrypoint_skill_template',
+        'clip_creation_entrypoint_quick_actions', 'underlord_clips_submitted'],
+    10: ['project_pane_opened', 'clip_opened_in_tab', 'composition_menu_opened']
+  };
+  let taskCompleteShown = false;
+
+  function showTaskCompleteToast() {
+    if (taskCompleteShown) return;
+    taskCompleteShown = true;
+    let toast = document.getElementById('task-complete-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'task-complete-toast';
+      toast.className = 'task-complete-toast';
+      toast.innerHTML = '<span class="task-complete-check">✓</span>' +
+        '<span>Task complete — return to the survey tab to continue</span>';
+      document.body.appendChild(toast);
+    }
+    toast.classList.add('is-visible');
+    setTimeout(() => toast.classList.remove('is-visible'), 6000);
+  }
+
   function track(event) {
     const isDev = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
     if (isDev) console.log('[Sprig track]', event);
     if (window.Sprig) window.Sprig('track', event);
+    const ends = TASK_END_EVENTS[task];
+    if (ends && ends.indexOf(event) !== -1) showTaskCompleteToast();
   }
 
   // ---------------------------------------------------------------------------
