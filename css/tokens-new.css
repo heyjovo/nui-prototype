@@ -4894,40 +4894,162 @@ body.has-ul-thread .ul-art-wrap { display: none; }
 body.has-ul-thread #ul-thread { display: flex !important; }
 
 /* ── Task-complete toast (study mode: ?task=N success condition met) ── */
+/* Centered on the viewport and oversized so testers can't miss it */
 .task-complete-toast {
   position: fixed;
-  top: 16px;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -8px);
+  transform: translate(-50%, calc(-50% + 12px));
   z-index: 1200;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 14px;
+  padding: 20px 28px;
   background-color: var(--grey-950, #110a0d);
   color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(17,10,13,0.35);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(17,10,13,0.45);
   opacity: 0;
   pointer-events: none;
   transition: opacity 200ms ease, transform 200ms ease;
 }
 .task-complete-toast.is-visible {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
 }
 .task-complete-check {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background-color: #2FA463;
   color: #fff;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   flex-shrink: 0;
 }
+
+/* ── Quick edits: text-layer variant (Figma 2488-3502) ── */
+/* extra specificity throughout: webflow's .icon/.qe rules load later */
+.qe-header .icon.qe-title-icon {
+  display: none;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.qe-dialog.is-text-mode .qe-header .icon.qe-title-icon { display: block; }
+.qe-dialog .qe-rows-text { display: none; }
+.qe-dialog.is-text-mode .qe-rows-scene { display: none; }
+.qe-dialog.is-text-mode .qe-rows-text { display: flex; }
+.qe-chip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+}
+.qe-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background-color: var(--surface-recessed, rgba(22,5,12,0.04));
+  border: 1px solid var(--border-soft, rgba(63,42,50,0.08));
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+}
+.qe-chip:hover { background-color: var(--default-bg-hover, rgba(88,63,74,0.1)); }
+.qe-chip .icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.icon.text-size { -webkit-mask-image: url('../images/icon-text-size.svg'); mask-image: url('../images/icon-text-size.svg'); }
+.icon.text-fill { -webkit-mask-image: url('../images/icon-Text%20Fill.svg'); mask-image: url('../images/icon-Text%20Fill.svg'); }
+
+/* ── Project pane: composition + clip hierarchy ── */
+.media-row.proj-comp-row .icon.proj-comp-chevron {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+.media-row.proj-comp-row .proj-clip-thumb {
+  width: 36px;
+  height: 20px;
+}
+/* Clips sit clearly inside their parent composition */
+.media-row--nested.proj-clip-row { padding-left: 48px; }
+.media-row.proj-clip-row .icon.proj-clip-icon {
+  width: 16px;
+  height: 16px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+/* ── Underlord clips summary card (post-clipping state) ── */
+.ul-clips-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid var(--border-medium, rgba(63,42,50,0.16));
+  border-radius: 8px;
+  background-color: var(--surface-elevated, #fefcfb);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 100ms ease, box-shadow 100ms ease;
+}
+.ul-clips-card:hover {
+  border-color: var(--pink-750, #651a39);
+  box-shadow: 0 2px 8px rgba(38,23,29,0.1);
+}
+.ul-clips-card-thumbs {
+  display: flex;
+  gap: 4px;
+}
+.ul-clips-card-thumb {
+  flex: 1;
+  aspect-ratio: 16/9;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(63,42,50,0.16);
+}
+.ul-clips-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ul-clips-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-right: 20px;
+}
+.ul-clips-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-primary, #26171d);
+}
+.ul-clips-card-meta {
+  font-size: 11px;
+  color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+.ul-clips-card-chevron {
+  position: absolute;
+  right: 10px;
+  bottom: 14px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--fg-secondary, rgba(22,5,12,0.6));
+}
+
+/* Activity clips notification is a click target for the study */
+.activity-card { cursor: pointer; }
+.activity-card:hover { background-color: var(--surface-elevated, rgba(88,63,74,0.05)); }

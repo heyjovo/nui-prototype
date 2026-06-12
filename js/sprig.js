@@ -37,12 +37,13 @@
     5: ['layout_speaker_selected', 'elements_text_layer_placed',
         'underlord_lowerthirds_submitted'],
     6: ['text_style_toolbar_clicked', 'text_style_properties_clicked',
-        'underlord_visual_submitted'],
+        'text_quick_edits_opened', 'underlord_visual_submitted'],
     7: ['timeline_music_repositioned', 'underlord_timeline_submitted'],
-    8: ['ai_studio_sound_applied'],
+    8: ['ai_studio_sound_applied', 'studio_sound_toolbar_clicked'],
     9: ['clip_creation_entrypoint_export', 'clip_creation_entrypoint_skill_template',
         'clip_creation_entrypoint_quick_actions', 'underlord_clips_submitted'],
-    10: ['project_pane_opened', 'clip_opened_in_tab', 'composition_menu_opened']
+    10: ['project_pane_opened', 'clip_opened_in_tab', 'composition_menu_opened',
+         'underlord_clip_card_clicked', 'activity_clips_notification_clicked']
   };
   let taskCompleteShown = false;
 
@@ -231,6 +232,9 @@
     document.addEventListener('study-textstyle-click', () => {
       track('text_style_toolbar_clicked');
     });
+    document.addEventListener('study-text-quickedits-open', () => {
+      track('text_quick_edits_opened');
+    });
     document.querySelectorAll('[data-panel="inspector"] .si-state[data-state="text"] .si-text-style, [data-panel="inspector"] .si-state[data-state="text"] .si-font-select').forEach(el => {
       el.addEventListener('click', () => track('text_style_properties_clicked'));
     });
@@ -258,6 +262,9 @@
     document.getElementById('effects-item-studio-sound')?.addEventListener('click', () => {
       track('ai_studio_sound_applied');
     });
+    document.getElementById('toolbar-script-studio-sound')?.addEventListener('click', () => {
+      track('studio_sound_toolbar_clicked');
+    });
 
     // -- Task 9: clip creation entry points ------------------------------------
     document.querySelectorAll('.export-tool-row').forEach(rowEl => {
@@ -279,6 +286,18 @@
     // -- Task 10: clips in project pane ---------------------------------------
     document.querySelectorAll('.proj-clip-row').forEach(rowEl => {
       rowEl.addEventListener('click', () => track('clip_opened_in_tab'));
+    });
+
+    // -- Task 10: Underlord clips card + activity notification ----------------
+    // (delegated — the Underlord card is injected by states.js after init)
+    document.addEventListener('click', e => {
+      if (e.target.closest('.ul-clips-card')) {
+        e.preventDefault();
+        track('underlord_clip_card_clicked');
+      }
+      if (e.target.closest('.activity-card')) {
+        track('activity_clips_notification_clicked');
+      }
     });
 
   }

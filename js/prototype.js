@@ -1540,6 +1540,12 @@
       if (!qeDialog) return;
       if (!qeDialog.classList.contains('is-hidden')) { closeQuickEdits(); return; }
       window._closeSlimUnderlord?.(); // never both open
+      // Text layers get their own quick edits (source + type controls)
+      const isText = selection === 'text';
+      qeDialog.classList.toggle('is-text-mode', isText);
+      const qeTitle = qeDialog.querySelector('.qe-title');
+      if (qeTitle) qeTitle.textContent = isText ? 'Text layer' : 'Quick edits';
+      if (isText) document.dispatchEvent(new CustomEvent('study-text-quickedits-open'));
       qeDialog.classList.remove('is-hidden');
       const r = qeBtn.getBoundingClientRect();
       const w = qeDialog.offsetWidth;

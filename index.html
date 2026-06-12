@@ -182,51 +182,51 @@
                 <span class="elem-section-title">Compositions</span>
               </div>
               <div class="media-list">
-                <div class="media-row">
-                  <div class="icon chevron"></div>
-                  <div class="icon media-video"></div>
+                <div class="media-row proj-comp-row">
+                  <div class="icon chevron proj-comp-chevron"></div>
+                  <div class="proj-clip-thumb"><img src="images/video-thumb-0003.jpg" alt=""></div>
                   <div class="media-row-body">
                     <div class="media-row-name">AI for Product Marketing</div>
                   </div>
                 </div>
                 <div class="media-row media-row--nested proj-clip-row">
-                  <div class="proj-clip-thumb"><img src="images/scene-01.jpg" alt=""></div>
+                  <div class="icon video-2 proj-clip-icon"></div>
                   <div class="media-row-body">
                     <div class="media-row-name">Intro — The AI Edit</div>
                     <div class="media-row-meta">0:42</div>
                   </div>
                 </div>
                 <div class="media-row media-row--nested proj-clip-row">
-                  <div class="proj-clip-thumb"><img src="images/scene-02.jpg" alt=""></div>
+                  <div class="icon video-2 proj-clip-icon"></div>
                   <div class="media-row-body">
                     <div class="media-row-name">Demo: Filler Removal</div>
                     <div class="media-row-meta">1:05</div>
                   </div>
                 </div>
                 <div class="media-row media-row--nested proj-clip-row">
-                  <div class="proj-clip-thumb"><img src="images/scene-04.jpg" alt=""></div>
+                  <div class="icon video-2 proj-clip-icon"></div>
                   <div class="media-row-body">
                     <div class="media-row-name">Studio Sound Walkthrough</div>
                     <div class="media-row-meta">0:58</div>
                   </div>
                 </div>
                 <div class="media-row media-row--nested proj-clip-row">
-                  <div class="proj-clip-thumb"><img src="images/scene-06.jpg" alt=""></div>
+                  <div class="icon video-2 proj-clip-icon"></div>
                   <div class="media-row-body">
                     <div class="media-row-name">B-roll Generation</div>
                     <div class="media-row-meta">1:12</div>
                   </div>
                 </div>
                 <div class="media-row media-row--nested proj-clip-row">
-                  <div class="proj-clip-thumb"><img src="images/scene-08.jpg" alt=""></div>
+                  <div class="icon video-2 proj-clip-icon"></div>
                   <div class="media-row-body">
                     <div class="media-row-name">Outro &amp; CTA</div>
                     <div class="media-row-meta">0:23</div>
                   </div>
                 </div>
-                <div class="media-row">
-                  <div class="icon chevron-right-s"></div>
-                  <div class="icon media-video"></div>
+                <div class="media-row proj-comp-row">
+                  <div class="icon chevron-right-s proj-comp-chevron"></div>
+                  <div class="proj-clip-thumb"><img src="images/scene-05.jpg" alt=""></div>
                   <div class="media-row-body">
                     <div class="media-row-name">AI for Product Marketing: Highlights</div>
                   </div>
@@ -1331,7 +1331,7 @@
                   <a href="#" class="icon-button inset w-inline-block" data-tooltip="Green screen">
                     <div class="icon image-tab"></div>
                   </a>
-                  <a href="#" class="icon-button inset w-inline-block" data-tooltip="Studio sound">
+                  <a id="toolbar-script-studio-sound" href="#" class="icon-button inset w-inline-block" data-tooltip="Studio sound">
                     <div class="icon voice"></div>
                   </a>
                   <a href="#" class="icon-button inset w-inline-block" data-tooltip="Automatic multicam">
@@ -2329,13 +2329,6 @@
                   <span class="si-card-title">Audio effects</span>
                   <a href="#" class="icon-button si-effects-add w-inline-block"><div class="icon plus"></div></a>
                 </div>
-                <div class="si-effect-row">
-                  <span>Studio Sound</span>
-                  <div class="si-effect-actions">
-                    <div class="faux-radio on"><div class="icon-off"></div><div class="icon-on"></div><div class="switch-handle on-position"></div></div>
-                    <a href="#" class="icon-button w-inline-block"><div class="icon settings-alt"></div></a>
-                  </div>
-                </div>
               </div>
 
               <div class="si-card si-card--row">
@@ -2897,6 +2890,7 @@
   <!-- Quick Edits Dialog (scene actions) -->
   <div id="quick-edits-dialog" class="qe-dialog is-hidden" role="dialog" aria-label="Quick edits">
     <div class="qe-header">
+      <div class="icon match-case qe-title-icon"></div>
       <span class="qe-title">Quick edits</span>
       <div class="qe-header-actions">
         <a id="qe-inspector-btn" href="#" class="icon-button w-inline-block" data-tooltip="Open Inspector">
@@ -2907,7 +2901,7 @@
         </a>
       </div>
     </div>
-    <div class="qe-rows">
+    <div class="qe-rows qe-rows-scene">
       <a id="qe-layout-row" href="#" class="qe-row w-inline-block">
         <span class="qe-label">Scene layout</span>
         <div class="select-menu">
@@ -2937,6 +2931,29 @@
           <div class="elevated-chevron"><div class="icon chevron"></div></div>
         </div>
       </a>
+    </div>
+    <div class="qe-rows qe-rows-text">
+      <a href="#" class="qe-row w-inline-block">
+        <span class="qe-label">Source</span>
+        <div class="select-menu">
+          <div class="text-block-2">Speaker name</div>
+          <div class="elevated-chevron"><div class="icon chevron"></div></div>
+        </div>
+      </a>
+      <div class="qe-chip-grid">
+        <a href="#" class="qe-chip textstyle-action w-inline-block">
+          <div class="icon match-case"></div><span>Roboto</span>
+        </a>
+        <a href="#" class="qe-chip textstyle-action w-inline-block">
+          <div class="icon bold"></div><span>Bold</span>
+        </a>
+        <a href="#" class="qe-chip textstyle-action w-inline-block">
+          <div class="icon text-size"></div><span>100</span>
+        </a>
+        <a href="#" class="qe-chip textstyle-action w-inline-block">
+          <div class="icon text-fill"></div><span>100%</span>
+        </a>
+      </div>
     </div>
   </div>
 

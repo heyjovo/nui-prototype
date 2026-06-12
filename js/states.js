@@ -10,8 +10,18 @@
   if (state) document.body.dataset.state = state;
 
   const CLIP_THUMBS = ['scene-01', 'scene-02', 'scene-04', 'scene-06', 'scene-08']
-    .map(n => `<a href="#" title="Open clip"><img src="images/${n}.jpg" alt=""></a>`)
+    .map(n => `<div class="ul-clips-card-thumb"><img src="images/${n}.jpg" alt=""></div>`)
     .join('');
+
+  const CLIPS_CARD =
+    '<a href="#" class="ul-clips-card" title="Open clips">' +
+    `<div class="ul-clips-card-thumbs">${CLIP_THUMBS}</div>` +
+    '<div class="ul-clips-card-body">' +
+    '<span class="ul-clips-card-title">5 social clips</span>' +
+    '<span class="ul-clips-card-meta">AI for Product Marketing &middot; 0:23&ndash;1:12</span>' +
+    '</div>' +
+    '<div class="icon chevron-right-s ul-clips-card-chevron"></div>' +
+    '</a>';
 
   const UL_MESSAGES = {
     'post-upload':
@@ -31,7 +41,7 @@
       '<p>Ready to create social clips?</p>',
     'post-clipping':
       '<p>I created <strong>5 clips</strong> from the strongest moments:</p>' +
-      `<div class="ul-msg-clips">${CLIP_THUMBS}</div>` +
+      CLIPS_CARD +
       '<p>Open any clip to review, or tell me which platforms to optimize for.</p>'
   };
 
