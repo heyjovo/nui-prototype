@@ -17,7 +17,7 @@
 
   window.STUDY_METRICS_CONFIG = window.STUDY_METRICS_CONFIG || {
     amplitudeApiKey: '',
-    endpoint: ''
+    endpoint: 'https://script.google.com/a/macros/descript.com/s/AKfycbxPvt1UgZD3q_9r2Dsop9baZXnMNcs2CrDxzKv7EGJhcZ6LFIw1L07ZghUsMWuLx8lt/exec'
   };
 
   const params = new URLSearchParams(window.location.search);
