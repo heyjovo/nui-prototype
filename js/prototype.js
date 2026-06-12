@@ -970,7 +970,7 @@
       const active = document.activeElement;
       if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' ||
           active.isContentEditable)) return;
-      const selected = document.querySelector('.canvas-text-layer.is-selected');
+      const selected = document.querySelector('.canvas-text-layer.is-selected:not(.speaker-layer)');
       if (selected) { e.preventDefault(); selected.remove(); }
     });
 
@@ -1379,30 +1379,54 @@
     const selectLabel = document.getElementById('scene-select-label');
     if (!row || !canvas) return;
 
+    let selection = null; // null | 'scene' | 'script' | 'text'
+    let selectedTextEl = null;
+
     // The a-roll uses object-fit:contain — compute the visible frame rect
     // (canvas-relative) so the row hugs the rendered image, not the wrapper.
     function frameRect() {
-      const img = document.querySelector('.canvas-scene-wrapper.w--tab-active .canvas-scene-a-roll');
-      if (!img || !img.naturalWidth) return null;
-      const r = img.getBoundingClientRect();
       const c = canvas.getBoundingClientRect();
-      const scale = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
-      const w = img.naturalWidth * scale;
-      const h = img.naturalHeight * scale;
-      return {
-        left: r.left - c.left + (r.width - w) / 2,
-        top: r.top - c.top + (r.height - h) / 2,
-        width: w,
-        height: h
-      };
+      const img = document.querySelector('.canvas-scene-wrapper.w--tab-active .canvas-scene-a-roll');
+      if (img && img.naturalWidth) {
+        const r = img.getBoundingClientRect();
+        const scale = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+        const w = img.naturalWidth * scale;
+        const h = img.naturalHeight * scale;
+        return {
+          left: r.left - c.left + (r.width - w) / 2,
+          top: r.top - c.top + (r.height - h) / 2,
+          width: w,
+          height: h
+        };
+      }
+      // Title scenes render a letterboxed 16:9 div instead of an image
+      const bg = document.querySelector('.canvas-scene-wrapper.w--tab-active .scene-black-bg');
+      if (!bg) return null;
+      const r = bg.getBoundingClientRect();
+      return { left: r.left - c.left, top: r.top - c.top, width: r.width, height: r.height };
+    }
+
+    function targetRect() {
+      if (selection === 'text' && selectedTextEl) {
+        const r = selectedTextEl.getBoundingClientRect();
+        const c = canvas.getBoundingClientRect();
+        return { left: r.left - c.left, top: r.top - c.top, width: r.width, height: r.height };
+      }
+      return frameRect();
     }
 
     function sync() {
-      const rect = frameRect();
+      const rect = targetRect();
       if (!rect) return;
-      row.style.left = Math.round(rect.left) + 'px';
-      row.style.width = Math.round(rect.width) + 'px';
-      row.style.top = Math.round(Math.max(4, rect.top - 24 - 8)) + 'px';
+      // Layer selections anchor the buttons inside the bounding box (top right);
+      // scene mode keeps the row above the frame.
+      const inside = row.classList.contains('is-layer-mode') && rect.height >= 72;
+      const layerMode = row.classList.contains('is-layer-mode');
+      row.style.left = Math.round(rect.left + (inside ? 8 : 0)) + 'px';
+      row.style.width = Math.round(rect.width - (inside ? 16 : 0)) + 'px';
+      row.style.top = Math.round(inside ? rect.top + 8
+        : layerMode ? Math.max(4, rect.top - 24 - 6)
+        : Math.max(4, rect.top - 24 - 8)) + 'px';
       outline.style.left = Math.round(rect.left - 3) + 'px';
       outline.style.top = Math.round(rect.top - 3) + 'px';
       outline.style.width = Math.round(rect.width + 6) + 'px';
@@ -1423,31 +1447,65 @@
     });
     sync();
 
-    // --- Scene selection (pink outline + scene tools in the canvas toolbar) ---
-    let sceneSelected = false;
+    // --- Selection: the scene itself, or a layer within it (pink outline) ---
     const canvasToolbar = document.querySelector('.canvas-toolbar');
-    function setSelected(v) {
-      sceneSelected = v;
-      selectBtn?.classList.toggle('is-selected', v);
-      outline?.classList.toggle('is-hidden', !v);
-      canvasToolbar?.classList.toggle('is-scene-selected', v);
-      if (v) sync();
+    function setInspectorState(kind) {
+      document.querySelectorAll('[data-panel="inspector"] .si-state').forEach(el => {
+        el.style.display = el.dataset.state === (kind || 'scene') ? '' : 'none';
+      });
     }
+
+    function applySelection(kind, el) {
+      selection = kind;
+      selectedTextEl = kind === 'text' ? (el || selectedTextEl) : null;
+      document.querySelectorAll('.canvas-text-layer').forEach(l =>
+        l.classList.toggle('is-selected', kind === 'text' && l === selectedTextEl));
+      selectBtn?.classList.toggle('is-selected', kind === 'scene');
+      outline?.classList.toggle('is-hidden', !kind);
+      canvasToolbar?.classList.toggle('is-scene-selected', kind === 'scene');
+      canvasToolbar?.classList.toggle('is-script-selected', kind === 'script');
+      canvasToolbar?.classList.toggle('is-text-selected', kind === 'text');
+      if (kind !== 'text') canvasToolbar?.classList.remove('is-textstyle');
+      // Layer selection shows only the icon buttons — no scene label
+      row.classList.toggle('is-layer-mode', kind === 'script' || kind === 'text');
+      row.classList.toggle('layer-no-qe', kind === 'script');
+      setInspectorState(kind === 'script' ? 'script' : kind === 'text' ? 'text' : 'scene');
+      syncPin();
+      if (kind) sync();
+    }
+    window._applyCanvasSelection = applySelection;
+    function setSelected(v) { applySelection(v ? 'scene' : null); }
     selectBtn?.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
-      setSelected(!sceneSelected);
+      applySelection(selection === 'scene' ? null : 'scene');
     });
-    // Clicking the canvas background deselects
+    // Clicking the a-roll selects the script layer; canvas background deselects
     canvas.addEventListener('click', e => {
-      if (!e.target.closest('#scene-actions')) setSelected(false);
+      if (e.target.closest('#scene-actions')) return;
+      const textLayer = e.target.closest('.canvas-text-layer');
+      if (textLayer) {
+        applySelection('text', textLayer);
+        return;
+      }
+      if (e.target.classList && e.target.classList.contains('canvas-scene-a-roll')) {
+        applySelection('script');
+        return;
+      }
+      applySelection(null);
+    });
+    // The script layer is also selectable from the timeline
+    document.querySelector('.script-layer-wrapper')?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      applySelection('script');
     });
 
-    // --- Pin the row while one of its tools is open (ignore mouse position) ---
+    // --- Pin the row while a tool is open or something is selected ---
     let slimOpenFromScene = false;
     function syncPin() {
       const qeOpen = qeDialog && !qeDialog.classList.contains('is-hidden');
-      row.classList.toggle('is-pinned', !!qeOpen || slimOpenFromScene);
+      row.classList.toggle('is-pinned', !!qeOpen || slimOpenFromScene || !!selection);
     }
     document.addEventListener('slim-underlord-closed', () => {
       slimOpenFromScene = false;
@@ -1524,6 +1582,141 @@
           !e.target.closest('#layout-pack-dialog')) {
         closeQuickEdits();
       }
+    });
+
+    // --- Layers dropdown (canvas Layers button) ---
+    const layersBtn = document.getElementById('toggle-layers-menu');
+    const layersMenu = document.getElementById('layers-menu');
+
+    layersBtn?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!layersMenu) return;
+      if (!layersMenu.classList.contains('is-hidden')) {
+        layersMenu.classList.add('is-hidden');
+        return;
+      }
+      const r = layersBtn.getBoundingClientRect();
+      layersMenu.style.top = (r.bottom + 6) + 'px';
+      layersMenu.style.left = r.left + 'px';
+      layersMenu.classList.remove('is-hidden');
+    });
+
+    document.addEventListener('click', e => {
+      if (layersMenu && !layersMenu.classList.contains('is-hidden') &&
+          !e.target.closest('#layers-menu') &&
+          !e.target.closest('#toggle-layers-menu')) {
+        layersMenu.classList.add('is-hidden');
+      }
+    });
+
+    // Script layer: selects the script video layer on the canvas
+    document.getElementById('layers-item-script')?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      layersMenu?.classList.add('is-hidden');
+      applySelection('script');
+    });
+
+    // Other layers (music) are inert
+    layersMenu?.querySelectorAll('.si-layer-row:not(#layers-item-script)').forEach(item => {
+      item.addEventListener('click', e => e.preventDefault());
+    });
+
+    // --- Text layers: selectable from timeline rows + layers menus ---
+    function speakerLayer(key) {
+      return document.querySelector(`.speaker-layer[data-text-layer="${key}"]`);
+    }
+    document.querySelectorAll('.timeline-text-layers .timeline-layer').forEach((tl, i) => {
+      tl.addEventListener('click', e => {
+        e.stopPropagation();
+        const el = speakerLayer(i === 0 ? 'name' : 'title');
+        if (el && document.body.classList.contains('has-speaker-layers')) {
+          applySelection('text', el);
+        }
+      });
+    });
+    document.querySelectorAll('#layers-menu [data-text-layer], [data-panel="inspector"] [data-text-layer]').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        layersMenu?.classList.add('is-hidden');
+        const el = speakerLayer(item.dataset.textLayer);
+        if (el) applySelection('text', el);
+      });
+    });
+
+    // --- Text style nested toolbar (smooth swap within the toolbar) ---
+    document.getElementById('toolbar-text-style-btn')?.addEventListener('click', e => {
+      e.preventDefault();
+      canvasToolbar?.classList.add('is-textstyle');
+    });
+    document.getElementById('toolbar-textstyle-back')?.addEventListener('click', e => {
+      e.preventDefault();
+      canvasToolbar?.classList.remove('is-textstyle');
+    });
+    // Style actions just close the nested toolbar (study task ends here)
+    document.querySelectorAll('.textstyle-action').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        document.dispatchEvent(new CustomEvent('study-textstyle-click'));
+      });
+    });
+
+    // --- Effects menu (script toolbar "Effects" + inspector audio effects +) ---
+    const effectsMenu = document.getElementById('effects-menu');
+    function openEffectsMenu(anchor) {
+      if (!effectsMenu) return;
+      if (!effectsMenu.classList.contains('is-hidden')) {
+        effectsMenu.classList.add('is-hidden');
+        return;
+      }
+      const r = anchor.getBoundingClientRect();
+      const h = 4 + 4 * 28; // approx menu height
+      effectsMenu.classList.remove('is-hidden');
+      const mh = effectsMenu.offsetHeight || h;
+      const top = r.top - mh - 6 >= 8 ? r.top - mh - 6 : r.bottom + 6;
+      effectsMenu.style.top = Math.round(top) + 'px';
+      effectsMenu.style.left = Math.round(Math.max(8, Math.min(r.left, window.innerWidth - effectsMenu.offsetWidth - 8))) + 'px';
+    }
+    document.querySelectorAll('.toolbar-effects-btn, .si-effects-add').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openEffectsMenu(btn);
+      });
+    });
+    document.addEventListener('click', e => {
+      if (effectsMenu && !effectsMenu.classList.contains('is-hidden') &&
+          !e.target.closest('#effects-menu') &&
+          !e.target.closest('.toolbar-effects-btn') &&
+          !e.target.closest('.si-effects-add')) {
+        effectsMenu.classList.add('is-hidden');
+      }
+    });
+    effectsMenu?.querySelectorAll('.sel-ignore-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        effectsMenu.classList.add('is-hidden');
+      });
+    });
+
+    // --- Layout entry points all open the layout pack dialog ---
+    document.querySelectorAll('.toolbar-layout-btn, [data-panel="inspector"] .si-layout-select').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!lpDialog) return;
+        if (!lpDialog.classList.contains('is-hidden')) { lpDialog.classList.add('is-hidden'); return; }
+        lpDialog.classList.remove('is-hidden');
+        const r = btn.getBoundingClientRect();
+        const lw = lpDialog.offsetWidth;
+        const lh = lpDialog.offsetHeight;
+        let left = Math.max(8, Math.min(r.left, window.innerWidth - lw - 8));
+        let top = r.top - lh - 6 >= 8 ? r.top - lh - 6 : Math.min(r.bottom + 6, window.innerHeight - lh - 8);
+        lpDialog.style.left = Math.round(left) + 'px';
+        lpDialog.style.top = Math.round(Math.max(8, top)) + 'px';
+      });
     });
   }
 
