@@ -117,10 +117,14 @@
         <a id="open-export-panel" href="#" class="button inverse w-inline-block">
           <div class="text-block">Export</div>
         </a>
-        <a id="toggle-sidebar" href="#" class="header-sidebar-menu w-inline-block" data-tooltip="Open sidebar">
-          <div class="icon right-panel-open"></div>
-          <div class="icon chevron-down-s"></div>
-        </a>
+        <div class="header-split-button">
+          <a id="toggle-sidebar-open" href="#" class="header-sidebar-toggle w-inline-block" data-tooltip="Open sidebar">
+            <div id="sidebar-toggle-icon" class="icon robot"></div>
+          </a>
+          <a id="toggle-sidebar" href="#" class="header-sidebar-menu w-inline-block" data-tooltip="Sidebar menu">
+            <div class="icon chevron-down-s"></div>
+          </a>
+        </div>
         <a href="#" class="icon-button w-inline-block">
           <div class="icon mat-cloud"></div>
         </a>
@@ -2123,11 +2127,11 @@
           </div>
         </div>
       </div>
-      <div class="sidebar-pane is-collapsed" data-active-panel="inspector">
+      <div class="sidebar-pane is-collapsed" data-active-panel="underlord">
         <div class="sidebar-content">
 
         <!-- Panel: Inspector -->
-        <div class="sidebar-panel" data-panel="inspector">
+        <div class="sidebar-panel" data-panel="inspector" style="display:none">
 
           <div class="sidebar-header">
             <h3 class="heading-2">Inspector</h3>
@@ -2435,7 +2439,7 @@
         </div>
 
         <!-- Panel: Underlord Chat (placeholder) -->
-        <div class="sidebar-panel" data-panel="underlord" style="display:none">
+        <div class="sidebar-panel" data-panel="underlord">
 
           <!-- Header -->
           <div class="sidebar-header">
@@ -3092,6 +3096,66 @@
     </a>
   </div>
 
+  <!-- Composition Menu Dialog — mirrors the Project pane Compositions section -->
+  <div id="composition-menu-dialog" class="app-menu-dialog is-hidden" role="dialog" aria-label="Composition menu">
+    <div class="app-menu-section">
+      <div class="elem-section-header">
+        <span class="elem-section-title">Compositions</span>
+      </div>
+      <div class="media-list">
+        <div class="media-row proj-comp-row">
+          <div class="icon chevron proj-comp-chevron"></div>
+          <div class="proj-clip-thumb"><img src="images/scene-01-p-500.jpg" alt=""></div>
+          <div class="media-row-body">
+            <div class="media-row-name">AI for Product Marketing</div>
+          </div>
+        </div>
+        <div class="media-row media-row--nested proj-clip-row">
+          <div class="icon video-2 proj-clip-icon"></div>
+          <div class="media-row-body">
+            <div class="media-row-name">Intro — The AI Edit</div>
+            <div class="media-row-meta">0:42</div>
+          </div>
+        </div>
+        <div class="media-row media-row--nested proj-clip-row">
+          <div class="icon video-2 proj-clip-icon"></div>
+          <div class="media-row-body">
+            <div class="media-row-name">Demo: Filler Removal</div>
+            <div class="media-row-meta">1:05</div>
+          </div>
+        </div>
+        <div class="media-row media-row--nested proj-clip-row">
+          <div class="icon video-2 proj-clip-icon"></div>
+          <div class="media-row-body">
+            <div class="media-row-name">Studio Sound Walkthrough</div>
+            <div class="media-row-meta">0:58</div>
+          </div>
+        </div>
+        <div class="media-row media-row--nested proj-clip-row">
+          <div class="icon video-2 proj-clip-icon"></div>
+          <div class="media-row-body">
+            <div class="media-row-name">B-roll Generation</div>
+            <div class="media-row-meta">1:12</div>
+          </div>
+        </div>
+        <div class="media-row media-row--nested proj-clip-row">
+          <div class="icon video-2 proj-clip-icon"></div>
+          <div class="media-row-body">
+            <div class="media-row-name">Outro &amp; CTA</div>
+            <div class="media-row-meta">0:23</div>
+          </div>
+        </div>
+        <div class="media-row proj-comp-row clips-only">
+          <div class="icon chevron-right-s proj-comp-chevron"></div>
+          <div class="proj-clip-thumb"><img src="images/scene-05.jpg" alt=""></div>
+          <div class="media-row-body">
+            <div class="media-row-name">AI for Product Marketing: Highlights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Project Menu Dialog -->
   <div id="project-menu-dialog" class="app-menu-dialog is-hidden" role="dialog" aria-label="Project menu">
     <div class="app-menu-section">
@@ -3329,6 +3393,7 @@
   <script src="js/prototype.js" type="text/javascript"></script>
   <script src="js/interactions.js" type="text/javascript"></script>
   <script src="js/states.js" type="text/javascript"></script>
+  <script src="js/metrics.js" type="text/javascript"></script>
   <script src="js/sprig.js" type="text/javascript"></script>
 </body>
 </html>

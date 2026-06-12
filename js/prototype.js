@@ -194,6 +194,21 @@
     // --- Sidebar panel dropdown ---
     const sidebarMenu = document.getElementById('sidebar-panel-menu');
 
+    // Split button: the icon mirrors whichever panel is active (Underlord default)
+    const PANEL_ICONS = {
+      underlord: 'robot',
+      inspector: 'gear',
+      'skill-templates': 'magic',
+      comments: 'add-comment',
+      export: 'upload'
+    };
+    function updateSidebarToggleIcon() {
+      const iconEl = document.getElementById('sidebar-toggle-icon');
+      if (!iconEl) return;
+      const active = sidebarPane?.dataset.activePanel || 'underlord';
+      iconEl.className = 'icon ' + (PANEL_ICONS[active] || 'robot');
+    }
+
     function openSidebarPanel(panelKey) {
       if (!sidebarPane || !panelKey) return;
       // Show the selected panel, hide others
@@ -201,6 +216,7 @@
       sidebarPane.querySelectorAll('.sidebar-panel').forEach(p => {
         p.style.display = p.dataset.panel === panelKey ? '' : 'none';
       });
+      updateSidebarToggleIcon();
       // Open the sidebar if collapsed
       if (sidebarPane.classList.contains('is-collapsed')) togglePanel(sidebarPane);
     }
@@ -222,6 +238,19 @@
     }
 
     document.getElementById('toggle-sidebar')?.addEventListener('click', toggleSidebarMenu);
+
+    // Split button icon half: open the active panel (or collapse the sidebar)
+    document.getElementById('toggle-sidebar-open')?.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      sidebarMenu?.classList.add('is-hidden');
+      if (sidebarPane && !sidebarPane.classList.contains('is-collapsed')) {
+        togglePanel(sidebarPane);
+      } else {
+        openSidebarPanel(sidebarPane?.dataset.activePanel || 'underlord');
+      }
+    });
+    updateSidebarToggleIcon();
 
     sidebarMenu?.querySelectorAll('.sidebar-panel-option').forEach(opt => {
       opt.addEventListener('click', e => {
@@ -1471,7 +1500,9 @@
       row.classList.toggle('layer-no-qe', kind === 'script');
       setInspectorState(kind === 'script' ? 'script' : kind === 'text' ? 'text' : 'scene');
       syncPin();
-      if (kind) sync();
+      // Always re-anchor: after a deselect the row must move back above the
+      // frame, not linger at the in-layer position from the last selection
+      sync();
     }
     window._applyCanvasSelection = applySelection;
     function setSelected(v) { applySelection(v ? 'scene' : null); }
@@ -1868,6 +1899,7 @@
   function initAppMenu() {
     initDropdownDialog('app-menu-btn', 'app-menu-dialog', true);
     initDropdownDialog('project-menu-btn', 'project-menu-dialog', false);
+    initDropdownDialog('composition-menu-btn', 'composition-menu-dialog', false);
   }
 
   // --- Music clip drag ---

@@ -9,20 +9,24 @@
   var SPRIG_ENV_IDS = { development: 'gVnqA56rA', production: '2xc7AkouG6' };
   var IS_DEV_HOST = ['localhost', '127.0.0.1', ''].indexOf(window.location.hostname) !== -1;
 
-  (function (l, e, a, p) {
-    if (window.Sprig) return;
-    window.Sprig = function () { S._queue.push(arguments); };
-    var S = window.Sprig;
-    S.appId = a;
-    S._queue = [];
-    window.UserLeap = S;
-    a = l.createElement('script');
-    a.async = 1;
-    a.src = e + '?id=' + S.appId;
-    p = l.getElementsByTagName('script')[0];
-    p ? p.parentNode.insertBefore(a, p) : l.head.appendChild(a);
-  })(document, 'https://cdn.sprig.com/shim.js',
-     IS_DEV_HOST ? SPRIG_ENV_IDS.development : SPRIG_ENV_IDS.production);
+  // The study moved from Sprig to Great Question; metrics.js is the active
+  // transport. The Sprig SDK only loads when explicitly requested (?sprig=1).
+  if (new URLSearchParams(window.location.search).get('sprig') === '1') {
+    (function (l, e, a, p) {
+      if (window.Sprig) return;
+      window.Sprig = function () { S._queue.push(arguments); };
+      var S = window.Sprig;
+      S.appId = a;
+      S._queue = [];
+      window.UserLeap = S;
+      a = l.createElement('script');
+      a.async = 1;
+      a.src = e + '?id=' + S.appId;
+      p = l.getElementsByTagName('script')[0];
+      p ? p.parentNode.insertBefore(a, p) : l.head.appendChild(a);
+    })(document, 'https://cdn.sprig.com/shim.js',
+       IS_DEV_HOST ? SPRIG_ENV_IDS.development : SPRIG_ENV_IDS.production);
+  }
 
   // ---------------------------------------------------------------------------
   // Track helper — logs in dev, sends to Sprig in all envs once SDK loads.
@@ -63,12 +67,22 @@
     setTimeout(() => toast.classList.remove('is-visible'), 6000);
   }
 
+  let taskSuccessSent = false;
+
   function track(event) {
     const isDev = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
     if (isDev) console.log('[Sprig track]', event);
     if (window.Sprig) window.Sprig('track', event);
+    window.StudyMetrics?.track(event);
     const ends = TASK_END_EVENTS[task];
-    if (ends && ends.indexOf(event) !== -1) showTaskCompleteToast();
+    if (ends && ends.indexOf(event) !== -1) {
+      // One success record per task attempt, stamped with the mechanism
+      if (!taskSuccessSent) {
+        taskSuccessSent = true;
+        window.StudyMetrics?.track('task_success', { via: event });
+      }
+      showTaskCompleteToast();
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -210,6 +224,9 @@
     document.querySelectorAll('#sel-ignore-menu .sel-ignore-item').forEach(item => {
       item.addEventListener('click', () => track('script_ignore_text_selected'));
     });
+    document.getElementById('sel-ignore-btn')?.addEventListener('click', () => {
+      track('script_ignore_text_selected');
+    });
 
     // -- Task 5: layouts ------------------------------------------------------
     document.querySelectorAll('.bk-layout-card, .toolbar-layout-btn, #qe-layout-row, [data-panel="inspector"] .si-layout-select').forEach(el => {
@@ -280,6 +297,10 @@
     document.querySelectorAll('.qa-item').forEach(item => {
       if (item.textContent.includes('AI Tools')) {
         item.addEventListener('click', () => track('clip_creation_entrypoint_quick_actions'));
+      }
+      // Skill list inside the Underlord pop-up (mirrors the sidebar skill cards)
+      if (item.textContent.includes('clip')) {
+        item.addEventListener('click', () => track('clip_creation_entrypoint_skill_template'));
       }
     });
 

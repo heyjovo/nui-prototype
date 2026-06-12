@@ -5113,3 +5113,39 @@ body[data-state="empty"] .activity-feed::after {
   color: var(--fg-primary, #26171d);
   font-weight: 600;
 }
+
+/* ── Header split button (sidebar open + panel menu) ── */
+.header-split-button {
+  display: flex;
+  align-items: stretch;
+  border-radius: 4px;
+  position: relative;
+}
+.header-sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+  border-radius: 4px 0 0 4px;
+  color: var(--fg-primary, #26171d);
+  text-decoration: none;
+  position: relative;
+}
+.header-sidebar-toggle:hover {
+  background-color: var(--default-bg-hover, rgba(88,63,74,0.1));
+}
+.header-split-button .header-sidebar-menu {
+  padding: 8px 4px;
+  border-radius: 0 4px 4px 0;
+}
+/* Hairline seam so the halves read as one control with two targets */
+.header-split-button .header-sidebar-menu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background-color: var(--border-soft, rgba(88,63,74,0.1));
+}
